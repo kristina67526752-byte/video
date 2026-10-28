@@ -23,7 +23,7 @@ LIGHT_PURPLE = '#E9D6FF'
 
 plt.rcParams.update({
     'font.family': 'Golos Text',
-    'font.size': 10,
+    'font.size': 9,
     'axes.edgecolor': MUTED,
     'axes.labelcolor': MUTED,
     'xtick.color': MUTED,
@@ -51,7 +51,7 @@ def save(fig, name):
 
 
 # ---------- формулы ----------
-FORMULA_PT = 17
+FORMULA_PT = 15
 
 
 def formula(name, parts, size=FORMULA_PT):
@@ -82,18 +82,15 @@ def make_formulas():
         (r'$X = np+\varepsilon,\qquad M\varepsilon=0$', INK)])
     formula('f3_reg2.png', [
         (r'$M(\varepsilon_1\mid\mathrm{победил})>0,\quad'
-         r'M(\varepsilon_2\mid\mathrm{победил})=0$', INK)], size=16)
+         r'M(\varepsilon_2\mid\mathrm{победил})=0$', INK)])
     e, p1, pb = c.traders()
-    formula('f4_exp.png', [
-        (r'$M(\mathrm{угадали\ все\ 10}) = 1000\cdot 2^{-10}\approx $', INK),
-        (r'$\mathbf{' + tex_num(e, 2) + r'}$', RED)], size=16)
     formula('f4_atleast.png', [
-        (r'$P(\mathrm{хотя\ бы\ один}) = 1-\left(1-2^{-10}\right)^{1000}\approx $', INK),
-        (r'$\mathbf{' + tex_num(p1, 2) + r'}$', RED)], size=16)
+        (r'$P(X\geq 1) = 1-\left(1-2^{-10}\right)^{1000}\approx $', INK),
+        (r'$\mathbf{' + tex_num(p1, 2) + r'}$', RED)])
     formula('f4_bayes.png', [
         (r'$P(\mathrm{талант}\mid 10\ \mathrm{из}\ 10)='
          r'\dfrac{0{,}75^{10}}{0{,}75^{10}+999\cdot 2^{-10}}\approx $', INK),
-        (r'$\mathbf{' + tex_num(pb, 2) + r'}$', RED)], size=14)
+        (r'$\mathbf{' + tex_num(pb, 2) + r'}$', RED)])
     formula('f5_sigma.png', [
         (r'$\sigma\left(\dfrac{X}{n}\right)=\sqrt{\dfrac{pq}{n}}$', INK)])
 
@@ -105,8 +102,8 @@ def chart_podium():
     ks = np.arange(14, n + 1)
     talents = c.N_T * binom.pmf(ks, n, c.P_T)
     ordinary = c.N_O * binom.pmf(ks, n, c.P_O)
-    fig, ax = plt.subplots(figsize=(4.15, 2.75))
-    fig.subplots_adjust(left=0.1, right=0.99, top=0.86, bottom=0.19)
+    fig, ax = plt.subplots(figsize=(3.55, 2.4))
+    fig.subplots_adjust(left=0.18, right=0.99, top=0.85, bottom=0.2)
     w = 0.38
     ax.bar(ks - w / 2, talents, w, color=PURPLE, label='таланты (10 чел.)')
     ax.bar(ks + w / 2, ordinary, w, color=RED, label='обычные (990 чел.)')
@@ -118,12 +115,12 @@ def chart_podium():
     ax.set_xlabel('баллов из 20')
     ax.set_ylabel('человек (в среднем)')
     ax.axvspan(16.5, 20.5, color=LIGHT_PURPLE, alpha=0.45, lw=0, zorder=0)
-    ax.text(18.5, 110, 'призовая зона', ha='center', va='center', color=PURPLE, size=10, weight='semibold')
+    ax.text(18.5, 110, 'призовая зона', ha='center', va='center', color=PURPLE, size=9, weight='semibold')
     for x, t, o in zip(ks, talents, ordinary):
         if 17 <= x <= 19:
-            ax.text(x - w / 2, t * 1.25, comma(t), ha='center', va='bottom', size=7.5, color=PURPLE)
-            ax.text(x + w / 2, o * 1.25, comma(o), ha='center', va='bottom', size=7.5, color=RED)
-    ax.legend(frameon=False, loc='upper left', bbox_to_anchor=(0, 1.2), ncol=2, fontsize=9,
+            ax.text(x - w / 2, t * 1.25, comma(t), ha='center', va='bottom', size=7, color=PURPLE)
+            ax.text(x + w / 2, o * 1.25, comma(o), ha='center', va='bottom', size=7, color=RED)
+    ax.legend(frameon=False, loc='upper left', bbox_to_anchor=(-0.2, 1.21), ncol=2, fontsize=8.5,
               handlelength=1, columnspacing=1)
     ax.grid(axis='y', color=GRID, lw=0.6)
     ax.set_axisbelow(True)
@@ -139,14 +136,14 @@ def chart_curse():
         score.append(em / n)
         ability.append(pt * c.P_T + (1 - pt) * c.P_O)
     score, ability = np.array(score) * 100, np.array(ability) * 100
-    fig, ax = plt.subplots(figsize=(4.15, 2.75))
-    fig.subplots_adjust(left=0.12, right=0.97, top=0.95, bottom=0.19)
+    fig, ax = plt.subplots(figsize=(3.55, 2.4))
+    fig.subplots_adjust(left=0.15, right=0.97, top=0.95, bottom=0.2)
     ax.fill_between(ns, ability, score, color=LIGHT_PURPLE, alpha=0.6, lw=0)
     ax.plot(ns, score, color=PURPLE, lw=2.2)
     ax.plot(ns, ability, color=RED, lw=2.2)
     ax.set_xscale('log')
-    ax.set_xticks([10, 20, 50, 100, 200, 500, 1000])
-    ax.set_xticklabels(['10', '20', '50', '100', '200', '500', '1000'])
+    ax.set_xticks([10, 20, 50, 100, 200, 1000])
+    ax.set_xticklabels(['10', '20', '50', '100', '200', '1000'])
     ax.minorticks_off()
     ax.set_ylim(55, 102)
     ax.set_yticks([60, 70, 80, 90, 100])
@@ -156,31 +153,31 @@ def chart_curse():
     ax.set_axisbelow(True)
     i20 = list(ns).index(20)
     ax.scatter([20, 20], [score[i20], ability[i20]], color=[PURPLE, RED], s=28, zorder=3)
-    ax.text(26, score[i20] + 1.2, 'результат победителя', color=PURPLE, size=9.5, weight='semibold')
-    ax.text(26, ability[i20] - 4.8, 'его настоящая способность', color=RED, size=9.5, weight='semibold')
-    ax.text(45, 76, 'завышение', color=PURPLE, size=9.5, ha='center')
+    ax.text(26, score[i20] + 1.2, 'результат победителя', color=PURPLE, size=8.5, weight='semibold')
+    ax.text(26, ability[i20] - 4.8, 'его способность', color=RED, size=8.5, weight='semibold')
+    ax.text(48, 76, 'завышение', color=PURPLE, size=8.5, ha='center')
     save(fig, 'c2_curse.png')
 
 
 def chart_regression(r):
     """Топ-10 первого тура: баллы в первом и во втором туре (средние по симуляциям)."""
     r1, r2 = r['top10_r1'], r['top10_r2']
-    fig, ax = plt.subplots(figsize=(4.15, 2.75))
-    fig.subplots_adjust(left=0.13, right=0.8, top=0.95, bottom=0.12)
+    fig, ax = plt.subplots(figsize=(3.55, 2.4))
+    fig.subplots_adjust(left=0.15, right=0.77, top=0.95, bottom=0.12)
     for i, (a, b) in enumerate(zip(r1, r2)):
         col = PURPLE if i == 0 else '#B98CF5'
         ax.plot([0, 1], [a, b], color=col, lw=2.4 if i == 0 else 1.2, zorder=3 if i == 0 else 2)
         ax.scatter([0, 1], [a, b], color=col, s=18 if i else 30, zorder=3)
     ax.axhline(12, color=RED, lw=1, ls='--')
     ax.axhline(15, color=PURPLE, lw=1, ls='--', alpha=0.6)
-    ax.text(1.05, 12, 'средний\nобычный, 12', color=RED, size=8.5, va='center')
-    ax.text(1.05, 15, 'средний\nталант, 15', color=PURPLE, size=8.5, va='center')
-    ax.text(-0.05, r1[0], f'победитель {comma(r1[0])}', ha='right', va='center', size=9, color=PURPLE, weight='semibold')
-    ax.text(1.05, r2[0] + 0.55, f'{comma(r2[0])}', ha='left', va='center', size=9, color=PURPLE, weight='semibold')
-    ax.set_xlim(-0.75, 1.0)
+    ax.text(1.05, 12, 'средний\nобычный, 12', color=RED, size=8, va='center')
+    ax.text(1.05, 15, 'средний\nталант, 15', color=PURPLE, size=8, va='center')
+    ax.text(-0.05, r1[0], f'победитель {comma(r1[0])}', ha='right', va='center', size=8.5, color=PURPLE, weight='semibold')
+    ax.text(1.05, r2[0] + 0.55, f'{comma(r2[0])}', ha='left', va='center', size=8.5, color=PURPLE, weight='semibold')
+    ax.set_xlim(-0.85, 1.0)
     ax.set_ylim(10.5, 19.5)
     ax.set_xticks([0, 1])
-    ax.set_xticklabels(['1-й тур', '2-й тур'], size=10, color=INK)
+    ax.set_xticklabels(['1-й тур', '2-й тур'], size=9, color=INK)
     ax.set_ylabel('баллов из 20')
     ax.spines['bottom'].set_visible(False)
     ax.tick_params(axis='x', length=0)
@@ -193,14 +190,14 @@ def chart_traders():
     """Сколько «гениев» остаётся после каждого дня (в среднем)."""
     days = np.arange(0, 11)
     alive = 1000 * 0.5 ** days
-    fig, ax = plt.subplots(figsize=(4.15, 2.75))
-    fig.subplots_adjust(left=0.1, right=0.98, top=0.93, bottom=0.19)
+    fig, ax = plt.subplots(figsize=(3.55, 2.4))
+    fig.subplots_adjust(left=0.15, right=0.98, top=0.93, bottom=0.2)
     cols = [RED] * 10 + [PURPLE]
     ax.bar(days, alive, 0.7, color=cols)
     for d, a in zip(days, alive):
         lab = f'{a:.0f}' if a >= 10 else comma(a, 0 if a >= 1.95 else 2)
-        ax.text(d, a + 15, lab, ha='center', va='bottom', size=8, color=PURPLE if d == 10 else MUTED)
-    ax.annotate('«гений рынка»', xy=(10, 75), xytext=(8.4, 380), color=PURPLE, size=10,
+        ax.text(d, a + 15, lab, ha='center', va='bottom', size=7, color=PURPLE if d == 10 else MUTED)
+    ax.annotate('«гений рынка»', xy=(10, 75), xytext=(8.0, 380), color=PURPLE, size=9,
                 weight='semibold', ha='center',
                 arrowprops=dict(arrowstyle='->', color=PURPLE, lw=1.2))
     ax.set_xticks(days)
