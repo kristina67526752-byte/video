@@ -1,0 +1,13 @@
+video: синтезаторы TTS-сервера в tts.py (voice.engine), задача B24 №349836
+
+tts.py выбирает движок по story.json → voice.engine: piper (по умолчанию,
+как раньше) или синтезатор из engine/config.json → tts_servers
+(POST <url>/v1/tts, JSON → WAV). Тело запроса — voice.request + текст
+реплики. Адрес вне внутренней сети отвергается, системные прокси не
+используются; повторы при занятой очереди, предел длины реплики.
+Piper импортируется только для Piper. README: настройка и проверка без
+внешней сети.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01Ryn1cURP3QpZMK1R3jVsY7
+

@@ -1,0 +1,237 @@
+diff --git a/video/README.md b/video/README.md
+index 2be0465..51b16ba 100644
+--- a/video/README.md
++++ b/video/README.md
+@@ -45,7 +45,8 @@ OpenAI и любые подобные), облачные генераторы и
+ - `engine/vc.py` вызывает HyperFrames через `npx --yes`: при пустом кэше npm идёт в интернет. Нужен заранее
+   установленный CLI закреплённой версии.
+ - Голос `ru_RU-dmitri-medium` (Piper) локальный, но звучит хуже пилотного и с вопросом по лицензии. Замена —
+-  один из синтезаторов внутреннего TTS-сервера (см. ниже), выбор — задача B24 №349836.
++  один из синтезаторов внутреннего TTS-сервера (см. ниже), выбор — задача B24 №349836. Подключение в движке —
++  поле `voice.engine` («Голос: движок синтеза»).
+ 
+ **Локальные синтезаторы, которые у нас уже есть.** «Локально» — это наша машина или внутренний сервер;
+ внутренняя сеть допустима, внешний мир — нет.
+@@ -127,6 +128,45 @@ cd "/Users/ggv/1/Разработка ПО/Продуктовые материа
+ Полный выпуск ГОЛОЛЁДа (обе версии, с синтезом речи) занимает ~1 мин. Озвученная версия каждый раз выходит
+ на доли секунды другой длины: Piper синтезирует не детерминированно.
+ 
++### Голос: движок синтеза
++
++Движок задаётся в `story.json` → `voice.engine`, адреса синтезаторов — в `engine/config.json` → `tts_servers`.
++Без `voice.engine` работает Piper, как раньше. Синтез идёт по репликам: `audio/beats/*.wav` и `manifest.json`.
++
++```json
++"tts_servers": {
++  "silero":  {"url": "http://192.168.206.206:8014", "max_chars": 1000},
++  "tts-lab": {"url": "http://192.168.206.206:8016", "max_chars": 1000},
++  "qwen":    {"url": "http://192.168.206.206:8008", "max_chars": 500}
++}
++```
++
++Необязательно: `timeout` — ожидание ответа в секундах (по умолчанию 600), `retries` — повторы при занятой очереди (4).
++
++Голос темы, примеры:
++
++```json
++"voice": {"engine": "silero",  "request": {"model": "v5_cis_base", "speaker": "ru_alexandr"}}
++"voice": {"engine": "tts-lab", "request": {"model": "qwen3-ru-stress-cf", "mode": "clone", "voice_id": "<id эталона>"}}
++```
++
++- `voice.request` уходит в `POST <url>/v1/tts` как есть, к нему добавляется `text` реплики. Имена полей, моделей
++  и голосов — в Swagger `<url>/docs` и `<url>/models` своего сервиса. `voice.credit` — подпись голоса в
++  `manifest.json`; если поля нет, подпись составляется из модели и голоса.
++- `tts.py` отвергает адрес, который разрешается не во внутреннюю сеть, и не ходит через системные прокси.
++  `VC_TTS_URL` временно подменяет адрес — тоже только внутренний. Для синтезатора сервера нужен VPN или
++  внутренняя сеть; Piper и piper-tts для него не нужны.
++- Ударение — «+» перед ударной гласной в поле `tts` реплики: `Р+ИВЦ`. У Silero CIS и Vosk «+» выключает
++  авторазметку всей фразы — размечайте все слова. Числа, даты и сокращения пишите словами.
++- Реплика не длиннее `max_chars`. Первый запрос после 10 минут простоя ждёт загрузку модели — десятки секунд.
++- Эталон для клона загружается один раз на сервис через `POST <url>/v1/voices` (Swagger): WAV и точная
++  расшифровка. Только запись, на которую у компании есть право. Голос `russian-news` в роликах для клиентов не
++  использовать, пока не подтверждены права на исходную запись.
++
++**Проверка без внешней сети** (критерий приёмки голоса): внешний адрес не открывается (`curl -m 5 https://ya.ru`
++— ошибка), TTS-сервер отвечает (`curl http://192.168.206.206:8014/health/ready`), и в этом состоянии проходит
++`vc.py release КОД all`.
++
+ ## Что дальше
+ 
+ 1. **Замерить время человека** на проходе 03: просмотр, прослушивание, правки сценария, согласование с владельцем
+diff --git a/video/engine/tts.py b/video/engine/tts.py
+index 082c534..c3d431f 100644
+--- a/video/engine/tts.py
++++ b/video/engine/tts.py
+@@ -1,25 +1,117 @@
+ #!/usr/bin/env python3
+-"""Озвучка реплик story.json голосом Piper → audio/beats/<сцена>__<реплика>.wav (48 кГц моно) + manifest.json.
++"""Озвучка реплик story.json → audio/beats/<сцена>__<реплика>.wav (48 кГц моно) + manifest.json.
+ 
+-  <python с piper-tts> engine/tts.py ТЕМА [--length-scale 1.1]
++  <python> engine/tts.py ТЕМА [--length-scale 1.1]
+ 
+-Интерпретатор и папка моделей — engine/config.json (piper_python, piper_voices); обычно вызывается через vc.py. Модель и MODEL_CARD — с
+-huggingface.co/rhasspy/piper-voices (ru/ru_RU/<голос>/medium). Темп задаётся length_scale (>1 — медленнее),
+-а не atempo: тембр не искажается. Значение по умолчанию — story.json → voice.length_scale.
++Движок — story.json → voice.engine:
++  piper (или поле не задано) — локальный Piper. Интерпретатор с piper-tts и папка моделей — engine/config.json
++      (piper_python, piper_voices). Модель и MODEL_CARD — huggingface.co/rhasspy/piper-voices (ru/ru_RU/<голос>/medium).
++      Темп задаётся length_scale (>1 — медленнее), а не atempo: тембр не искажается. По умолчанию — voice.length_scale.
++  любое имя из engine/config.json → tts_servers — синтезатор внутреннего TTS-сервера (POST <url>/v1/tts, JSON → WAV).
++      Тело запроса — voice.request из story.json плюс текст реплики; имена полей — из Swagger <url>/docs сервиса.
++      Адрес обязан быть во внутренней сети: внешние адреса отвергаются (сборка без внешней сети, решение ГД 22.10.2026).
++      Нужен только стандартный Python; системные прокси не используются.
++Обычно вызывается через vc.py.
+ """
+ from __future__ import annotations
+ 
+ import argparse
++import ipaddress
+ import json
+ import os
++import socket
+ import subprocess
++import sys
+ import tempfile
++import time
++import urllib.error
++import urllib.parse
++import urllib.request
+ import wave
+ from pathlib import Path
+ 
+-from piper import PiperVoice, SynthesisConfig
+-
+ E = Path(__file__).resolve().parent
++# 48 кГц моно 16 бит; тишину по краям срезаем — паузы задаёт build.py
++TRIM = ("silenceremove=start_periods=1:start_threshold=-50dB,areverse,"
++        "silenceremove=start_periods=1:start_threshold=-50dB,areverse")
++RETRY_HTTP = {429, 502, 503, 504}  # очередь сервера занята или модель ещё загружается
++
++
++def piper_engine(voice: dict, cfg: dict, length_scale: float | None):
++    from piper import PiperVoice, SynthesisConfig  # нужен только для Piper
++
++    length_scale = length_scale or voice["length_scale"]
++    model = Path(os.environ.get("PIPER_VOICES", cfg["piper_voices"])) / f'{voice["model"]}.onnx'
++    pv = PiperVoice.load(str(model))
++    syn = SynthesisConfig(length_scale=length_scale)
++
++    def synth(text: str, wav_path: str) -> None:
++        with wave.open(wav_path, "wb") as w:
++            pv.synthesize_wav(text, w, syn_config=syn)
++
++    meta = {"engine": "piper", "model": voice["model"], "length_scale": length_scale,
++            "credit": voice.get("credit") or f'Голос: Piper {voice["model"]}'}
++    return synth, meta
++
++
++def check_internal(url: str) -> None:
++    """Адрес синтезатора должен разрешаться только во внутренние (частные) адреса."""
++    host = urllib.parse.urlsplit(url).hostname
++    if not host:
++        sys.exit(f"tts: в адресе синтезатора нет хоста: {url}")
++    try:
++        addrs = {ai[4][0] for ai in socket.getaddrinfo(host, None)}
++    except socket.gaierror as e:
++        sys.exit(f"tts: не удалось разрешить {host}: {e}. Включён ли VPN / внутренняя сеть?")
++    ips = [ipaddress.ip_address(a.split("%")[0]) for a in addrs]
++    bad = sorted(str(ip) for ip in ips if not (ip.is_private or ip.is_loopback))
++    if bad:
++        sys.exit(f"tts: {host} → {', '.join(bad)} — не внутренняя сеть. Синтез только локальный "
++                 "(video/README.md, «Обязательное требование»).")
++
++
++def server_engine(name: str, voice: dict, cfg: dict):
++    servers = cfg.get("tts_servers", {})
++    if name not in servers:
++        sys.exit(f'tts: voice.engine="{name}" нет в engine/config.json → tts_servers ({", ".join(servers) or "пусто"})')
++    srv = servers[name]
++    url = os.environ.get("VC_TTS_URL", srv["url"]).rstrip("/")
++    check_internal(url)
++    request = dict(voice.get("request", {}))
++    request.pop("text", None)
++    max_chars = int(srv.get("max_chars", 1000))
++    timeout = float(srv.get("timeout", 600))  # первый запрос после 10 мин простоя ждёт загрузку модели
++    retries = int(srv.get("retries", 4))
++    opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))  # мимо системных прокси
++
++    def synth(text: str, wav_path: str) -> None:
++        if len(text) > max_chars:
++            sys.exit(f"tts: реплика {len(text)} символов, предел {name} — {max_chars}. Разбейте реплику.")
++        body = json.dumps({**request, "text": text}, ensure_ascii=False).encode("utf-8")
++        for attempt in range(retries + 1):
++            req = urllib.request.Request(f"{url}/v1/tts", data=body, method="POST",
++                                         headers={"Content-Type": "application/json"})
++            try:
++                with opener.open(req, timeout=timeout) as r:
++                    data = r.read()
++                break
++            except urllib.error.HTTPError as e:
++                detail = e.read()[:500].decode("utf-8", "replace")
++                if e.code in RETRY_HTTP and attempt < retries:
++                    time.sleep(5 * 2 ** attempt)
++                    continue
++                sys.exit(f"tts: {name} ответил {e.code} на «{text[:60]}»: {detail}")
++            except (urllib.error.URLError, TimeoutError, ConnectionError) as e:
++                sys.exit(f"tts: нет связи с {url} ({e}). Включён ли VPN / внутренняя сеть? Готовность: {url}/health/ready")
++        if data[:4] != b"RIFF":
++            sys.exit(f"tts: {name} вернул не WAV на «{text[:60]}»: {data[:300].decode('utf-8', 'replace')}")
++        Path(wav_path).write_bytes(data)
++
++    model = request.get("model") or name
++    who = request.get("speaker") or request.get("voice_id")
++    meta = {"engine": name, "server": url, "model": model, "request": request, "length_scale": None,
++            "credit": voice.get("credit") or f"Голос: {model}" + (f", {who}" if who else "")}
++    return synth, meta
+ 
+ 
+ def main() -> None:
+@@ -30,33 +122,34 @@ def main() -> None:
+     P = Path(a.theme).resolve()
+     OUT = P / "audio" / "beats"
+     story = json.loads((P / "story.json").read_text(encoding="utf-8"))
+-    a.length_scale = a.length_scale or story["voice"]["length_scale"]
++    voice = story["voice"]
+     cfg = json.loads((E / "config.json").read_text(encoding="utf-8"))
+-    model = Path(os.environ.get("PIPER_VOICES", cfg["piper_voices"])) / f'{story["voice"]["model"]}.onnx'
+-    voice = PiperVoice.load(str(model))
+-    cfg = SynthesisConfig(length_scale=a.length_scale)
++    engine = voice.get("engine", "piper")
++    if engine == "piper":
++        synth, meta = piper_engine(voice, cfg, a.length_scale)
++    else:
++        if a.length_scale:
++            print(f"  --length-scale действует только для Piper; для {engine} темп — в voice.request")
++        synth, meta = server_engine(engine, voice, cfg)
+     OUT.mkdir(parents=True, exist_ok=True)
+-    beats, total = {}, 0.0
++    beats, total, t0 = {}, 0.0, time.monotonic()
+     for sc in story["scenes"]:
+         for bt in sc["beats"]:
+             text = bt.get("tts") or bt["say"]
+             f = OUT / f'{sc["id"]}__{bt["id"]}.wav'
+             with tempfile.NamedTemporaryFile(suffix=".wav") as tmp:
+-                with wave.open(tmp.name, "wb") as w:
+-                    voice.synthesize_wav(text, w, syn_config=cfg)
+-                # 48 кГц моно 16 бит; тишину по краям срезаем — паузы задаёт build.py
+-                af = "silenceremove=start_periods=1:start_threshold=-50dB,areverse,silenceremove=start_periods=1:start_threshold=-50dB,areverse"
+-                subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", tmp.name, "-af", af, "-ar", "48000", "-ac", "1",
++                synth(text, tmp.name)
++                subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", tmp.name, "-af", TRIM, "-ar", "48000", "-ac", "1",
+                                 "-c:a", "pcm_s16le", str(f)], check=True)
+             with wave.open(str(f), "rb") as w:
+                 dur = w.getnframes() / w.getframerate()
+             beats[f'{sc["id"]}.{bt["id"]}'] = {"file": str(f.relative_to(P)), "duration": round(dur, 3), "text": text}
+             total += dur
+             print(f'  {sc["id"]}.{bt["id"]:<9} {dur:5.2f} с')
+-    manifest = {"engine": "piper", "model": story["voice"]["model"], "length_scale": a.length_scale,
+-                "credit": f'Голос: Piper {story["voice"]["model"]}', "beats": beats}
++    manifest = {**meta, "beats": beats}
+     (OUT / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
+-    print(f"length_scale={a.length_scale}: {len(beats)} реплик, речь {total:.1f} с")
++    how = f"length_scale={meta['length_scale']}" if engine == "piper" else f"{engine} {meta['model']}"
++    print(f"{how}: {len(beats)} реплик, речь {total:.1f} с, синтез {time.monotonic() - t0:.0f} с")
+ 
+ 
+ if __name__ == "__main__":
