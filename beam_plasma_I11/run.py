@@ -12,8 +12,13 @@
     python run.py --npart 32768        вдвое меньше частиц — для слабого компьютера
     python run.py --light              светлая тема (для снимков в отчёт)
 """
-import argparse
 import os
+# numpy с многопоточным BLAS тратит время на запуск потоков для коротких
+# операций; в этой задаче один поток быстрее. Ставится до import numpy.
+for _v in ("OPENBLAS_NUM_THREADS", "OMP_NUM_THREADS", "MKL_NUM_THREADS"):
+    os.environ.setdefault(_v, "1")
+
+import argparse
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

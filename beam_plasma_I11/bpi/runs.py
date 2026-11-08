@@ -21,7 +21,7 @@ class SatRun:
         self.t_end = None
         self.t_end_factor = t_end_factor
         g = self.sim.gamma_ref
-        self.t_max = t_max or (60.0 / g + 200.0)
+        self.t_max = t_max or (30.0 / g + 100.0)
         self.done = False
         self.wall = 0.0
 
