@@ -24,7 +24,7 @@ class SingleWaveWindow:
         style.use(style.current_theme())
         self.alpha, self.dvb = alpha, dvb
         self.running = True
-        f = self.fig = plt.figure(figsize=(15, 8.6))
+        f = self.fig = plt.figure(figsize=(14.4, 8.1))
         try:
             f.canvas.manager.set_window_title("И11 · Одноволновая модель (огибающая + частицы)")
         except Exception:

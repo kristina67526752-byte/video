@@ -131,7 +131,7 @@ class FormulasWindow:
         style.use(style.current_theme())
         self.pages = pages()
         self.page = page
-        self.fig = plt.figure(figsize=(13.5, 8.2))
+        self.fig = plt.figure(figsize=(13.5, 8.0))
         try:
             self.fig.canvas.manager.set_window_title("И11 · Формулы")
         except Exception:

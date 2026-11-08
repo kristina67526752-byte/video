@@ -27,7 +27,7 @@ class TheoryWindow:
         self.alpha, self.vb, self.dvb = alpha, vb, dvb
         self.kq = 1.0                                   # выбранное k·v_b/ω_p
         self.sweep = False
-        f = self.fig = plt.figure(figsize=(15, 8.6))
+        f = self.fig = plt.figure(figsize=(14.4, 8.1))
         try:
             f.canvas.manager.set_window_title("И11 · Теория: дисперсионное уравнение и γ(k)")
         except Exception:

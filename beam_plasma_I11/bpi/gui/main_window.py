@@ -27,6 +27,11 @@ from .blit import Blitter, Region, SliderBlit, blit_axes
 from .fastdraw import MonoText, ParagraphText, paste, rgb255
 from . import texts
 
+# 14.4×8.1 дюйма = 1440×810 точек: окно помещается на экран 13-дюймового ноутбука
+# (MacBook 1440×900); на большом экране его можно развернуть — всё масштабируется.
+FIGSIZE = (14.4, 8.1)
+SPLIT = 0.6          # доля панели внизу справа под таблицу чисел (остальное — пояснение)
+
 RESULTS_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
     os.path.abspath(__file__)))), "results")
 
@@ -40,7 +45,7 @@ class MainWindow:
         style.use(theme)
         self.theme = theme
         self.params = params or PICParams()
-        self.fig = plt.figure(figsize=(16, 9))
+        self.fig = plt.figure(figsize=FIGSIZE)
         try:
             self.fig.canvas.manager.set_window_title(
                 "И11 · Пучково-плазменная неустойчивость · PIC-модель")
@@ -64,9 +69,9 @@ class MainWindow:
         self.rt_status = MonoText(MONO, 8.5, C["text"], C["main"], C["surface"], dpi)
         self.rt_ph = MonoText(MONO, 9, C["text"], C["main"], C["surface"], dpi)
         self.rt_E = MonoText(MONO, 8, C["text"], C["main"], C["surface"], dpi)
-        self.rt_num = MonoText(MONO, 7.5, C["text"], C["main"], C["panel"], dpi)
-        self.rt_exp_h = ParagraphText(9, C["text"], C["panel"], dpi, weight="bold")
-        self.rt_exp = ParagraphText(8, C["text2"], C["panel"], dpi)
+        self.rt_num = MonoText(MONO, 7, C["text"], C["main"], C["panel"], dpi)
+        self.rt_exp_h = ParagraphText(8.5, C["text"], C["panel"], dpi, weight="bold")
+        self.rt_exp = ParagraphText(7.6, C["text2"], C["panel"], dpi)
         self.s_status = self.s_ph = self.s_E = self.s_num = ""
         self.s_exp_h = self.s_exp = ""
 
@@ -118,10 +123,10 @@ class MainWindow:
         self.ln_sep = anim(ax.plot([], [], color=C["text"], lw=1.0, alpha=0.9)[0])
         # легенда цветов — над осями, справа (под картинкой её бы закрыло)
         y = 0.918
-        f.text(0.48, y, "— сепаратриса", color=C["text"], ha="right", va="bottom", fontsize=8)
-        self.lg_b = f.text(0.418, y, "■ пучок", color=C["beam_glow"], ha="right", va="bottom",
+        f.text(0.474, y, "— сепаратриса", color=C["text"], ha="right", va="bottom", fontsize=8)
+        self.lg_b = f.text(0.41, y, "■ пучок", color=C["beam_glow"], ha="right", va="bottom",
                            fontsize=8.5, fontweight="bold")
-        self.lg_p = f.text(0.368, y, "■ плазма", color=C["plasma_glow"], ha="right", va="bottom",
+        self.lg_p = f.text(0.358, y, "■ плазма", color=C["plasma_glow"], ha="right", va="bottom",
                            fontsize=8.5, fontweight="bold")
 
         ax = self.ax_fv
@@ -207,7 +212,7 @@ class MainWindow:
         ax.set_yticks([])
         ax.grid(False)
         ax.set_facecolor(C["panel"])
-        ax.axvline(0.565, color=C["grid"], lw=1)
+        ax.axvline(SPLIT, color=C["grid"], lw=1)
 
         self.panel_axes = {self.ax_ph: "phase", self.ax_fv: "fv", self.ax_E: "E",
                            self.ax_W: "energy", self.ax_sg: "spectrogram",
@@ -533,7 +538,13 @@ class MainWindow:
         x0, x1 = int(math.ceil(bb.x0)) + 1, int(math.floor(bb.x1)) - 1
         yt, yb = H - int(math.floor(bb.y1)) + 1, H - int(math.ceil(bb.y0)) - 1
         if x1 - x0 > 4 and yb - yt > 4:
-            paste(buf, self._phase_image(x1 - x0, yb - yt), x0, yt)
+            # на Retina/4K (2 физических пикселя на точку) считаем картинку вдвое
+            # меньше и растягиваем — на глаз то же, а работы в 4 раза меньше
+            r = 2 if getattr(self.fig.canvas, "device_pixel_ratio", 1) >= 1.75 else 1
+            img = self._phase_image((x1 - x0) // r, (yb - yt) // r)
+            if r > 1:
+                img = img.repeat(r, axis=0).repeat(r, axis=1)
+            paste(buf, img, x0, yt)
         # заголовок фазового портрета
         im = self.rt_ph.render(self.s_ph)
         paste(buf, im, bb.x0, H - bb.y1 - im.shape[0] - 3)
@@ -559,10 +570,10 @@ class MainWindow:
         bi = self.ax_info.bbox
         pad = int(0.006 * W)
         im = self.rt_num.render(self.s_num, max_rows=int((bi.height - 2 * pad) / self.rt_num.atlas.ch))
-        paste(buf, im[:, :int(0.565 * bi.width) - 2 * pad], bi.x0 + pad, H - bi.y1 + pad)
-        xe = bi.x0 + 0.565 * bi.width + pad
+        paste(buf, im[:, :int(SPLIT * bi.width) - 2 * pad], bi.x0 + pad, H - bi.y1 + pad)
+        xe = bi.x0 + SPLIT * bi.width + pad
         we = bi.x1 - xe - pad
-        hh = 9 * dpi / 72 * 1.45 * (self.s_exp_h.count("\n") + 1) + 4
+        hh = 8.5 * dpi / 72 * 1.45 * (self.s_exp_h.count("\n") + 1) + 4
         paste(buf, self.rt_exp_h.render(self.s_exp_h, we, hh, dpi), xe, H - bi.y1 + pad)
         paste(buf, self.rt_exp.render(self.s_exp, we, bi.height - 2 * pad - hh, dpi),
               xe, H - bi.y1 + pad + hh)
@@ -602,7 +613,7 @@ class MainWindow:
         self.ln_E.set_ydata(s.E[::self._xdec] / max(Emax, 1e-30))
         dnb = s.ne_s[1][::self._xdec] - s.dens[1]
         self.ln_nb.set_ydata(dnb / max(np.abs(dnb).max(), 1e-30))
-        self.s_E = f"Поле: max|E| = {Emax:.2e}   главная волна E₀ = 2|E_k| = {A:.2e}"
+        self.s_E = f"max|E| = {Emax:.2e}   E₀ = 2|E_k| = {A:.2e}"
 
         if not (right or force):
             return
@@ -744,8 +755,8 @@ class MainWindow:
 
     def _explanation(self):
         bi = self.ax_info.bbox
-        width_px = 0.435 * bi.width - 0.012 * self.fig.bbox.width
-        chars = max(30, int(width_px / (8 * self.fig.dpi / 72 * 0.56)))
+        width_px = (1 - SPLIT) * bi.width - 0.012 * self.fig.bbox.width
+        chars = max(28, int(width_px / (7.6 * self.fig.dpi / 72 * 0.56)))
         wrap = lambda t: "\n".join(textwrap.fill(par, chars) for par in t.split("\n"))
         hwrap = lambda t: textwrap.fill(t, int(chars * 0.8))
         if self.explain_key is not None:

@@ -10,38 +10,63 @@
 
 ## Установка и запуск
 
+**Важно: нужна вся папка проекта, а не один `run.py`.** Программа находится в
+папке `bpi/`, а `run.py` только запускает её. Если скачать один файл, будет ошибка
+`No module named 'bpi'`.
+
+### Самый простой способ (IDLE, macOS или Windows)
+
+1. Скачать архив `beam_plasma_I11.zip` и распаковать его (двойной щелчок).
+2. В IDLE: File → Open → `beam_plasma_I11/run.py` (из распакованной папки).
+3. Нажать **F5** (Run → Run Module).
+
+При первом запуске программа проверит библиотеки numpy, matplotlib и scipy. Если их
+нет, она предложит установить их сама (ответить «да», нужен интернет) или покажет
+точную команду для Терминала.
+
+### Из терминала
+
 Нужен Python 3.9+ (проверено на 3.12 и 3.13).
 
 ```bash
-pip install -r requirements.txt
+cd beam_plasma_I11
 ```
 
 ```bash
-python run.py
+python3 -m pip install -r requirements.txt
 ```
+
+```bash
+python3 run.py
+```
+
+(В Windows вместо `python3` — `py`.)
 
 Откроется главное окно, модель сразу начнёт считать. Дополнительные окна
 открываются кнопками внизу или из командной строки:
 
 ```bash
-python run.py --window theory
+python3 run.py --window theory
 ```
 
 ```bash
-python run.py --window single
+python3 run.py --window single
 ```
 
 ```bash
-python run.py --window table
+python3 run.py --window table
 ```
 
 ```bash
-python run.py --window formulas
+python3 run.py --window formulas
 ```
 
 Параметры запуска: `--alpha 0.02` (n_b/n_p), `--vb 1.5`, `--dv 0.1` (разброс
 скоростей пучка), `--two-stream` (встречные пучки), `--light` (светлая тема для
 снимков в отчёт), `--npart 32768` (вдвое меньше частиц — для слабого компьютера).
+
+Окно рассчитано на экран 13-дюймового ноутбука (1440×810); на большом экране его
+можно развернуть — всё масштабируется.
 
 ## Что где
 
@@ -94,4 +119,9 @@ python run.py --window formulas
   ползунок «скорость». Кадры/с и время кадра видны в правом верхнем углу.
 * **Окно не открывается / ошибка бэкенда** — `python run.py --backend TkAgg`
   (или `QtAgg`, если установлен PyQt). В Linux может понадобиться пакет `python3-tk`.
-* **Из Spyder/Jupyter** — запускать из терминала: `python run.py`.
+* **`No module named 'bpi'`** — рядом с `run.py` нет папки `bpi/`: скачан один файл.
+  Скачайте и распакуйте архив проекта целиком.
+* **`No module named 'numpy'` (или matplotlib, scipy)** — библиотеки установлены не в
+  тот Python, которым запускается программа. `run.py` покажет точную команду
+  вида `"/путь/к/python3" -m pip install numpy matplotlib scipy`.
+* **Из Spyder/Jupyter** — лучше из IDLE (F5) или терминала: `python3 run.py`.

@@ -2,6 +2,10 @@
 """
 Запуск интерактивной модели «Пучково-плазменная неустойчивость» (вариант И11).
 
+Самый простой способ: открыть этот файл в IDLE и нажать F5 (Run → Run Module).
+Файл должен лежать в папке проекта рядом с папкой bpi/.
+
+Из терминала:
     python run.py                      главное окно (PIC-модель в реальном времени)
     python run.py --window theory      окно линейной теории γ(k)
     python run.py --window single      одноволновая модель (огибающая + частицы)
@@ -19,12 +23,62 @@ for _v in ("OPENBLAS_NUM_THREADS", "OMP_NUM_THREADS", "MKL_NUM_THREADS"):
     os.environ.setdefault(_v, "1")
 
 import argparse
+import importlib.util
+import subprocess
 import sys
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+NEEDED = ("numpy", "matplotlib", "scipy")
+PIP_CMD = f'"{sys.executable}" -m pip install numpy matplotlib scipy'
+
+
+def project_is_complete():
+    """Программа живёт в папке bpi/ рядом с run.py. Если скачан один run.py — объясняем."""
+    if os.path.isfile(os.path.join(HERE, "bpi", "pic.py")):
+        return True
+    print(
+        "\nОШИБКА: рядом с run.py нет папки «bpi» — в ней находится сама программа.\n"
+        "Похоже, скачан только файл run.py. Нужна вся папка проекта beam_plasma_I11:\n"
+        "    beam_plasma_I11/\n"
+        "        run.py        ← этот файл\n"
+        "        bpi/          ← физика и окна программы (обязательно)\n"
+        "        docs/  experiments/  results/  tests/  README.md\n\n"
+        "Что сделать: скачать архив beam_plasma_I11.zip целиком, распаковать его\n"
+        "(двойной щелчок) и открыть в IDLE файл run.py ИЗ распакованной папки.\n"
+        f"Сейчас run.py лежит здесь: {HERE}\n")
+    return False
+
+
+def libraries_are_installed():
+    """Проверяем numpy, matplotlib, scipy; если их нет — предлагаем установить."""
+    missing = [m for m in NEEDED if importlib.util.find_spec(m) is None]
+    if not missing:
+        return True
+    print(f"\nНе установлены библиотеки: {', '.join(missing)}.")
+    try:
+        ans = input("Установить их сейчас? Нужен интернет, 1–2 минуты (да/нет): ")
+    except (EOFError, RuntimeError):
+        ans = ""
+    if ans.strip().lower() in ("да", "д", "yes", "y"):
+        print("Устанавливаю… (подождите, окно может не отвечать до конца установки)")
+        r = subprocess.run([sys.executable, "-m", "pip", "install", *NEEDED],
+                           capture_output=True, text=True)
+        if r.returncode == 0:
+            print("Готово. Запустите run.py ещё раз (в IDLE — снова F5).")
+        else:
+            print((r.stdout + r.stderr)[-1500:])
+            print("\nНе получилось установить автоматически. Выполните вручную в Терминале "
+                  "(macOS) или в командной строке (Windows):\n    " + PIP_CMD)
+        return False
+    print("Установите их командой в Терминале (macOS) или командной строке (Windows):\n"
+          "    " + PIP_CMD + "\nи запустите run.py ещё раз.")
+    return False
 
 
 def main():
+    if not project_is_complete() or not libraries_are_installed():
+        return None
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--window", default="main",
@@ -64,6 +118,7 @@ def main():
     else:
         from bpi.gui.formulas_window import FormulasWindow
         keep = FormulasWindow()
+    print("Окно модели открыто. Закройте его, чтобы завершить программу.")
     plt.show()
     return keep
 
