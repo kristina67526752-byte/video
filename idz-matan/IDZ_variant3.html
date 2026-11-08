@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ИДЗ Вариант 3</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --primary:#1e40af; --bg:#f8fafc; --card:#ffffff; --text:#1f2937; --muted:#475569;
+    --border:#cbd5e1; --ans-bg:#f0fdf4; --ans-br:#86efac; --ans-tx:#166534;
+    --note-bg:#fff7ed; --note-br:#f97316; --note-tx:#9a3412;
+  }
+  *{box-sizing:border-box;}
+  body{font-family:'Segoe UI',Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);
+    margin:0;padding:24px 16px;line-height:1.6;font-size:16px;}
+  .wrap{max-width:900px;margin:0 auto;}
+  h1{color:var(--primary);font-size:1.6rem;margin:0 0 4px;line-height:1.25;}
+  .subtitle{color:var(--muted);margin:0 0 16px;}
+  .note{background:var(--note-bg);border:1px dashed var(--note-br);color:var(--note-tx);
+    border-radius:8px;padding:10px 14px;margin:0 0 20px;font-size:.95rem;}
+  .task{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--primary);
+    border-radius:8px;padding:14px 18px;margin:0 0 22px;overflow-x:auto;}
+  .task h2{color:var(--primary);font-size:1.15rem;margin:0 0 6px;}
+  .cond{background:#eef2ff;border-radius:6px;padding:8px 12px;margin:0 0 10px;}
+  .task p{margin:8px 0;}
+  .step{font-weight:700;color:var(--primary);}
+  .answer{background:var(--ans-bg);border:1px solid var(--ans-br);color:var(--ans-tx);
+    border-radius:6px;padding:8px 12px;margin-top:12px;}
+  .fig{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:12px 0;}
+  .fig figure{margin:0;background:#fff;border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center;}
+  .fig figcaption{font-size:.85rem;color:var(--muted);}
+  svg{max-width:100%;height:auto;}
+  svg text{font-family:Arial,sans-serif;}
+  @media print{
+    body{background:#fff;padding:0;font-size:12.5px;line-height:1.45;}
+    .task{break-inside:avoid-page;border-left-width:3px;padding:8px 10px;margin-bottom:12px;}
+    .fig figure{break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>ИДЗ · Вариант 3</h1>
+<p class="subtitle">ФНП и двойной интеграл · задачи 1.9, 2.1, 3.4, 4.1, 5.1, 6.2, 7.4</p>
+<p class="note">В тетрадь переписывать: номер варианта и номер задачи, условие, все шаги и <b>чертежи</b>
+(в 3.4, 5.1, 6.2 они обязательны — перерисуйте их от руки с подписями линий и точек).</p>
+
+<!-- ===================== 1.9 ===================== -->
+<div class="task">
+<h2>Задача 1.9</h2>
+<div class="cond">Найти дифференциалы 1-го и 2-го порядков функции \(u = xy + yz + zx\).</div>
+
+<p>Функция — многочлен, определена и дифференцируема при всех \((x,y,z)\in\mathbb{R}^3\).</p>
+
+<p class="step">1. Частные производные 1-го порядка</p>
+\[u'_x = y+z,\qquad u'_y = x+z,\qquad u'_z = x+y.\]
+
+<p class="step">2. Первый дифференциал</p>
+\[du = u'_x\,dx + u'_y\,dy + u'_z\,dz = (y+z)\,dx + (x+z)\,dy + (x+y)\,dz.\]
+
+<p class="step">3. Частные производные 2-го порядка</p>
+\[u''_{xx} = 0,\quad u''_{yy} = 0,\quad u''_{zz} = 0,\]
+\[u''_{xy} = (y+z)'_y = 1,\quad u''_{xz} = (y+z)'_z = 1,\quad u''_{yz} = (x+z)'_z = 1.\]
+
+<p class="step">4. Второй дифференциал</p>
+\[d^2u = u''_{xx}dx^2 + u''_{yy}dy^2 + u''_{zz}dz^2 + 2u''_{xy}\,dx\,dy + 2u''_{xz}\,dx\,dz + 2u''_{yz}\,dy\,dz.\]
+\[d^2u = 0 + 0 + 0 + 2\,dx\,dy + 2\,dx\,dz + 2\,dy\,dz.\]
+
+<div class="answer"><b>Ответ:</b> \(du = (y+z)dx + (x+z)dy + (x+y)dz\); \(\;d^2u = 2(dx\,dy + dx\,dz + dy\,dz)\).</div>
+</div>
+
+<!-- ===================== 2.1 ===================== -->
+<div class="task">
+<h2>Задача 2.1</h2>
+<div class="cond">Найти \(\dfrac{dz}{dt}\), если \(z = e^{2x-3y}\), где \(x = \operatorname{tg} t\), \(y = t^2 - t\).</div>
+
+<p>\(z\) — сложная функция одной переменной \(t\) (через \(x(t)\) и \(y(t)\)). Формула:</p>
+\[\frac{dz}{dt} = \frac{\partial z}{\partial x}\cdot\frac{dx}{dt} + \frac{\partial z}{\partial y}\cdot\frac{dy}{dt}.\]
+
+<p class="step">1. Частные производные \(z\)</p>
+\[\frac{\partial z}{\partial x} = e^{2x-3y}\cdot(2x-3y)'_x = 2e^{2x-3y},\qquad
+  \frac{\partial z}{\partial y} = e^{2x-3y}\cdot(2x-3y)'_y = -3e^{2x-3y}.\]
+
+<p class="step">2. Производные \(x(t)\), \(y(t)\)</p>
+\[\frac{dx}{dt} = \frac{1}{\cos^2 t},\qquad \frac{dy}{dt} = 2t - 1.\]
+
+<p class="step">3. Подставляем</p>
+\[\frac{dz}{dt} = 2e^{2x-3y}\cdot\frac{1}{\cos^2 t} - 3e^{2x-3y}\,(2t-1) = e^{2x-3y}\left(\frac{2}{\cos^2 t} - 6t + 3\right).\]
+<p>Выразим через \(t\): \(2x - 3y = 2\operatorname{tg} t - 3t^2 + 3t\). Формула верна при \(t \ne \frac{\pi}{2} + \pi k\), \(k\in\mathbb{Z}\) (там не определён \(\operatorname{tg} t\)).</p>
+
+<div class="answer"><b>Ответ:</b> \(\displaystyle \frac{dz}{dt} = e^{\,2\operatorname{tg} t - 3t^2 + 3t}\left(\frac{2}{\cos^2 t} - 6t + 3\right)\).</div>
+</div>
+
+<!-- ===================== 3.4 ===================== -->
+<div class="task">
+<h2>Задача 3.4</h2>
+<div class="cond">Найти экстремумы функции \(z = z(x,y)\), заданной неявно уравнением \(x^2+y^2+z^2+4x-2y-4z-7 = 0\).</div>
+
+<p class="step">1. Что это за поверхность</p>
+<p>Выделим полные квадраты:</p>
+\[(x^2+4x+4) + (y^2-2y+1) + (z^2-4z+4) = 7+4+1+4\ \Longrightarrow\ (x+2)^2 + (y-1)^2 + (z-2)^2 = 16.\]
+<p>Это сфера с центром \((-2;\,1;\,2)\) и радиусом \(R=4\). Уравнение задаёт две функции (верхнюю и нижнюю полусферы):</p>
+\[z = 2 \pm \sqrt{16 - (x+2)^2 - (y-1)^2},\]
+<p>область определения — круг \(D:\ (x+2)^2 + (y-1)^2 \le 16\) (рис. 1).</p>
+
+<p class="step">2. Частные производные неявной функции</p>
+<p>\(F(x,y,z) = x^2+y^2+z^2+4x-2y-4z-7\):</p>
+\[F'_x = 2x+4,\qquad F'_y = 2y-2,\qquad F'_z = 2z-4.\]
+\[z'_x = -\frac{F'_x}{F'_z} = -\frac{x+2}{z-2},\qquad z'_y = -\frac{F'_y}{F'_z} = -\frac{y-1}{z-2}\qquad (z \ne 2).\]
+
+<p class="step">3. Стационарные точки</p>
+\[z'_x = 0 \Rightarrow x = -2,\qquad z'_y = 0 \Rightarrow y = 1.\]
+<p>Подставим \(x=-2,\ y=1\) в исходное уравнение:</p>
+\[4 + 1 + z^2 - 8 - 2 - 4z - 7 = 0\ \Longrightarrow\ z^2 - 4z - 12 = 0\ \Longrightarrow\ z_1 = 6,\ \ z_2 = -2.\]
+<p>Получили две точки: \(M_1(-2;\,1;\,6)\) и \(M_2(-2;\,1;\,-2)\) (в обеих \(z\ne 2\), т.е. \(F'_z \ne 0\)).</p>
+
+<p class="step">4. Вторые производные (достаточное условие)</p>
+<p>Дифференцируем \(z'_x = -\dfrac{x+2}{z-2}\), помня, что \(z = z(x,y)\):</p>
+\[z''_{xx} = -\frac{1\cdot(z-2) - (x+2)\,z'_x}{(z-2)^2},\qquad
+  z''_{xy} = \frac{(x+2)\,z'_y}{(z-2)^2},\qquad
+  z''_{yy} = -\frac{1\cdot(z-2) - (y-1)\,z'_y}{(z-2)^2}.\]
+<p>В стационарной точке \(x+2 = 0,\ y-1=0,\ z'_x = z'_y = 0\), поэтому</p>
+\[A = z''_{xx} = -\frac{1}{z-2},\qquad B = z''_{xy} = 0,\qquad C = z''_{yy} = -\frac{1}{z-2}.\]
+
+<p><b>Точка \(M_1\), \(z = 6\):</b> \(A = -\tfrac14,\ B = 0,\ C = -\tfrac14\);
+\(\ \Delta = AC - B^2 = \tfrac1{16} > 0,\ A < 0\ \Rightarrow\) <b>максимум</b>, \(z_{\max} = 6\).</p>
+<p><b>Точка \(M_2\), \(z = -2\):</b> \(A = \tfrac14,\ B = 0,\ C = \tfrac14\);
+\(\ \Delta = \tfrac1{16} > 0,\ A > 0\ \Rightarrow\) <b>минимум</b>, \(z_{\min} = -2\).</p>
+<p>Геометрически: это самая верхняя и самая нижняя точки сферы, \(2 \pm R = 2\pm 4\) (рис. 2).</p>
+
+<div class="fig">
+  <figure>
+    <svg width="300" height="290" viewBox="0 0 300 290" role="img" aria-label="Круг — область определения">
+      <line x1="15" y1="180" x2="288" y2="180" stroke="#64748b" stroke-width="1.3"/>
+      <polygon points="290,180 282,176 282,184" fill="#64748b"/>
+      <line x1="194" y1="285" x2="194" y2="12" stroke="#64748b" stroke-width="1.3"/>
+      <polygon points="194,10 190,18 198,18" fill="#64748b"/>
+      <text x="280" y="196" font-size="13" fill="#334155">x</text>
+      <text x="200" y="20" font-size="13" fill="#334155">y</text>
+      <circle cx="150" cy="158" r="88" fill="#dbeafe" fill-opacity=".75" stroke="#2563eb" stroke-width="2"/>
+      <line x1="150" y1="158" x2="212.2" y2="95.8" stroke="#2563eb" stroke-width="1.2" stroke-dasharray="4,3"/>
+      <text x="160" y="112" font-size="12" fill="#1d4ed8">R = 4</text>
+      <circle cx="150" cy="158" r="3.5" fill="#dc2626"/>
+      <text x="96" y="152" font-size="12" fill="#dc2626">(−2; 1)</text>
+      <line x1="150" y1="180" x2="150" y2="158" stroke="#94a3b8" stroke-dasharray="2,2"/>
+      <line x1="194" y1="158" x2="150" y2="158" stroke="#94a3b8" stroke-dasharray="2,2"/>
+      <text x="140" y="195" font-size="11" fill="#334155">−2</text>
+      <text x="198" y="162" font-size="11" fill="#334155">1</text>
+      <text x="198" y="194" font-size="11" fill="#334155">0</text>
+      <text x="105" y="218" font-size="13" fill="#1e3a8a">D</text>
+    </svg>
+    <figcaption>Рис. 1. Область определения: \((x+2)^2+(y-1)^2\le 16\)</figcaption>
+  </figure>
+  <figure>
+    <svg width="300" height="290" viewBox="0 0 300 290" role="img" aria-label="Сечение сферы плоскостью y=1">
+      <line x1="15" y1="200" x2="288" y2="200" stroke="#64748b" stroke-width="1.3"/>
+      <polygon points="290,200 282,196 282,204" fill="#64748b"/>
+      <line x1="194" y1="285" x2="194" y2="12" stroke="#64748b" stroke-width="1.3"/>
+      <polygon points="194,10 190,18 198,18" fill="#64748b"/>
+      <text x="280" y="216" font-size="13" fill="#334155">x</text>
+      <text x="200" y="20" font-size="13" fill="#334155">z</text>
+      <path d="M 62,156 A 88 88 0 0 1 238,156" fill="none" stroke="#2563eb" stroke-width="2.5"/>
+      <path d="M 238,156 A 88 88 0 0 1 62,156" fill="none" stroke="#16a34a" stroke-width="2.5"/>
+      <line x1="62" y1="156" x2="238" y2="156" stroke="#94a3b8" stroke-dasharray="4,3"/>
+      <circle cx="150" cy="156" r="3" fill="#475569"/>
+      <text x="100" y="150" font-size="11" fill="#475569">(−2; 2)</text>
+      <circle cx="150" cy="68" r="4.5" fill="#dc2626"/>
+      <text x="80" y="60" font-size="12" fill="#dc2626">max: z = 6</text>
+      <circle cx="150" cy="244" r="4.5" fill="#dc2626"/>
+      <text x="80" y="266" font-size="12" fill="#dc2626">min: z = −2</text>
+      <text x="212" y="80" font-size="11" fill="#1d4ed8">z = 2 + √…</text>
+      <text x="214" y="266" font-size="11" fill="#15803d">z = 2 − √…</text>
+      <line x1="194" y1="68" x2="150" y2="68" stroke="#94a3b8" stroke-dasharray="2,2"/>
+      <line x1="194" y1="244" x2="150" y2="244" stroke="#94a3b8" stroke-dasharray="2,2"/>
+      <text x="198" y="72" font-size="11" fill="#334155">6</text>
+      <text x="198" y="248" font-size="11" fill="#334155">−2</text>
+      <text x="198" y="214" font-size="11" fill="#334155">0</text>
+    </svg>
+    <figcaption>Рис. 2. Сечение сферы плоскостью \(y = 1\)</figcaption>
+  </figure>
+</div>
+
+<div class="answer"><b>Ответ:</b> в точке \((-2;\,1)\): \(z_{\max} = 6\) (ветвь \(z = 2+\sqrt{\dots}\)) и \(z_{\min} = -2\) (ветвь \(z = 2-\sqrt{\dots}\)).</div>
+</div>
+
+<!-- ===================== 4.1 ===================== -->
+<div class="task">
+<h2>Задача 4.1</h2>
+<div class="cond">Для поверхности \(2^{x/z} + 2^{y/z} = 8\) и точки \(M(2;\,2;\,1)\): найти градиент, производную по направлению
+\(\vec l = \frac{1}{\sqrt3}(1;\,1;\,-1)\), составить уравнения касательной плоскости и нормали.</div>
+
+<p>Проверка: \(2^{2/1} + 2^{2/1} = 4 + 4 = 8\) — точка \(M\) лежит на поверхности.</p>
+<p>Запишем поверхность в виде \(F(x,y,z) = 2^{x/z} + 2^{y/z} - 8 = 0\). Используем \((a^u)' = a^u \ln a \cdot u'\).</p>
+
+<p class="step">1. Частные производные и градиент в точке M</p>
+\[F'_x = 2^{x/z}\ln 2\cdot\frac1z,\qquad F'_x(M) = 2^{2}\ln2\cdot 1 = 4\ln 2;\]
+\[F'_y = 2^{y/z}\ln 2\cdot\frac1z,\qquad F'_y(M) = 4\ln 2;\]
+\[F'_z = 2^{x/z}\ln 2\cdot\left(-\frac{x}{z^2}\right) + 2^{y/z}\ln 2\cdot\left(-\frac{y}{z^2}\right),\qquad
+  F'_z(M) = 4\ln2\cdot(-2) + 4\ln2\cdot(-2) = -16\ln 2.\]
+\[\operatorname{grad} F(M) = (4\ln2;\ 4\ln2;\ -16\ln2) = 4\ln 2\,(1;\ 1;\ -4),\]
+\[|\operatorname{grad} F(M)| = 4\ln2\sqrt{1+1+16} = 12\sqrt2\,\ln 2.\]
+
+<p class="step">2. Производная по направлению</p>
+<p>\(|\vec l| = \frac{1}{\sqrt3}\sqrt{1+1+1} = 1\) — вектор уже единичный, \(\cos\alpha = \cos\beta = \frac1{\sqrt3},\ \cos\gamma = -\frac1{\sqrt3}\).</p>
+\[\frac{\partial F}{\partial l} = F'_x\cos\alpha + F'_y\cos\beta + F'_z\cos\gamma
+ = 4\ln2\cdot\frac{1}{\sqrt3} + 4\ln2\cdot\frac{1}{\sqrt3} + (-16\ln2)\cdot\left(-\frac{1}{\sqrt3}\right)
+ = \frac{24\ln2}{\sqrt3} = 8\sqrt3\,\ln 2.\]
+
+<p class="step">3. Касательная плоскость</p>
+<p>Нормальный вектор \(\vec n = \operatorname{grad}F(M) \parallel (1;\,1;\,-4)\):</p>
+\[1\cdot(x-2) + 1\cdot(y-2) - 4(z-1) = 0\ \Longrightarrow\ x + y - 4z = 0.\]
+
+<p class="step">4. Нормаль</p>
+\[\frac{x-2}{1} = \frac{y-2}{1} = \frac{z-1}{-4}.\]
+
+<div class="answer"><b>Ответ:</b> \(\operatorname{grad}F(M) = 4\ln2\,(1;1;-4)\); \(\ \dfrac{\partial F}{\partial l} = 8\sqrt3\ln 2\);
+касательная плоскость \(x+y-4z=0\); нормаль \(\dfrac{x-2}{1} = \dfrac{y-2}{1} = \dfrac{z-1}{-4}\).</div>
+</div>
+
+<!-- ===================== 5.1 ===================== -->
+<div class="task">
+<h2>Задача 5.1</h2>
+<div class="cond">Вычислить \(\displaystyle\iint_D (x+1)\,dx\,dy\), где \(D\) ограничена линиями \(y = x^2\) и \(y = 2 - x\).</div>
+
+<p class="step">1. Область D (чертёж обязателен)</p>
+<p>Точки пересечения: \(x^2 = 2 - x \Rightarrow x^2 + x - 2 = 0 \Rightarrow x_1 = -2,\ x_2 = 1\).
+Точки: \((-2;\,4)\) и \((1;\,1)\).</p>
+<p>При \(x\in[-2;1]\), например \(x = 0\): \(2 - 0 = 2 > 0 = 0^2\), значит прямая \(y = 2-x\) лежит <b>выше</b> параболы.</p>
+
+<div class="fig">
+  <figure>
+    <svg width="330" height="300" viewBox="0 0 330 300" role="img" aria-label="Область между параболой и прямой">
+      <path d="M 80,55 Q 155,355 230,205 L 80,55 Z" fill="#dbeafe" fill-opacity=".85"/>
+      <line x1="20" y1="255" x2="318" y2="255" stroke="#64748b" stroke-width="1.3"/>
+      <polygon points="320,255 312,251 312,259" fill="#64748b"/>
+      <line x1="180" y1="292" x2="180" y2="8" stroke="#64748b" stroke-width="1.3"/>
+      <polygon points="180,6 176,14 184,14" fill="#64748b"/>
+      <text x="310" y="272" font-size="13" fill="#334155">x</text>
+      <text x="186" y="16" font-size="13" fill="#334155">y</text>
+      <path d="M 70,13 Q 177.5,486 285,34.5" fill="none" stroke="#2563eb" stroke-width="2"/>
+      <line x1="50" y1="25" x2="305" y2="280" stroke="#16a34a" stroke-width="2"/>
+      <line x1="155" y1="241" x2="155" y2="136" stroke="#dc2626" stroke-width="1.4"/>
+      <polygon points="155,130 151,139 159,139" fill="#dc2626"/>
+      <circle cx="80" cy="55" r="4" fill="#dc2626"/>
+      <circle cx="230" cy="205" r="4" fill="#dc2626"/>
+      <text x="22" y="52" font-size="12" fill="#dc2626">(−2; 4)</text>
+      <text x="238" y="202" font-size="12" fill="#dc2626">(1; 1)</text>
+      <text x="236" y="72" font-size="13" fill="#1d4ed8">y = x²</text>
+      <text x="112" y="72" font-size="13" fill="#15803d">y = 2 − x</text>
+      <text x="125" y="200" font-size="13" fill="#1e3a8a">D</text>
+      <line x1="80" y1="55" x2="80" y2="255" stroke="#94a3b8" stroke-dasharray="3,3"/>
+      <line x1="230" y1="205" x2="230" y2="255" stroke="#94a3b8" stroke-dasharray="3,3"/>
+      <line x1="80" y1="55" x2="180" y2="55" stroke="#94a3b8" stroke-dasharray="3,3"/>
+      <line x1="230" y1="205" x2="180" y2="205" stroke="#94a3b8" stroke-dasharray="3,3"/>
+      <text x="70" y="271" font-size="11" fill="#334155">−2</text>
+      <text x="227" y="271" font-size="11" fill="#334155">1</text>
+      <text x="184" y="270" font-size="11" fill="#334155">0</text>
+      <text x="186" y="59" font-size="11" fill="#334155">4</text>
+      <text x="168" y="209" font-size="11" fill="#334155">1</text>
+      <text x="186" y="159" font-size="11" fill="#334155">2</text>
+    </svg>
+    <figcaption>Область \(D\): снизу \(y=x^2\), сверху \(y=2-x\), \(-2\le x\le 1\)</figcaption>
+  </figure>
+</div>
+
+<p class="step">2. Расстановка пределов</p>
+\[D = \{-2 \le x \le 1,\ \ x^2 \le y \le 2 - x\},\qquad
+  I = \int_{-2}^{1} dx \int_{x^2}^{2-x} (x+1)\,dy.\]
+
+<p class="step">3. Внутренний интеграл</p>
+\[\int_{x^2}^{2-x}(x+1)\,dy = (x+1)\,y\Big|_{x^2}^{2-x} = (x+1)(2 - x - x^2) = 2 + x - 2x^2 - x^3.\]
+
+<p class="step">4. Внешний интеграл</p>
+\[I = \int_{-2}^{1}(2 + x - 2x^2 - x^3)\,dx = \left(2x + \frac{x^2}{2} - \frac{2x^3}{3} - \frac{x^4}{4}\right)\Bigg|_{-2}^{1}.\]
+\[\text{при } x=1:\ \ 2 + \frac12 - \frac23 - \frac14 = \frac{24 + 6 - 8 - 3}{12} = \frac{19}{12};\]
+\[\text{при } x=-2:\ \ -4 + 2 + \frac{16}{3} - 4 = -\frac23 = -\frac{8}{12}.\]
+\[I = \frac{19}{12} - \left(-\frac{8}{12}\right) = \frac{27}{12} = \frac94.\]
+
+<div class="answer"><b>Ответ:</b> \(I = \dfrac94 = 2{,}25\).</div>
+</div>
+
+<!-- ===================== 6.2 ===================== -->
+<div class="task">
+<h2>Задача 6.2</h2>
+<div class="cond">Перейдя к полярным координатам, вычислить \(\displaystyle\iint_G \frac{y}{\sqrt{x^2+y^2}}\,dx\,dy\), где
+\(G = \{x^2+y^2 \le 1,\ x^2+y^2 \le 2y\}\).</div>
+
+<p class="step">1. Область G (чертёж обязателен)</p>
+<p>\(x^2 + y^2 \le 1\) — круг радиуса 1 с центром \((0;0)\).</p>
+<p>\(x^2 + y^2 \le 2y \iff x^2 + (y-1)^2 \le 1\) — круг радиуса 1 с центром \((0;1)\).</p>
+<p>\(G\) — общая часть двух кругов («линза»). Пересечение окружностей: вычитаем уравнения, \(2y = 1 \Rightarrow y = \frac12,\ x = \pm\frac{\sqrt3}{2}\).</p>
+
+<div class="fig">
+  <figure>
+    <svg width="330" height="330" viewBox="0 0 330 330" role="img" aria-label="Линза — пересечение двух кругов">
+      <path d="M 87.06,175 A 90 90 0 0 1 242.94,175 A 90 90 0 0 1 87.06,175 Z" fill="#dbeafe" fill-opacity=".9"/>
+      <circle cx="165" cy="220" r="90" fill="none" stroke="#2563eb" stroke-width="2"/>
+      <circle cx="165" cy="130" r="90" fill="none" stroke="#16a34a" stroke-width="2"/>
+      <line x1="15" y1="220" x2="318" y2="220" stroke="#64748b" stroke-width="1.3"/>
+      <polygon points="320,220 312,216 312,224" fill="#64748b"/>
+      <line x1="165" y1="322" x2="165" y2="10" stroke="#64748b" stroke-width="1.3"/>
+      <polygon points="165,8 161,16 169,16" fill="#64748b"/>
+      <text x="310" y="236" font-size="13" fill="#334155">x</text>
+      <text x="171" y="18" font-size="13" fill="#334155">y</text>
+      <line x1="165" y1="220" x2="266.3" y2="161.5" stroke="#dc2626" stroke-width="1.3" stroke-dasharray="5,3"/>
+      <line x1="165" y1="220" x2="63.7" y2="161.5" stroke="#dc2626" stroke-width="1.3" stroke-dasharray="5,3"/>
+      <circle cx="242.94" cy="175" r="3.5" fill="#dc2626"/>
+      <circle cx="87.06" cy="175" r="3.5" fill="#dc2626"/>
+      <text x="250" y="190" font-size="11" fill="#dc2626">(√3/2; 1/2)</text>
+      <text x="6" y="192" font-size="11" fill="#dc2626">(−√3/2; 1/2)</text>
+      <text x="262" y="154" font-size="12" fill="#b91c1c">φ = π/6</text>
+      <text x="22" y="154" font-size="12" fill="#b91c1c">φ = 5π/6</text>
+      <text x="236" y="296" font-size="12" fill="#1d4ed8">x² + y² = 1</text>
+      <text x="224" y="58" font-size="12" fill="#15803d">x² + y² = 2y</text>
+      <text x="156" y="168" font-size="13" fill="#1e3a8a">G</text>
+      <text x="170" y="126" font-size="11" fill="#334155">1</text>
+      <text x="170" y="40" font-size="11" fill="#334155">2</text>
+      <text x="151" y="234" font-size="11" fill="#334155">0</text>
+      <text x="252" y="234" font-size="11" fill="#334155">1</text>
+    </svg>
+    <figcaption>\(G\) — пересечение кругов; лучи \(\varphi=\pi/6\), \(\varphi=5\pi/6\) делят её на части</figcaption>
+  </figure>
+</div>
+
+<p class="step">2. Переход к полярным координатам</p>
+<p>\(x = r\cos\varphi,\ y = r\sin\varphi,\ dx\,dy = r\,dr\,d\varphi\) (якобиан \(J = r\)).</p>
+<p>Границы: \(x^2+y^2 = 1 \Rightarrow r = 1\); \(\ x^2+y^2 = 2y \Rightarrow r^2 = 2r\sin\varphi \Rightarrow r = 2\sin\varphi\).</p>
+<p>Подынтегральная функция: \(\dfrac{y}{\sqrt{x^2+y^2}} = \dfrac{r\sin\varphi}{r} = \sin\varphi\).</p>
+<p>Лучи через точки пересечения: \(2\sin\varphi = 1 \Rightarrow \varphi = \frac{\pi}{6},\ \varphi = \frac{5\pi}{6}\). Значит, \(r\) идёт от \(0\) до</p>
+<ul>
+  <li>\(2\sin\varphi\) при \(\varphi \in [0;\,\frac{\pi}{6}]\) и \(\varphi\in[\frac{5\pi}{6};\,\pi]\) (там ближе окружность \(r = 2\sin\varphi\));</li>
+  <li>\(1\) при \(\varphi \in [\frac{\pi}{6};\,\frac{5\pi}{6}]\).</li>
+</ul>
+<p>Область и функция \(\sin\varphi\) симметричны относительно оси \(Oy\), поэтому считаем правую половину \(\varphi\in[0;\frac{\pi}{2}]\) и удваиваем:</p>
+\[I = 2\left(\int_{0}^{\pi/6} d\varphi\int_0^{2\sin\varphi}\sin\varphi\cdot r\,dr \;+\; \int_{\pi/6}^{\pi/2} d\varphi\int_0^{1}\sin\varphi\cdot r\,dr\right) = 2(I_1 + I_2).\]
+
+<p class="step">3. Вычисление \(I_1\)</p>
+\[\int_0^{2\sin\varphi} r\,dr = \frac{r^2}{2}\Big|_0^{2\sin\varphi} = 2\sin^2\varphi,\qquad
+  I_1 = \int_0^{\pi/6} 2\sin^3\varphi\,d\varphi.\]
+<p>\(\sin^3\varphi\,d\varphi = (1-\cos^2\varphi)\sin\varphi\,d\varphi = -(1-\cos^2\varphi)\,d(\cos\varphi)\), откуда
+\(\int\sin^3\varphi\,d\varphi = -\cos\varphi + \dfrac{\cos^3\varphi}{3}\).</p>
+\[I_1 = 2\left(-\cos\varphi + \frac{\cos^3\varphi}{3}\right)\Bigg|_0^{\pi/6}
+     = 2\left[\left(-\frac{\sqrt3}{2} + \frac{\sqrt3}{8}\right) - \left(-1 + \frac13\right)\right]
+     = 2\left(\frac23 - \frac{3\sqrt3}{8}\right) = \frac43 - \frac{3\sqrt3}{4}.\]
+<p>(Здесь \(\cos^3\frac{\pi}{6} = \left(\frac{\sqrt3}{2}\right)^3 = \frac{3\sqrt3}{8}\), делённое на 3 даёт \(\frac{\sqrt3}{8}\).)</p>
+
+<p class="step">4. Вычисление \(I_2\)</p>
+\[\int_0^1 r\,dr = \frac12,\qquad I_2 = \frac12\int_{\pi/6}^{\pi/2}\sin\varphi\,d\varphi = \frac12\left(-\cos\varphi\right)\Big|_{\pi/6}^{\pi/2} = \frac12\left(0 + \frac{\sqrt3}{2}\right) = \frac{\sqrt3}{4}.\]
+
+<p class="step">5. Итог</p>
+\[I = 2\left(\frac43 - \frac{3\sqrt3}{4} + \frac{\sqrt3}{4}\right) = 2\left(\frac43 - \frac{\sqrt3}{2}\right) = \frac83 - \sqrt3.\]
+
+<div class="answer"><b>Ответ:</b> \(I = \dfrac83 - \sqrt3 \approx 0{,}935\).</div>
+</div>
+
+<!-- ===================== 7.4 ===================== -->
+<div class="task">
+<h2>Задача 7.4</h2>
+<div class="cond">Разложить по формуле Маклорена до \(o(\rho^2)\), где \(\rho = \sqrt{x^2+y^2+z^2}\), функцию
+\(f = \cos x\cos y\cos z - \cos(x+y+z)\).</div>
+
+<p class="step">Способ 1 — через известные разложения</p>
+<p>Используем \(\cos t = 1 - \dfrac{t^2}{2} + o(t^2)\).</p>
+\[\cos x\cos y\cos z = \left(1 - \frac{x^2}{2}\right)\left(1 - \frac{y^2}{2}\right)\left(1 - \frac{z^2}{2}\right) + o(\rho^2) = 1 - \frac{x^2+y^2+z^2}{2} + o(\rho^2)\]
+<p>(произведения вида \(\frac{x^2y^2}{4}\) имеют 4-й порядок малости и уходят в \(o(\rho^2)\)).</p>
+\[\cos(x+y+z) = 1 - \frac{(x+y+z)^2}{2} + o(\rho^2) = 1 - \frac{x^2+y^2+z^2 + 2xy + 2xz + 2yz}{2} + o(\rho^2).\]
+<p>Вычитаем:</p>
+\[f = -\frac{x^2+y^2+z^2}{2} + \frac{x^2+y^2+z^2 + 2xy+2xz+2yz}{2} + o(\rho^2) = xy + xz + yz + o(\rho^2).\]
+
+<p class="step">Способ 2 — проверка через производные (формула Тейлора)</p>
+<p>\(f(0,0,0) = 1 - 1 = 0\).</p>
+<p>\(f'_x = -\sin x\cos y\cos z + \sin(x+y+z)\), в нуле \(=0\); аналогично \(f'_y(0) = f'_z(0) = 0\).</p>
+<p>\(f''_{xx} = -\cos x\cos y\cos z + \cos(x+y+z)\), в нуле \(= -1 + 1 = 0\); аналогично \(f''_{yy}(0) = f''_{zz}(0) = 0\).</p>
+<p>\(f''_{xy} = \sin x\sin y\cos z + \cos(x+y+z)\), в нуле \(= 0 + 1 = 1\); аналогично \(f''_{xz}(0) = f''_{yz}(0) = 1\).</p>
+\[f = f(0) + df(0) + \frac{1}{2!}d^2f(0) + o(\rho^2) = 0 + 0 + \frac12\left(2xy + 2xz + 2yz\right) + o(\rho^2).\]
+
+<div class="answer"><b>Ответ:</b> \(f = xy + xz + yz + o(\rho^2)\), \(\ \rho\to 0\).</div>
+</div>
+
+</div>
+</body>
+</html>
