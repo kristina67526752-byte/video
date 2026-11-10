@@ -6,6 +6,7 @@
     оранжевый  — электроны пучка
     бирюзовый  — электрическое поле / волны
     фиолетовый — главная (самая неустойчивая) волна
+    розовый    — ионы (концентрация, каверны)
     серый пунктир — теория
 """
 import matplotlib as mpl
@@ -15,7 +16,7 @@ THEMES = {
     "dark": dict(
         surface="#1a1a19", panel="#20201f", text="#f0efec", text2="#c3c2b7",
         muted="#8a897f", grid="#383835",
-        plasma="#3987e5", beam="#d95926", field="#199e70", main="#9085e9",
+        plasma="#3987e5", beam="#d95926", field="#199e70", main="#9085e9", ion="#e87ba4",
         # более яркие варианты для «свечения» частиц на фазовом портрете
         plasma_glow="#6da7ec", beam_glow="#f08a4b",
         spec_lo="#1a1a19", spec_mid="#127a57", spec_hi="#c9f2e1",
@@ -23,7 +24,7 @@ THEMES = {
     "light": dict(
         surface="#fcfcfb", panel="#f4f3f0", text="#0b0b0b", text2="#52514e",
         muted="#8a897f", grid="#dddcd6",
-        plasma="#2a78d6", beam="#eb6834", field="#1baf7a", main="#6250d6",
+        plasma="#2a78d6", beam="#eb6834", field="#1baf7a", main="#6250d6", ion="#c2407a",
         plasma_glow="#1c5cab", beam_glow="#c0451a",
         spec_lo="#fcfcfb", spec_mid="#1baf7a", spec_hi="#0b3d2b",
     ),
@@ -85,6 +86,12 @@ def seq_cmap():
     для спектрограммы."""
     return mpl.colors.LinearSegmentedColormap.from_list(
         "spec", [C["spec_lo"], C["spec_mid"], C["spec_hi"]])
+
+
+def div_cmap():
+    """Расходящаяся шкала (синий — яма концентрации, красный — уплотнение)."""
+    return mpl.colors.LinearSegmentedColormap.from_list(
+        "div", [C["plasma"], C["surface"], C["beam"]])
 
 
 def style_widget_axes(ax):

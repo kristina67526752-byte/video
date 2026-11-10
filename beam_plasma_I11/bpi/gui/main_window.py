@@ -1,4 +1,5 @@
 """Главное окно: PIC-модель пучково-плазменной неустойчивости в реальном времени.
+Все величины на экране — в единицах СИ (с десятичными приставками).
 
 Как устроен кадр анимации (метод tick):
   1. sim.step(n)          — n шагов PIC-кода (n задаёт ползунок «скорость»);
@@ -20,17 +21,23 @@ from matplotlib.widgets import Slider, Button, RadioButtons, CheckButtons
 
 from .. import dispersion as disp
 from .. import diagnostics as diag
+from .. import presets
+from ..constants import (C_LIGHT, K_B, EPS0, M_E, ION_LABEL, lorentz_gamma, thermal_velocity)
 from ..pic import PIC, PICParams
+from ..units import Scale, fmt, sci
 from . import style
 from .style import C, MONO
 from .blit import Blitter, Region, SliderBlit, blit_axes
 from .fastdraw import MonoText, ParagraphText, paste, rgb255
+from .widgets import (ListSlider, plain_slider, button, fmt_velocity, ALPHAS, DENSITIES,
+                      TEMPERATURES, VELOCITIES)
 from . import texts
 
 # 14.4×8.1 дюйма = 1440×810 точек: окно помещается на экран 13-дюймового ноутбука
 # (MacBook 1440×900); на большом экране его можно развернуть — всё масштабируется.
 FIGSIZE = (14.4, 8.1)
 SPLIT = 0.6          # доля панели внизу справа под таблицу чисел (остальное — пояснение)
+XT_NX = 256          # точек по x в картах x–t (окно «Анализ»)
 
 RESULTS_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
     os.path.abspath(__file__)))), "results")
@@ -41,14 +48,16 @@ def _pct(x):
 
 
 class MainWindow:
-    def __init__(self, params: PICParams | None = None, theme="dark", maximize=True):
+    def __init__(self, params: PICParams | None = None, theme="dark", maximize=True,
+                 preset="lab"):
         style.use(theme)
         self.theme = theme
         self.params = params or PICParams()
+        self.preset_idx = next((i for i, d in enumerate(presets.PRESETS) if d["key"] == preset), 0)
         self.fig = plt.figure(figsize=FIGSIZE)
         try:
             self.fig.canvas.manager.set_window_title(
-                "И11 · Пучково-плазменная неустойчивость · PIC-модель")
+                "И11 · Пучково-плазменная неустойчивость · PIC-модель в СИ")
         except Exception:
             pass
         self.children = []
@@ -107,16 +116,15 @@ class MainWindow:
             A.append(artist)
             return artist
 
-        f.text(0.04, 0.976, "Пучково-плазменная неустойчивость (вариант И11)",
+        f.text(0.04, 0.976, "Пучково-плазменная неустойчивость (вариант И11) · все величины в СИ",
                fontsize=13, fontweight="bold", color=C["text"], va="center")
-        self.txt_sub = f.text(0.04, 0.951, "", fontsize=8, color=C["text2"], va="center")
+        self.txt_sub = f.text(0.04, 0.951, "", fontsize=7.6, color=C["text2"], va="center")
 
         # --- фазовый портрет + f(v) сбоку + E(x) снизу
-        self.ax_ph = f.add_axes([0.04, 0.455, 0.44, 0.455])
-        self.ax_fv = f.add_axes([0.485, 0.455, 0.06, 0.455], sharey=self.ax_ph)
-        self.ax_E = f.add_axes([0.04, 0.285, 0.44, 0.12], sharex=self.ax_ph)
+        self.ax_ph = f.add_axes([0.04, 0.47, 0.44, 0.44])
+        self.ax_fv = f.add_axes([0.485, 0.47, 0.06, 0.44], sharey=self.ax_ph)
+        self.ax_E = f.add_axes([0.04, 0.305, 0.44, 0.115], sharex=self.ax_ph)
         ax = self.ax_ph
-        ax.set_ylabel("скорость v, ед. v₀")
         ax.tick_params(labelbottom=False)
         ax.grid(False)
         ax.set_facecolor(C["surface"])
@@ -133,28 +141,29 @@ class MainWindow:
         ax.set_title("f пучка", loc="left")
         ax.set_xscale("log")
         ax.tick_params(labelleft=False)
-        ax.set_xlabel("f_b(v)")
+        ax.set_xlabel("f_b(v), с/м")
         self.ln_fv0, = ax.plot([], [], color=C["text2"], lw=1.0, ls="--")
         self.ln_fv = anim(ax.plot([], [], color=C["beam"], lw=1.6)[0])
         self.ln_plat = anim(ax.plot([], [], color=C["main"], lw=2.0)[0])
 
         ax = self.ax_E
-        ax.set_xlabel("координата x, ед. v₀/ω_p")
         ax.set_ylim(-1.15, 1.15)
         ax.set_yticks([-1, 0, 1])
         self.ln_E = anim(ax.plot([], [], color=C["field"], lw=1.4)[0])
-        self.ln_nb = anim(ax.plot([], [], color=C["beam"], lw=1.1, alpha=0.9)[0])
-        f.text(0.48, 0.41, "— E(x)/max|E|", color=C["field"], ha="right", va="bottom", fontsize=8)
-        self.lg_nb = f.text(0.405, 0.41, "— δn_b(x)/max|δn_b|", color=C["beam"], ha="right",
+        self.ln_nb = anim(ax.plot([], [], color=C["beam"], lw=1.0, alpha=0.9)[0])
+        self.ln_ni = anim(ax.plot([], [], color=C["ion"], lw=1.5)[0])
+        # подписи линий (все три нормированы на свой максимум; сами максимумы — в строке слева)
+        f.text(0.48, 0.425, "— E(x)", color=C["field"], ha="right", va="bottom", fontsize=8)
+        self.lg_nb = f.text(0.446, 0.425, "— δn_b", color=C["beam"], ha="right",
                             va="bottom", fontsize=8)
+        self.lg_ni = f.text(0.412, 0.425, "", color=C["ion"], ha="right", va="bottom", fontsize=8)
 
         # --- энергия и спектрограмма (общая ось времени)
         self.ax_W = f.add_axes([0.59, 0.70, 0.185, 0.21])
         self.ax_sg = f.add_axes([0.59, 0.455, 0.185, 0.19], sharex=self.ax_W)
         ax = self.ax_W
-        ax.set_title("Энергия / K_b0 (лог. шкала)", loc="left")
+        ax.set_title("Плотность энергии, Дж/м³ (лог. шкала)", loc="left")
         ax.set_yscale("log")
-        ax.set_ylim(1e-8, 3.0)
         ax.tick_params(labelbottom=False)
         self.ln_WE = anim(ax.plot([], [], color=C["field"], lw=1.6, label="поле W_E")[0])
         self.ln_Wm = anim(ax.plot([], [], color=C["main"], lw=1.6, label="главная волна")[0])
@@ -166,13 +175,9 @@ class MainWindow:
         self.txt_trap = ax.text(0.01, 1e-9, "", fontsize=7, color=C["text2"],
                                 transform=ax.get_yaxis_transform(), va="bottom")
         self.pt_sat = anim(ax.plot([], [], "o", ms=8, mfc=C["main"], mec=C["surface"], mew=2)[0])
-        ax.legend(loc="lower right", ncol=2, fontsize=6.6, handlelength=1.3,
-                  borderpad=0.3, labelspacing=0.2, columnspacing=0.7)
 
         ax = self.ax_sg
         ax.set_title("Спектрограмма lg|E_k|²", loc="left")
-        ax.set_xlabel("время t, ед. 1/ω_p")
-        ax.set_ylabel("k / k_max")
         ax.grid(False)
         # сама картинка спектрограммы копируется в пиксели (см. _raw), а этот
         # невидимый imshow нужен только для цветовой шкалы и подписей осей
@@ -186,20 +191,19 @@ class MainWindow:
         self.ax_sp = f.add_axes([0.805, 0.455, 0.185, 0.19], sharex=self.ax_gk)
         ax = self.ax_gk
         ax.set_title("Инкремент γ(k)", loc="left")
-        ax.set_ylabel("γ, ед. ω_p")
         ax.tick_params(labelbottom=False)
-        self.ln_gk_th, = ax.plot([], [], color=C["text2"], ls="--", lw=1.3, label="теория (точно)")
+        self.ln_gk_cold, = ax.plot([], [], color=C["text2"], ls="--", lw=1.3,
+                                   label="уравнение из задания")
+        self.ln_gk_th, = ax.plot([], [], color=C["main"], lw=1.3, label="с температурой")
         self.pt_gk_box, = ax.plot([], [], "o", ms=5, mfc="none", mec=C["text2"], mew=1.0,
                                   label="моды ящика")
         self.pt_gk_meas = anim(ax.plot([], [], "o", ms=8, mfc=C["field"], mec=C["surface"],
                                        mew=2, label="измерено (PIC)")[0])
 
         ax = self.ax_sp
-        ax.set_title("Спектр волн |E_k|² сейчас", loc="left")
-        ax.set_xlabel("k / k_max")
+        ax.set_title("Спектр волн A_k² сейчас", loc="left")
         ax.set_yscale("log")
-        ax.set_ylim(1e-9, 30)
-        ax.set_ylabel("|E_k|² / E_захв²")
+        ax.set_ylabel("A_k², (В/м)²")
         self.ln_sp = anim(ax.plot([], [], color=C["field"], lw=2.2, solid_capstyle="round")[0])
         self.ln_sp_main = anim(ax.plot([], [], color=C["main"], lw=3.2,
                                        solid_capstyle="round")[0])
@@ -222,34 +226,30 @@ class MainWindow:
         f = self.fig
         p = self.params
 
-        def sl(rect, label, vmin, vmax, vinit, step):
-            ax = f.add_axes(rect)
-            style.style_widget_axes(ax)
-            s = Slider(ax, label, vmin, vmax, valinit=vinit, valstep=step,
-                       color=C["main"], track_color=C["grid"],
-                       handle_style=dict(facecolor=C["text"], edgecolor=C["surface"], size=9))
-            s.label.set_color(C["text"])
-            s.label.set_fontsize(8.5)
-            s.valtext.set_color(C["text"])
-            s.valtext.set_fontsize(8.5)
-            return s
-
-        self.s_alpha = sl([0.085, 0.215, 0.165, 0.022], "n_b/n_p", -3.0, -1.0,
-                          np.log10(p.alpha), 0.05)
-        self.s_vb = sl([0.35, 0.215, 0.13, 0.022], "v_b/v₀", 0.5, 2.0, p.vb, 0.05)
-        self.s_dv = sl([0.085, 0.178, 0.165, 0.022], "Δv/v_b", 0.0, 0.3, p.dvb, 0.01)
-        self.s_speed = sl([0.35, 0.178, 0.13, 0.022], "скорость", 1, 30, 5, 1)
-        self.s_alpha.valtext.set_text(f"{p.alpha:.3g}")
+        # три строки по два ползунка; значения — «круглые» числа в СИ
+        y1, y2, y3, h = 0.222, 0.196, 0.170, 0.018
+        xl, wl, xr, wr = 0.075, 0.115, 0.345, 0.105
+        self.s_alpha = ListSlider(f, [xl, y1, wl, h], "n_b/n_p", ALPHAS, p.alpha,
+                                  lambda v: f"{v:.3g}")
+        self.s_vb = ListSlider(f, [xr, y1, wr, h], "v_b", VELOCITIES, p.vb, fmt_velocity)
+        self.s_dv = plain_slider(f, [xl, y2, wl, h], "Δv_b/v_b", 0.0, 0.3, p.dvb / p.vb, 0.01)
+        self.s_np = ListSlider(f, [xr, y2, wr, h], "n_p", DENSITIES, p.n_p,
+                               lambda v: f"{sci(v, 2)} м⁻³")
+        self.s_Te = ListSlider(f, [xl, y3, wl, h], "T_e", TEMPERATURES, p.T_e,
+                               lambda v: f"{sci(v, 2)} К")
+        self.s_speed = plain_slider(f, [xr, y3, wr, h], "скорость", 1, 40, 5, 1)
+        self._sync_valtexts()
         self.s_speed.valtext.set_text("5 шаг/кадр")
-        self.s_alpha.on_changed(self._on_alpha)
-        self.s_vb.on_changed(lambda v: self._param_changed())
-        self.s_dv.on_changed(lambda v: self._param_changed())
+        for s_ in (self.s_alpha, self.s_vb, self.s_np, self.s_Te):
+            s_.on_changed(self._on_slider)
+        self.s_dv.on_changed(self._on_slider)
         self.s_speed.on_changed(lambda v: self.s_speed.valtext.set_text(f"{int(v)} шаг/кадр"))
         # ползунки перерисовывают только себя (иначе каждое движение = полная перерисовка)
         self._slider_blits = [SliderBlit(f, sl_, C["surface"])
-                              for sl_ in (self.s_alpha, self.s_vb, self.s_dv, self.s_speed)]
+                              for sl_ in (self.s_alpha.slider, self.s_vb.slider, self.s_dv,
+                                          self.s_np.slider, self.s_Te.slider, self.s_speed)]
 
-        ax = f.add_axes([0.012, 0.085, 0.13, 0.07])
+        ax = f.add_axes([0.012, 0.075, 0.118, 0.07])
         style.style_widget_axes(ax)
         ax.set_title("Сценарий", fontsize=8, loc="left", color=C["text2"], pad=2)
         self.r_scen = RadioButtons(ax, ("пучок в плазме", "встречные пучки"),
@@ -257,46 +257,54 @@ class MainWindow:
                                    activecolor=C["main"])
         for t in self.r_scen.labels:
             t.set_color(C["text"])
-            t.set_fontsize(8.5)
+            t.set_fontsize(8.3)
         self.r_scen.on_clicked(lambda lab: self._param_changed(restart_now=True))
 
-        ax = f.add_axes([0.155, 0.085, 0.16, 0.07])
+        ax = f.add_axes([0.136, 0.067, 0.132, 0.078])
         style.style_widget_axes(ax)
-        ax.set_title("Показ", fontsize=8, loc="left", color=C["text2"], pad=2)
-        self.c_opts = CheckButtons(ax, ("сепаратриса", "пауза на стадиях"),
-                                   (self.show_sep, self.autopause))
+        ax.set_title("Показ и физика", fontsize=8, loc="left", color=C["text2"], pad=2)
+        self.c_opts = CheckButtons(ax, ("сепаратриса", "пауза на стадиях", "ионы подвижны"),
+                                   (self.show_sep, self.autopause, p.ion != "none"))
         for t in self.c_opts.labels:
             t.set_color(C["text"])
-            t.set_fontsize(8.5)
+            t.set_fontsize(8.3)
         self.c_opts.on_clicked(self._on_check)
 
-        def bt(rect, label, cb, hl=False):
-            ax = f.add_axes(rect)
-            b = Button(ax, label, color=C["main"] if hl else C["panel"], hovercolor=C["grid"])
-            b.label.set_color(C["surface"] if hl else C["text"])
-            b.label.set_fontsize(8.5)
-            if hl:
-                b.label.set_fontweight("bold")
-            for sp in ax.spines.values():
-                sp.set_color(C["grid"])
-            b.on_clicked(cb)
-            return b
+        bt = lambda rect, label, cb, hl=False, fs=8.5: button(f, rect, label, cb, hl, fs)
 
-        self.b_play = bt([0.33, 0.115, 0.075, 0.038], "|| Пауза", self._on_play, hl=True)
-        self.b_reset = bt([0.41, 0.115, 0.065, 0.038], "↺ Заново", lambda e: self.reset())
-        self.b_back = bt([0.33, 0.07, 0.075, 0.038], "◀ Назад", lambda e: self.back())
-        self.b_step = bt([0.41, 0.07, 0.065, 0.038], "Шаг ▶", lambda e: self.single_step())
-        self.b_save = bt([0.48, 0.07, 0.065, 0.083], "Сохранить\nPNG", lambda e: self.save_png())
-        y = 0.018
-        self.b_theory = bt([0.012, y, 0.1, 0.04], "Теория γ(k)", lambda e: self.open_theory())
-        self.b_sw = bt([0.117, y, 0.125, 0.04], "Одноволновая модель", lambda e: self.open_single())
-        self.b_tab = bt([0.247, y, 0.125, 0.04], "Таблица насыщения", lambda e: self.open_table())
-        self.b_form = bt([0.377, y, 0.095, 0.04], "Формулы", lambda e: self.open_formulas())
-        self.b_help = bt([0.477, y, 0.068, 0.04], "Справка", lambda e: self.show_help())
+        self.b_env = bt([0.274, 0.108, 0.115, 0.04], "", lambda e: self.next_preset(), fs=7.8)
+        self.b_save = bt([0.274, 0.064, 0.115, 0.04], "Сохранить PNG", lambda e: self.save_png())
+        self.b_play = bt([0.395, 0.108, 0.073, 0.04], "|| Пауза", self._on_play, hl=True)
+        self.b_reset = bt([0.472, 0.108, 0.073, 0.04], "↺ Заново", lambda e: self.reset())
+        self.b_back = bt([0.395, 0.064, 0.073, 0.04], "◀ Назад", lambda e: self.back())
+        self.b_step = bt([0.472, 0.064, 0.073, 0.04], "Шаг ▶", lambda e: self.single_step())
+        self._set_env_label()
+        y, hh = 0.014, 0.038
+        names = (("Теория γ(k)", self.open_theory), ("Одна волна", self.open_single),
+                 ("Таблица E_sat", self.open_table), ("Солитоны", self.open_solitons),
+                 ("Анализ ω–k, x–t", self.open_analysis), ("Формулы", self.open_formulas),
+                 ("Справка", self.show_help))
+        widths = (0.072, 0.068, 0.08, 0.064, 0.098, 0.062, 0.059)
+        x = 0.012
+        self.b_windows = []
+        for (lab, cb), w in zip(names, widths):
+            self.b_windows.append(bt([x, y, w, hh], lab, (lambda e, cb=cb: cb()), fs=8))
+            x += w + 0.005
 
     # ================================================================ параметры
-    def _on_alpha(self, val):
-        self.s_alpha.valtext.set_text(f"{10 ** val:.3g}")
+    def _slider_values(self):
+        """Значения параметров (СИ) по положениям ползунков."""
+        vb = self.s_vb.val
+        return dict(alpha=self.s_alpha.val, vb=vb, dvb=float(self.s_dv.val) * vb,
+                    n_p=self.s_np.val, T_e=self.s_Te.val)
+
+    def _sync_valtexts(self):
+        v = self._slider_values()
+        self.s_dv.valtext.set_text(f"{self.s_dv.val:.2f} → {sci(v['dvb'], 2)} м/с"
+                                   if v["dvb"] > 0 else "0 (холодный)")
+
+    def _on_slider(self, val):
+        self._sync_valtexts()
         self._param_changed()
 
     def _param_changed(self, restart_now=False):
@@ -310,15 +318,35 @@ class MainWindow:
 
     def _current_params(self):
         scen = "two_stream" if self.r_scen.value_selected == "встречные пучки" else "beam"
-        return self.params.copy(scenario=scen,
-                                alpha=float(round(10 ** self.s_alpha.val, 6)),
-                                vb=float(self.s_vb.val), dvb=float(self.s_dv.val))
+        pr = presets.PRESETS[self.preset_idx]
+        ions_on = self.c_opts.get_status()[2]
+        v = self._slider_values()
+        return self.params.copy(scenario=scen, ion=pr["ion"] if ions_on else "none",
+                                T_i=pr["T_i"], **v)
 
     def _on_check(self, label):
         st = self.c_opts.get_status()
+        ions_changed = (st[2] != (self.params.ion != "none"))
         self.show_sep, self.autopause = st[0], st[1]
         self.ln_sep.set_visible(self.show_sep)
-        self.blit.update(force=True)
+        if ions_changed:
+            self.reset()
+        else:
+            self.blit.update(force=True)
+
+    def _set_env_label(self):
+        pr = presets.PRESETS[self.preset_idx]
+        name = pr["name"].split(" (")[0]
+        self.b_env.label.set_text(f"Среда ▸ {name}")
+
+    def next_preset(self, idx=None):
+        """Следующий набор параметров реальной плазмы (кнопка «Среда»)."""
+        self.preset_idx = (self.preset_idx + 1) % len(presets.PRESETS) if idx is None else idx
+        pr = presets.PRESETS[self.preset_idx]
+        self._set_env_label()
+        for s_, val in ((self.s_np, pr["n_p"]), (self.s_Te, pr["T_e"]), (self.s_vb, pr["vb"])):
+            s_.set_val(val)
+        self.reset()
 
     # ================================================================ запуск
     def reset(self):
@@ -327,23 +355,53 @@ class MainWindow:
         self.params = p
         self.sim = s = PIC(p)
         self.tr = diag.StageTracker(s)
+        self.info = s.info()
         self.modes_meas = None
         self.ql = None
         self.explain_key = None
         self._last_stage = 0
         self.th_anchor = None
         self.status_msg = ""
+        two = p.scenario == "two_stream"
+        pr = presets.PRESETS[self.preset_idx]
+        if not two and p.vb < 4 * s.vte:
+            self.status_msg = "v_b < 4·v_Te: пучок в тепловом «хвосте» плазмы — рост слабый"
 
-        # оценка времени насыщения → масштаб оси времени
-        A0 = 2 * abs(s.Ek[s.m_main]) / p.ng
-        t_sat = np.log(max(self.tr.A_trap / max(A0 / 3, 1e-14), 10.0)) / s.gamma_ref
-        self.T_view = float(np.ceil(max(2.6 * t_sat, t_sat + 60) / 50) * 50)
+        # оценка времени насыщения → масштаб оси времени (с)
+        A0 = s.main_amplitude()
+        t_sat = np.log(max(self.tr.A_trap / max(A0 / 3, 1e-14 * self.tr.A_trap), 10.0)) / s.gamma_ref
+        Tp = 1.0 / s.wpe
+        T_view = max(2.6 * t_sat, t_sat + 60 * Tp)
+        T_view = min(T_view, 4000 * Tp)
+        self.T_view = self._nice_time(T_view)
 
-        # --- фазовый портрет: пределы скоростей
-        if p.scenario == "two_stream":
+        # --- масштабы осей (данные всегда в СИ, подписи — с приставками)
+        self.sc_x = Scale(s.L, "м")
+        self.sc_v = Scale(p.vb, "м/с")
+        self.sc_t = Scale(self.T_view, "с")
+        self.sc_k = Scale(2.5 * s.k_max, "рад/м")
+        self.sc_g = Scale(s.gamma_max, "с⁻¹")
+        self.ax_ph.set_ylabel(f"скорость v, {self.sc_v.label}")
+        self.ax_ph.yaxis.set_major_formatter(self.sc_v.formatter())
+        self.ax_E.set_xlabel(f"координата x, {self.sc_x.label}", labelpad=1)
+        self.ax_E.xaxis.set_major_formatter(self.sc_x.formatter())
+        self.ax_sg.set_xlabel(f"время t, {self.sc_t.label}", labelpad=1)
+        self.ax_sg.xaxis.set_major_formatter(self.sc_t.formatter())
+        self.ax_sg.set_ylabel(f"k, {self.sc_k.label}")
+        self.ax_sg.yaxis.set_major_formatter(self.sc_k.formatter())
+        self.ax_sp.set_xlabel(f"волновое число k, {self.sc_k.label}", labelpad=1)
+        self.ax_sp.xaxis.set_major_formatter(self.sc_k.formatter())
+        self.ax_gk.set_ylabel(f"γ, {self.sc_g.label}")
+        self.ax_gk.yaxis.set_major_formatter(self.sc_g.formatter())
+
+        # --- фазовый портрет: пределы скоростей (м/с)
+        dvf = p.dvb / p.vb
+        if two:
             self.vmin, self.vmax = -1.3 * p.vb, 1.3 * p.vb
         else:
-            self.vmin, self.vmax = -0.6 * p.vb, (1.75 + 2 * p.dvb) * p.vb
+            self.vmin, self.vmax = -0.6 * p.vb, (1.75 + 2 * dvf) * p.vb
+        self.vmax = min(self.vmax, 1.02 * C_LIGHT)
+        self.vmin = max(self.vmin, -1.02 * C_LIGHT)
         self.ax_ph.set_xlim(0, s.L)
         self.ax_ph.set_ylim(self.vmin, self.vmax)
         self._c_surf = style.hex2rgb(C["surface"]) * 255
@@ -352,23 +410,29 @@ class MainWindow:
         self._xs = np.linspace(0, s.L, 400)
         self._lut_key = None
 
-        # --- f(v)
+        # --- f(v), с/м
         self.v_edges = np.linspace(self.vmin, self.vmax, 181)
         self.v_cent = 0.5 * (self.v_edges[1:] + self.v_edges[:-1])
+        self._f_floor = 1e-4 / p.vb
         f0 = s.velocity_hist(1, self.v_edges) / s.dens[1]
-        self.ln_fv0.set_data(np.maximum(f0, 1e-4), self.v_cent)
-        self.ax_fv.set_xlim(1e-2, 2e2)
+        self.ln_fv0.set_data(np.maximum(f0, self._f_floor), self.v_cent)
+        self.ax_fv.set_xlim(1e-2 / p.vb, 2e2 / p.vb)
 
         # --- E(x)
         self._xdec = max(1, p.ng // 512)              # на экран хватает 512 точек
         xg = np.arange(p.ng)[::self._xdec] * s.dx
         self.ln_E.set_xdata(xg)
         self.ln_nb.set_xdata(xg)
+        self.ln_ni.set_xdata(xg)
+        self.ln_ni.set_visible(bool(s.m_i))
+        if not s.m_i:
+            self.ln_ni.set_ydata(np.full(xg.size, np.nan))
 
-        # --- энергия: уровень насыщения по теории захвата
+        # --- энергия: уровень насыщения по теории захвата, Дж/м³
         self.K0 = s.K0_beam
         self.ax_W.set_xlim(0, self.T_view)
-        Wtrap = s.L * self.tr.A_trap ** 2 / 4 / self.K0
+        self.ax_W.set_ylim(1e-8 * self.K0, 3.0 * self.K0)
+        Wtrap = EPS0 * self.tr.A_trap ** 2 / 4
         self.ln_trap.set_ydata([Wtrap, Wtrap])
         self.txt_trap.set_y(Wtrap * 1.3)
         self.txt_trap.set_text("насыщение по теории захвата")
@@ -377,46 +441,69 @@ class MainWindow:
         self.NT = 300
         self.sg = np.full((s.m_store, self.NT), -12.0)
         self.sg_col = 0
-        M = p.n_waves
-        self.im_sg.set_extent([0, self.T_view, 0.5 / M, (s.m_store + 0.5) / M])
-        self.ax_sg.set_ylim(0, min(3.0, (s.m_store + 0.5) / M))
+        dk = 2 * np.pi / s.L
+        self.im_sg.set_extent([0, self.T_view, 0.5 * dk, (s.m_store + 0.5) * dk])
+        self.ax_sg.set_ylim(0, min(3.0 * s.k_max, (s.m_store + 0.5) * dk))
 
-        # --- γ(k): теория
-        kk = np.linspace(1e-3, 2.6, 500) * s.k_max
-        if p.dvb > 0:
-            _, g = disp.kinetic_growth_curve(kk, s.species)
-            g = np.maximum(g, 0)
-            self.ln_gk_th.set_label("теория (кинетика)")
+        # --- γ(k): теория (уравнение из задания и кинетика с реальными температурами)
+        kk = np.linspace(1e-3, 2.6, 400) * s.k_max
+        cold = disp.cold(s.theory_species)
+        _, g = disp.fluid_growth(kk, cold)
+        self.ln_gk_cold.set_data(kk, g)
+        gtop = g.max()
+        if any(vt > 0 for (_, _, vt) in s.theory_species):
+            _, gk = disp.kinetic_growth_curve(kk, s.theory_species)
+            gk = np.maximum(gk, 0)
+            self.ln_gk_th.set_data(kk, gk)
+            self.ln_gk_th.set_label("с температурой (кинетика)")
+            gtop = max(gtop, gk.max())
         else:
-            cold = [(w, u, 0.0) for (w, u, _) in s.species]
-            _, g = disp.fluid_growth(kk, cold)
-            self.ln_gk_th.set_label("теория (точно)")
-        self.ln_gk_th.set_data(kk / s.k_max, g)
-        km = s.k_modes[1:s.m_store + 1] / s.k_max
+            self.ln_gk_th.set_data([], [])
+            self.ln_gk_th.set_label("_нет")
+        km = s.k_modes[1:s.m_store + 1]
         self.pt_gk_box.set_data(km, s.gamma_modes_th)
-        self.ax_gk.set_xlim(0, 2.6)
-        self.ax_gk.set_ylim(0, 1.2 * max(g.max(), s.gamma_ref, 1e-3))
-        self.ax_gk.legend(loc="upper right", fontsize=6.6, borderpad=0.3, labelspacing=0.2)
+        self.ax_gk.set_xlim(0, 2.6 * s.k_max)
+        self.ax_gk.set_ylim(0, 1.25 * max(gtop, s.gamma_ref, 1e-6 * s.wpe))
+        self.ax_gk.legend(loc="center right", fontsize=6.3, borderpad=0.3, labelspacing=0.2,
+                          handlelength=1.4)
         self.pt_gk_meas.set_data([], [])
+        self.ax_sp.set_ylim(1e-9 * self.tr.A_trap ** 2, 30 * self.tr.A_trap ** 2)
+
+        # --- карты x–t для окна «Анализ» (уровень поля W и концентрация ионов)
+        self.xt_t, self.xt_W, self.xt_ni = [], [], []
+        self.xt_dt = 2.0 / s.wpe
+        self._xt_dec = max(1, p.ng // XT_NX)
 
         # подписи сортов частиц зависят от сценария
-        two = p.scenario == "two_stream"
         self.lg_b.set_text("■ поток 2 (→)" if two else "■ пучок")
         self.lg_p.set_text("■ поток 1 (←)" if two else "■ плазма")
-        self.lg_nb.set_text("— δn потока 2 / max" if two else "— δn_b(x)/max|δn_b|")
+        self.lg_nb.set_text("— δn₂" if two else "— δn_b")
+        self.lg_ni.set_text(f"— δn_i ({ION_LABEL[p.ion]})" if s.m_i else "")
         self.ax_fv.set_title("f потока 2" if two else "f пучка", loc="left")
         self.ln_Kb.set_label("−ΔK потока 2" if two else "−ΔK пучка")
         self.ln_Kp.set_label("+ΔK потока 1" if two else "+ΔK плазмы")
-        self.ax_W.legend(loc="lower right", ncol=2, fontsize=6.6, handlelength=1.3,
+        self.ax_W.legend(loc="lower right", ncol=2, fontsize=6.3, handlelength=1.3,
                          borderpad=0.3, labelspacing=0.2, columnspacing=0.7)
-        scen = "пучок в плазме" if p.scenario == "beam" else "встречные пучки ±v_b/2"
+        scen = "пучок в плазме" if not two else "встречные пучки ±v_b/2"
+        ions = f"ионы {ION_LABEL[p.ion]} подвижны" if s.m_i else "ионы неподвижны"
+        I = self.info
         self.txt_sub.set_text(
-            f"1D PIC: {s.N:,} + {s.N:,} макрочастиц · сетка {p.ng} узлов · Δt = {p.dt}/ω_p · "
-            f"ящик L = {s.L:.1f} v₀/ω_p = {p.n_waves} длин волны · {scen} · "
-            f"теория: {s.theory_kind}".replace(",", " "))
+            f"1D PIC: {s.ns}×{s.N:,} макрочастиц · сетка {p.ng} узлов · Δt = {fmt(s.dt, 'с')} · "
+            f"ящик L = {fmt(s.L, 'м')} = {p.n_waves} длин волны · f_p = {fmt(I['fpe'], 'Гц')} · "
+            f"λ_D = {fmt(I['lambda_D'], 'м')} · {scen} · {ions} · среда: {pr['name']}"
+            .replace(",", " "))
         self.ln_sep.set_visible(self.show_sep)
         self._update_artists(force=True)
         self.fig.canvas.draw_idle()
+
+    @staticmethod
+    def _nice_time(T):
+        """Округление длины оси времени вверх до 1, 1.5, 2, 2.5, 3, 4, 5, 6, 8 ×10ⁿ с."""
+        e = 10.0 ** math.floor(math.log10(T))
+        for m in (1, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10):
+            if m * e >= T:
+                return m * e
+        return 10 * e
 
     # ================================================================ кадр
     def tick(self):
@@ -431,6 +518,7 @@ class MainWindow:
             n = int(self.s_speed.val)
             self.sim.step(n)
             st = self.tr.update()
+            self._record_xt()
             t1 = time.perf_counter()
             self._ms_phys = 0.9 * self._ms_phys + 0.1 * (t1 - now) * 1e3
             changed = True
@@ -455,13 +543,27 @@ class MainWindow:
             self._ms_draw = 0.9 * self._ms_draw + 0.1 * (time.perf_counter() - t2) * 1e3
         self._frame += 1
 
+    def _record_xt(self):
+        """Строка карт x–t каждые 2/ω_p: уровень поля W(x) и δn_i/n_i(x)."""
+        s = self.sim
+        if self.xt_t and s.t < self.xt_t[-1] + self.xt_dt:
+            return
+        d = self._xt_dec
+        self.xt_t.append(s.t)
+        self.xt_W.append(diag.wave_level(s)[::d].astype(np.float32))
+        if s.m_i:
+            self.xt_ni.append(s.ion_perturbation()[::d].astype(np.float32))
+
     def _extend_time(self):
-        self.T_view *= 1.5
+        self.T_view = self._nice_time(self.T_view * 1.5)
+        self.sc_t = Scale(self.T_view, "с")
+        self.ax_sg.set_xlabel(f"время t, {self.sc_t.label}", labelpad=1)
+        self.ax_sg.xaxis.set_major_formatter(self.sc_t.formatter())
         self.ax_W.set_xlim(0, self.T_view)
         self.sg = np.full((self.sim.m_store, self.NT), -12.0)
         self.sg_col = 0
-        M = self.params.n_waves
-        self.im_sg.set_extent([0, self.T_view, 0.5 / M, (self.sim.m_store + 0.5) / M])
+        dk = 2 * np.pi / self.sim.L
+        self.im_sg.set_extent([0, self.T_view, 0.5 * dk, (self.sim.m_store + 0.5) * dk])
         self.fig.canvas.draw_idle()
 
     # ================================================================ пиксели
@@ -498,11 +600,10 @@ class MainWindow:
         """Спектрограмма в разрешении экрана (ось t — [0, T_view], ось k — пределы осей)."""
         t0, t1 = self.ax_sg.get_xlim()
         y0, y1 = self.ax_sg.get_ylim()
-        M = self.params.n_waves
         tc = t0 + (np.arange(w) + 0.5) * (t1 - t0) / w
         col = np.floor(tc / self.T_view * self.NT).astype(np.int64)
         yc = y1 - (np.arange(h) + 0.5) * (y1 - y0) / h          # сверху вниз
-        row = np.rint(yc * M).astype(np.int64) - 1               # k/k_max = m/M
+        row = np.rint(yc * self.sim.L / (2 * np.pi)).astype(np.int64) - 1   # k = 2πm/L
         okc = (col >= 0) & (col < self.NT)
         okr = (row >= 0) & (row < self.sim.m_store)
         v = (self.sg - (-9.0)) / 9.5
@@ -518,7 +619,7 @@ class MainWindow:
 
     def _bbox_left(self):
         W, H = self.fig.bbox.width, self.fig.bbox.height
-        return 0, 0.265 * H, 0.565 * W, 0.945 * H
+        return 0, 0.29 * H, 0.565 * W, 0.945 * H
 
     def _bbox_right(self):
         W, H = self.fig.bbox.width, self.fig.bbox.height
@@ -586,67 +687,70 @@ class MainWindow:
         n = s.h_n
         m = s.m_main
         Ek_m = s.Ek[m] / p.ng
-        A = 2 * abs(Ek_m)                      # амплитуда главной волны
+        A = 2 * abs(Ek_m)                      # амплитуда главной волны, В/м
         km = s.k_modes[m]
         if self.show_sep:
-            vph = s.omega_ref / km
-            S = 2 * (A / km) * (1 - np.sin(km * self._xs + np.angle(Ek_m)))
-            r = np.sqrt(np.maximum(S, 0))
+            vu, vd = diag.separatrix(self._xs, A, km, np.angle(Ek_m), s.v_phase)
             self.ln_sep.set_data(np.concatenate([self._xs, [np.nan], self._xs]),
-                                 np.concatenate([vph + r, [np.nan], vph - r]))
+                                 np.concatenate([vu, [np.nan], vd]))
         stage = tr.stage
-        self.s_ph = f"t = {s.t:6.1f}/ω_p   стадия {stage + 1}/4"
+        self.s_ph = f"t = {fmt(s.t, 'с')}   стадия {stage + 1}/{tr.n_stages}"
 
         # --- f(v)
         fb = s.velocity_hist(1, self.v_edges) / s.dens[1]
-        self.ln_fv.set_data(np.maximum(fb, 1e-4), self.v_cent)
-        if stage == 3 and (self.ql is None or self._frame % 15 == 0 or force):
-            self.ql = diag.ql_prediction(s.v[s.sl[1]], s.dens[1], s.L, s.K0_beam, p.vb)
-        if stage == 3 and self.ql is not None:
-            hq = 1.0 / max(self.ql["v2"] - self.ql["v1"], 1e-3)
+        self.ln_fv.set_data(np.maximum(fb, self._f_floor), self.v_cent)
+        if stage >= 3 and (self.ql is None or self._frame % 15 == 0 or force):
+            self.ql = diag.ql_prediction(s)
+        if stage >= 3 and self.ql is not None:
+            hq = 1.0 / max(self.ql["v2"] - self.ql["v1"], 1e-3 * p.vb)
             self.ln_plat.set_data([hq, hq], [self.ql["v1"], self.ql["v2"]])
         else:
             self.ln_plat.set_data([], [])
 
-        # --- E(x) и δn_b(x)
+        # --- E(x), δn_b(x) и δn_i(x)
         Emax = np.abs(s.E).max()
-        self.ln_E.set_ydata(s.E[::self._xdec] / max(Emax, 1e-30))
-        dnb = s.ne_s[1][::self._xdec] - s.dens[1]
-        self.ln_nb.set_ydata(dnb / max(np.abs(dnb).max(), 1e-30))
-        self.s_E = f"max|E| = {Emax:.2e}   E₀ = 2|E_k| = {A:.2e}"
+        self.ln_E.set_ydata(s.E[::self._xdec] / max(Emax, 1e-300))
+        dnb = s.dens_grid[1][::self._xdec] - s.dens[1]
+        self.ln_nb.set_ydata(dnb / max(np.abs(dnb).max(), 1e-300))
+        self.s_E = f"max|E| = {fmt(Emax, 'В/м')}  E₀ = {fmt(A, 'В/м')}"
+        if s.m_i:
+            dni = s.ion_perturbation()[::self._xdec]
+            nmax = np.abs(dni).max()
+            self.ln_ni.set_ydata(dni / max(nmax, 1e-300))
+            self.s_E += f"  max|δn_i|/n_i = {nmax * 100:.1f}%"
 
         if not (right or force):
             return
-        # --- энергия
+        # --- энергия, Дж/м³
         if n > 1:
             st = max(1, n // 700)
             t = s.h_t[:n:st]
-            K0 = self.K0
             pos = lambda y: np.where(y > 0, y, np.nan)   # на лог. шкале ≤ 0 не рисуем
-            self.ln_WE.set_data(t, pos(s.h_WE[:n:st] / K0))
-            Wm = s.L * (2 * np.abs(s.h_Ek[:n:st, m - 1])) ** 2 / 4 / K0
+            self.ln_WE.set_data(t, pos(s.h_WE[:n:st]))
+            Wm = EPS0 * (2 * np.abs(s.h_Ek[:n:st, m - 1])) ** 2 / 4
             self.ln_Wm.set_data(t, pos(Wm))
-            self.ln_Kb.set_data(t, pos((s.h_K[0, 1] - s.h_K[:n:st, 1]) / K0))
-            self.ln_Kp.set_data(t, pos((s.h_K[:n:st, 0] - s.h_K[0, 0]) / K0))
+            self.ln_Kb.set_data(t, pos(s.h_K[0, 1] - s.h_K[:n:st, 1]))
+            self.ln_Kp.set_data(t, pos(s.h_K[:n:st, 0] - s.h_K[0, 0]))
             # теоретическая прямая: проходит через энергию главной волны в t1 = 4/γ
             t1 = 4.0 / s.gamma_ref
             if self.th_anchor is None and s.t > t1:
-                j = int(round(t1 / p.dt))
-                self.th_anchor = (s.h_t[j], s.L * (2 * abs(s.h_Ek[j, m - 1])) ** 2 / 4 / K0)
+                j = min(int(round(t1 / s.dt)), n - 1)
+                self.th_anchor = (s.h_t[j], EPS0 * (2 * abs(s.h_Ek[j, m - 1])) ** 2 / 4)
             if self.th_anchor is not None:
                 ta, Wa = self.th_anchor
                 tt = np.array([ta - 2 / s.gamma_ref, self.T_view])
-                self.ln_th.set_data(tt, Wa * np.exp(2 * s.gamma_ref * (tt - ta)))
+                with np.errstate(over="ignore"):
+                    self.ln_th.set_data(tt, Wa * np.exp(np.minimum(2 * s.gamma_ref * (tt - ta), 600.0)))
             else:
                 self.ln_th.set_data([], [])
             if tr.sat is not None:
-                self.pt_sat.set_data([tr.sat["t"]], [s.L * tr.sat["A"] ** 2 / 4 / K0])
+                self.pt_sat.set_data([tr.sat["t"]], [EPS0 * tr.sat["A"] ** 2 / 4])
             else:
                 self.pt_sat.set_data([], [])
             # --- спектрограмма: дописываем новые столбцы
             col_dt = self.T_view / self.NT
             while self.sg_col < self.NT and (self.sg_col + 0.5) * col_dt <= s.t:
-                j = min(int(round((self.sg_col + 0.5) * col_dt / p.dt)), n - 1)
+                j = min(int(round((self.sg_col + 0.5) * col_dt / s.dt)), n - 1)
                 a2 = (2 * np.abs(s.h_Ek[j])) ** 2 / tr.A_trap ** 2
                 self.sg[:, self.sg_col] = np.log10(np.maximum(a2, 1e-12))
                 self.sg_col += 1
@@ -658,15 +762,15 @@ class MainWindow:
         if stage >= 2 and self.modes_meas is None:
             self.modes_meas = diag.measure_modes(s, min_frac=0.6)
         if self.modes_meas:
-            self.pt_gk_meas.set_data([d["k"] / s.k_max for d in self.modes_meas],
+            self.pt_gk_meas.set_data([d["k"] for d in self.modes_meas],
                                      [d["g"] for d in self.modes_meas])
         else:
             self.pt_gk_meas.set_data([], [])
 
-        # --- спектр сейчас (вертикальные «палочки»)
-        amp2 = (s.mode_amplitudes()[:s.m_store]) ** 2 / tr.A_trap ** 2
-        kk = s.k_modes[1:s.m_store + 1] / s.k_max
-        base = 1e-12
+        # --- спектр сейчас (вертикальные «палочки»), (В/м)²
+        amp2 = (s.mode_amplitudes()[:s.m_store]) ** 2
+        kk = s.k_modes[1:s.m_store + 1]
+        base = 1e-12 * tr.A_trap ** 2
         xs = np.repeat(kk, 3)
         ys = np.empty_like(xs)
         ys[0::3] = base
@@ -694,63 +798,70 @@ class MainWindow:
 
     # ---------------------------------------------------------------- тексты
     def _numbers_text(self, A):
-        s, p, tr = self.sim, self.params, self.tr
+        """Таблица чисел (все величины в СИ). Строки, начинающиеся с «§», — заголовки."""
+        s, p, tr, I = self.sim, self.params, self.tr, self.info
         g = s.gamma_ref
+        wp = s.wpe
+        gph = float(lorentz_gamma(s.v_phase))
         L = []
+        L.append(f"§ПЛАЗМА n_p={sci(p.n_p, 2)} м⁻³ T_e={sci(p.T_e, 2)} К")
+        L.append(f" f_p={fmt(I['fpe'], 'Гц')} ω_p={sci(wp)} с⁻¹ λ_D={fmt(I['lambda_D'], 'м')} "
+                 f"ν_ei/γ={I['nu_ei'] / g:.0e}")
         if p.scenario == "beam":
             a = p.alpha
-            L.append(f"§ПАРАМЕТРЫ α=n_b/n_p={a:.4g} v_b={p.vb:.2f} Δv/v_b={p.dvb:.2f}")
-            L.append("§ТЕОРИЯ  1 − 1/ω² − α/(ω − k·v_b)² = 0")
-            L.append(f" k_max = {s.k_max:.4f} ω_p/v₀  (k·v_b/ω_p = {s.k_max * p.vb:.3f})")
-            L.append(f" γ_max = {s.gamma_max:.4f} ω_p  ω_r = {s.omega_r:.4f} ω_p")
-            gh, gw = disp.gamma_hint(a), disp.gamma_weak_beam(a)
-            L.append(f" подсказка (√3/2)·α^⅓      {gh:.4f} {_pct(gh / s.gamma_max - 1)}")
-            L.append(f" слабый пучок (√3/2)(α/2)^⅓ {gw:.4f} {_pct(gw / s.gamma_max - 1)}")
-            if p.dvb > 0:
-                L.append(f" тёплый пучок (кинетика): γ = {g:.4f}, мода {s.m_main}")
+            L.append(f"§ПУЧОК n_b/n_p={a:.4g} v_b={sci(p.vb)} м/с={I['beta_b']:.3f}c γ_b={I['gamma_b']:.4f}")
+            L.append("§ТЕОРИЯ  1 − ω_p²/ω² − ω_b²/(ω − k·v_b)² = 0")
+            L.append(f" k_max={sci(s.k_max)} рад/м (λ={fmt(2 * np.pi / s.k_max, 'м')}) kv_b/ω_p={s.k_max * p.vb / wp:.3f}")
+            L.append(f" γ_max={sci(s.gamma_max)} с⁻¹ = {s.gamma_max / wp:.4f}·ω_p")
+            gh, gw = disp.gamma_hint(a, wp), disp.gamma_weak_beam(a, wp, I["gamma_b"])
+            L.append(f" подсказка (√3/2)(n_b/n_p)^⅓ω_p  {sci(gh)} {_pct(gh / s.gamma_max - 1)}")
+            L.append(f" (√3/2)(n_b/2n_p)^⅓ω_p/γ_b       {sci(gw)} {_pct(gw / s.gamma_max - 1)}")
+            L.append(f" с температурой (кинетика): γ={sci(g)} с⁻¹, мода m={s.m_main}")
         else:
-            L.append(f"§ПАРАМЕТРЫ потоки ±{p.vb / 2:.2f}·v₀, Δv/v_b = {p.dvb:.2f}")
-            L.append("§ТЕОРИЯ  1 − 1/(ω−ku)² − 1/(ω+ku)² = 0, u=v_b/2")
-            L.append(f" k_max = {s.k_max:.4f}   γ_max = {s.gamma_max:.4f} ω_p1")
-            L.append(" γ_max = ω_p1/2 = ω_p,полн/(2√2);  ω_r = 0")
-        L.append(f"§СЧЁТ  t = {s.t:.1f}/ω_p, главная мода m = {s.m_main}")
+            L.append(f"§ПОТОКИ ±v_b/2 = ±{sci(p.vb / 2)} м/с, Δv = {sci(p.dvb, 2)} м/с")
+            L.append("§ТЕОРИЯ 1 − ω_p1²/(ω−ku)² − ω_p1²/(ω+ku)² = 0")
+            L.append(f" k_max={sci(s.k_max)} рад/м (λ={fmt(2 * np.pi / s.k_max, 'м')})")
+            L.append(f" γ_max={sci(s.gamma_max)} с⁻¹ = {s.gamma_max / wp:.4f}·ω_p1; ω_r=0")
+        L.append(f"§СЧЁТ  t={fmt(s.t, 'с')} = {s.t * wp:.0f}/ω_p")
         if tr.gamma_meas is not None:
             fz = "" if tr.gamma_frozen else " …"
-            L.append(f" γ_изм = d(ln E₀)/dt = {tr.gamma_meas:.4f} {_pct(tr.gamma_meas / g - 1)}{fz}")
+            L.append(f" γ_изм=d(lnE₀)/dt={sci(tr.gamma_meas)} с⁻¹ {_pct(tr.gamma_meas / g - 1)}{fz}")
         else:
             L.append(" γ_изм: ждём конца затравки (t > 4/γ)")
         kk = s.k_modes[s.m_main]
-        wB = np.sqrt(kk * A)
-        L.append(f" E₀ = 2|E_k| = {A:.3e}  ω_B = √(kE₀) = {wB:.3f}")
-        L.append(f" ω_B/γ = {wB / g:.2f}   (захват при ω_B/γ ≈ 1.77)")
+        wB = float(diag.bounce_frequency(A, kk, gph))
+        L.append(f" E₀={fmt(A, 'В/м')} ω_B=√(ekE₀/m)={sci(wB)} с⁻¹ ω_B/γ={wB / g:.2f}")
         if tr.sat is not None:
             Es = tr.sat["A"]
-            L.append(f"§НАСЫЩЕНИЕ  t = {tr.sat['t']:.1f}/ω_p")
-            L.append(f" E_sat = {Es:.4f}  ↔ теория 3.12γ²/k = {tr.A_trap:.4f}")
-            L.append(f" ω_B/γ = {np.sqrt(kk * Es) / g:.2f}  W_E/K_b0 = "
-                     f"{tr.sat['WE'] / self.K0 * 100:.1f}%")
-            if tr.bounce is not None and p.scenario == "beam":
-                L.append(f" период колебаний {tr.bounce:.1f} ↔ 2π/ω_B = "
-                         f"{2 * np.pi / np.sqrt(kk * Es):.1f}")
+            wBs = float(diag.bounce_frequency(Es, kk, gph))
+            L.append(f"§НАСЫЩЕНИЕ t={fmt(tr.sat['t'], 'с')}: E_sat={fmt(Es, 'В/м')}")
+            L.append(f" теория захвата 3.12γ²m/(ek)={fmt(tr.A_trap, 'В/м')} ω_B/γ={wBs / g:.2f}")
+            if tr.bounce is not None and p.scenario == "beam" and not s.m_i:
+                L.append(f" период колебаний {fmt(tr.bounce, 'с')} ↔ 2π/ω_B={fmt(2 * np.pi / wBs, 'с')}")
         else:
-            L.append(f" теория захвата: E_sat ≈ 3.12γ²/k = {tr.A_trap:.4f}")
+            L.append(f" захват при ω_B/γ≈1.77: E_sat≈3.12γ²m/(ek)={fmt(tr.A_trap, 'В/м')}")
         n = s.h_n
         if n > 0:
             K0 = self.K0
             WE = s.h_WE[n - 1]
-            dKb = s.h_K[n - 1, 1] - s.h_K[0, 1]
-            dKp = s.h_K[n - 1, 0] - s.h_K[0, 0]
-            err = (WE - s.h_WE[0] + dKb + dKp) / K0
-            L.append("§ЭНЕРГИЯ (доли K_b0 = ½·n_b·L·v_b²)")
-            L.append(f" поле {WE / K0 * 100:4.1f}%  пучок {dKb / K0 * 100:+5.1f}%  "
-                     f"плазма {dKp / K0 * 100:+5.1f}%")
-            L.append(f" невязка ΔW_E + ΔK_b + ΔK_p = {err * 100:+.3f}%")
-        if tr.stage == 3 and self.ql is not None and p.scenario == "beam":
+            dK = s.h_K[n - 1] - s.h_K[0]
+            err = (WE - s.h_WE[0] + dK.sum()) / K0
+            L.append(f"§ЭНЕРГИЯ K_b0=n_b(γ_b−1)mc²={fmt(K0, 'Дж/м³')}")
+            ion = f" ионы {dK[2] / K0 * 100:+.2f}%" if s.m_i else ""
+            L.append(f" поле {fmt(WE, 'Дж/м³')}={WE / K0 * 100:.1f}% пучок {dK[1] / K0 * 100:+.1f}% "
+                     f"плазма {dK[0] / K0 * 100:+.1f}%")
+            L.append(f" невязка ΔW_E+ΣΔK = {err * 100:+.3f}% K_b0{ion}")
+        if tr.stage >= 3 and self.ql is not None and p.scenario == "beam":
             q = self.ql
-            WEavg = s.h_WE[max(0, n - int(20 / p.dt)):n].mean()
-            L.append(f"§КВАЗИЛИНЕЙНО: плато [{q['v1']:.2f}, {q['v2']:.2f}]·v₀")
-            L.append(f" W_E=(K_b0−K_плато)/2 = {q['WE_ql'] / self.K0 * 100:.1f}% "
-                     f"↔ счёт {WEavg / self.K0 * 100:.1f}%")
+            WEavg = s.h_WE[max(0, n - int(20 / p.dt_wp)):n].mean()
+            L.append(f"§КВАЗИЛИНЕЙНО плато [{sci(q['v1'], 2)}, {sci(q['v2'], 2)}] м/с")
+            L.append(f" W_E=(K_b0−K_плато)/2={q['WE_ql'] / self.K0 * 100:.1f}% ↔ счёт "
+                     f"{WEavg / self.K0 * 100:.1f}%")
+        if s.m_i:
+            W = diag.wave_level(s)
+            dni = s.ion_perturbation()
+            L.append(f"§ИОНЫ {ION_LABEL[p.ion]} m_i/m_e={I['mass_ratio']:.0f} c_s={sci(I['cs'], 2)} м/с")
+            L.append(f" W=ε₀⟨E²⟩/2nk_BT_e: max {W.max():.3f}  δn_i/n_i: min {dni.min() * 100:+.1f}%")
         return "\n".join(L)
 
     def _explanation(self):
@@ -759,6 +870,14 @@ class MainWindow:
         chars = max(28, int(width_px / (7.6 * self.fig.dpi / 72 * 0.56)))
         wrap = lambda t: "\n".join(textwrap.fill(par, chars) for par in t.split("\n"))
         hwrap = lambda t: textwrap.fill(t, int(chars * 0.8))
+        if self.explain_key == "help":
+            pr = presets.PRESETS[self.preset_idx]
+            body = ("СРЕДА: " + pr["note"] + "\n\n"
+                    "Ползунки задают параметры в СИ; счёт перезапускается, когда мышь "
+                    "отпущена. «Среда ▸» переключает готовые наборы реальной плазмы. "
+                    "«Ионы подвижны» — ионы становятся частицами с настоящей массой: "
+                    "после насыщения появляются каверны.\n\n" + texts.HELP_HINT)
+            return hwrap("СПРАВКА"), wrap(body)
         if self.explain_key is not None:
             head, body = texts.PANELS[self.explain_key]
             body += "\n\n(Пробел — продолжить; нажмите на другой график, чтобы прочитать о нём.)"
@@ -767,16 +886,25 @@ class MainWindow:
         stages = texts.STAGES_BEAM if p.scenario == "beam" else texts.STAGES_TWO
         head, body = stages[tr.stage]
         km = s.k_modes[s.m_main]
-        A = 2 * abs(s.Ek[s.m_main]) / p.ng
+        gph = float(lorentz_gamma(s.v_phase))
+        A = s.main_amplitude()
         sat = tr.sat or {}
         Tb = "≈ 2π/ω_B"
         if tr.bounce is not None and sat:
-            Tb = f"{tr.bounce:.1f}/ω_p (2π/ω_B = {2 * np.pi / np.sqrt(km * sat['A']):.1f})"
-        gm = f"{tr.gamma_meas:.4f}" if tr.gamma_meas is not None else "(ещё измеряется)"
-        body = body.format(g=s.gamma_ref, t1=4 / s.gamma_ref, vb=p.vb,
-                           vph=s.omega_ref / km, gm=gm, wB=np.sqrt(km * A),
-                           Es=sat.get("A", 0), ts=sat.get("t", 0), Et=tr.A_trap, Tb=Tb)
-        return hwrap(head), wrap(body) + "\n\n" + wrap(texts.HELP_HINT)
+            wBs = float(diag.bounce_frequency(sat["A"], km, gph))
+            Tb = f"{fmt(tr.bounce, 'с')} (2π/ω_B = {fmt(2 * np.pi / wBs, 'с')})"
+        gm = f"{sci(tr.gamma_meas)} с⁻¹" if tr.gamma_meas is not None else "(ещё измеряется)"
+        kw = dict(N=tr.n_stages, g=f"{sci(s.gamma_ref)} с⁻¹", t1=fmt(4 / s.gamma_ref, "с"),
+                  vb=f"{sci(p.vb)} м/с", vph=f"{sci(s.v_phase)} м/с", gm=gm,
+                  wB=f"{sci(float(diag.bounce_frequency(A, km, gph)))} с⁻¹",
+                  Es=fmt(sat.get("A", 0.0), "В/м"), ts=fmt(sat.get("t", 0.0), "с"),
+                  Et=fmt(tr.A_trap, "В/м"), Tb=Tb, ion=ION_LABEL[p.ion],
+                  ions_hint=texts.IONS_HINT if s.m_i else "", dni="", dnmin="", Wmax="")
+        if s.m_i:
+            dni = s.ion_perturbation()
+            kw.update(dni=f"{np.sqrt(np.mean(dni ** 2)) * 100:.1f}%", dnmin=f"{dni.min() * 100:+.0f}%",
+                      Wmax=f"{diag.wave_level(s).max():.2f}")
+        return hwrap(head.format(N=tr.n_stages)), wrap(body.format(**kw)) + "\n\n" + wrap(texts.HELP_HINT)
 
     # ================================================================ действия
     def _set_play_label(self):
@@ -801,6 +929,7 @@ class MainWindow:
         self._pause("шаг")
         self.sim.step(int(self.s_speed.val))
         self.tr.update()
+        self._record_xt()
         self._last_stage = self.tr.stage
         self._update_artists(force=True)
         self.blit.update(force=True)
@@ -817,7 +946,9 @@ class MainWindow:
         col_dt = self.T_view / self.NT
         self.sg_col = min(self.sg_col, int(s.t / col_dt))
         self.sg[:, self.sg_col:] = -12.0
-        self._pause(f"перемотано на t = {s.t:.1f}")
+        keep = sum(1 for t in self.xt_t if t <= s.t)
+        del self.xt_t[keep:], self.xt_W[keep:], self.xt_ni[keep:]
+        self._pause(f"перемотано на t = {fmt(s.t, 'с')}")
         self._update_artists(force=True)
         self.blit.update(force=True)
 
@@ -833,7 +964,7 @@ class MainWindow:
         self.blit.update(force=True)
 
     def show_help(self):
-        self.explain_key = None
+        self.explain_key = "help"
         self._pause("справка — в правой нижней панели")
         self._update_artists(force=True)
         self.blit.update(force=True)
@@ -841,20 +972,31 @@ class MainWindow:
     def open_theory(self):
         from .theory_window import TheoryWindow
         p = self.params
-        self.children.append(TheoryWindow(alpha=p.alpha, vb=p.vb, dvb=p.dvb))
+        self.children.append(TheoryWindow(n_p=p.n_p, T_e=p.T_e, alpha=p.alpha, vb=p.vb, dvb=p.dvb))
 
     def open_single(self):
         from .single_wave_window import SingleWaveWindow
         p = self.params
-        self.children.append(SingleWaveWindow(alpha=p.alpha, dvb=p.dvb))
+        self.children.append(SingleWaveWindow(n_p=p.n_p, alpha=p.alpha, vb=p.vb, dvb=p.dvb))
 
     def open_formulas(self):
         from .formulas_window import FormulasWindow
-        self.children.append(FormulasWindow())
+        self.children.append(FormulasWindow(params=self.params))
 
     def open_table(self):
         from .table_window import TableWindow
         self.children.append(TableWindow(base=self.params))
+
+    def open_solitons(self):
+        from .soliton_window import SolitonWindow
+        p = self.params
+        pr = presets.PRESETS[self.preset_idx]
+        self.children.append(SolitonWindow(n_p=p.n_p, T_e=p.T_e, T_i=p.T_i, ion=pr["ion"],
+                                           alpha=p.alpha, vb=p.vb))
+
+    def open_analysis(self):
+        from .analysis_window import AnalysisWindow
+        self.children.append(AnalysisWindow(self))
 
     # ================================================================ события
     def _on_key(self, event):
