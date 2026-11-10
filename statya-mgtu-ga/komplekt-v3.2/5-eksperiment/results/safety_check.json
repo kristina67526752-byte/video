@@ -1,0 +1,20 @@
+{
+ "case_id": "S04-C00000",
+ "true_safety": false,
+ "meter": true,
+ "true_d1": 33.51429989640146,
+ "v2": {
+  "d1_outcome": "false",
+  "d1_time": 22.366718287254223,
+  "n_alarms": 0,
+  "first_alarm": null,
+  "first_key": "None"
+ },
+ "v3": {
+  "d1_outcome": "manual",
+  "d1_time": 36.51429989640146,
+  "n_alarms": 1,
+  "first_alarm": 22.624311027259736,
+  "first_key": "('R1', 'unconfirmed', ('SAF', 'END'), ('FUEL', 'START'))"
+ }
+}

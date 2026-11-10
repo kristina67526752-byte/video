@@ -1,0 +1,7 @@
+{
+ "seed": 1020,
+ "scenario": "GATE",
+ "bad_term": "GATE-T00",
+ "n_forged": 20,
+ "flag_P_h": 15.352889934577025
+}
