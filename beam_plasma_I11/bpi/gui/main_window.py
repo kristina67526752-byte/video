@@ -336,7 +336,7 @@ class MainWindow:
 
     def _set_env_label(self):
         pr = presets.PRESETS[self.preset_idx]
-        name = pr["name"].split(" (")[0]
+        name = pr["name"].split(" (")[0].replace(" у Земли", "")
         self.b_env.label.set_text(f"Среда ▸ {name}")
 
     def next_preset(self, idx=None):
