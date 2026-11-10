@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
 Запуск интерактивной модели «Пучково-плазменная неустойчивость» (вариант И11).
+Все величины в программе — в единицах СИ.
 
 Самый простой способ: открыть этот файл в IDLE и нажать F5 (Run → Run Module).
 Файл должен лежать в папке проекта рядом с папкой bpi/.
@@ -9,9 +10,13 @@
     python run.py                      главное окно (PIC-модель в реальном времени)
     python run.py --window theory      окно линейной теории γ(k)
     python run.py --window single      одноволновая модель (огибающая + частицы)
+    python run.py --window solitons    уравнения Захарова: каверны и солитоны
     python run.py --window table       таблица амплитуд насыщения
     python run.py --window formulas    все формулы по страницам
-    python run.py --alpha 0.02 --vb 1.5 --dv 0.1
+    python run.py --alpha 0.02 --vb 2e7 --dv 1e6     n_b/n_p, v_b [м/с], Δv_b [м/с]
+    python run.py --np 1e14 --Te 1.5e6               n_p [м⁻³], T_e [К]
+    python run.py --preset corona      готовая среда: lab, iono, corona, wind, reb
+    python run.py --ions               подвижные ионы (каверны после насыщения)
     python run.py --two-stream         встречные пучки
     python run.py --npart 32768        вдвое меньше частиц — для слабого компьютера
     python run.py --light              светлая тема (для снимков в отчёт)
@@ -82,10 +87,15 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--window", default="main",
-                    choices=["main", "theory", "single", "table", "formulas"])
+                    choices=["main", "theory", "single", "solitons", "table", "formulas"])
+    ap.add_argument("--preset", default="lab", choices=["lab", "iono", "corona", "wind", "reb"],
+                    help="готовый набор параметров реальной плазмы")
+    ap.add_argument("--np", type=float, default=None, help="концентрация плазмы n_p, м⁻³")
+    ap.add_argument("--Te", type=float, default=None, help="температура электронов T_e, К")
     ap.add_argument("--alpha", type=float, default=0.01, help="n_b/n_p (0.001…0.1)")
-    ap.add_argument("--vb", type=float, default=1.0, help="скорость пучка v_b/v₀ (0.5…2)")
-    ap.add_argument("--dv", type=float, default=0.0, help="разброс скоростей пучка Δv/v_b")
+    ap.add_argument("--vb", type=float, default=None, help="скорость пучка v_b, м/с (< 2.9e8)")
+    ap.add_argument("--dv", type=float, default=0.0, help="разброс скоростей пучка Δv_b, м/с")
+    ap.add_argument("--ions", action="store_true", help="подвижные ионы")
     ap.add_argument("--two-stream", action="store_true", help="встречные пучки")
     ap.add_argument("--npart", type=int, default=65536, help="макрочастиц каждого сорта")
     ap.add_argument("--light", action="store_true", help="светлая тема")
@@ -98,26 +108,33 @@ def main():
     import matplotlib.pyplot as plt
     from bpi.gui import style
     from bpi.pic import PICParams
+    from bpi import presets
 
     style.use("light" if a.light else "dark")
-    p = PICParams(scenario="two_stream" if a.two_stream else "beam", alpha=a.alpha,
-                  vb=a.vb, dvb=a.dv, npart=a.npart)
+    pr = presets.get(a.preset)
+    p = PICParams(scenario="two_stream" if a.two_stream else "beam",
+                  n_p=a.np or pr["n_p"], T_e=a.Te or pr["T_e"], T_i=pr["T_i"],
+                  alpha=a.alpha, vb=a.vb or pr["vb"], dvb=a.dv,
+                  ion=pr["ion"] if a.ions else "none", npart=a.npart)
     keep = None
     if a.window == "main":
         from bpi.gui.main_window import MainWindow
-        keep = MainWindow(p, theme="light" if a.light else "dark")
+        keep = MainWindow(p, theme="light" if a.light else "dark", preset=a.preset)
     elif a.window == "theory":
         from bpi.gui.theory_window import TheoryWindow
-        keep = TheoryWindow(alpha=a.alpha, vb=a.vb, dvb=a.dv)
+        keep = TheoryWindow(n_p=p.n_p, T_e=p.T_e, alpha=p.alpha, vb=p.vb, dvb=p.dvb)
     elif a.window == "single":
         from bpi.gui.single_wave_window import SingleWaveWindow
-        keep = SingleWaveWindow(alpha=a.alpha, dvb=a.dv)
+        keep = SingleWaveWindow(n_p=p.n_p, alpha=p.alpha, vb=p.vb, dvb=p.dvb)
+    elif a.window == "solitons":
+        from bpi.gui.soliton_window import SolitonWindow
+        keep = SolitonWindow(n_p=p.n_p, T_e=p.T_e, T_i=p.T_i, ion=pr["ion"], alpha=p.alpha, vb=p.vb)
     elif a.window == "table":
         from bpi.gui.table_window import TableWindow
         keep = TableWindow(base=p)
     else:
         from bpi.gui.formulas_window import FormulasWindow
-        keep = FormulasWindow()
+        keep = FormulasWindow(params=p)
     print("Окно модели открыто. Закройте его, чтобы завершить программу.")
     plt.show()
     return keep

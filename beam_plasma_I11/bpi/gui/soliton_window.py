@@ -76,7 +76,7 @@ class SolitonWindow:
         self.l_n = anim(ax.plot([], [], color=C["ion"], lw=1.6, label="концентрация δn/n")[0])
         self.l_fit = anim(ax.plot([], [], color=C["text"], lw=1.0, ls="--",
                                   label="солитон sech² той же высоты (теория)")[0])
-        ax.legend(loc="upper right", fontsize=7.5, ncol=3)
+        ax.legend(loc="lower left", fontsize=7.5, ncol=3)
 
         ax = self.ax_xt
         ax.set_title("Карта x–t уровня поля W", loc="left")
@@ -169,8 +169,8 @@ class SolitonWindow:
         self._xdec = z.ng // 256
         ax = self.ax_p
         ax.set_xlim(0, z.L)
-        top = 3.2 * W0 if self.scenario == SCENARIOS[0] else 1.35 * W0
-        ax.set_ylim(-0.75 * top, top)
+        top = 6.0 * W0 if self.scenario == SCENARIOS[0] else 1.35 * W0
+        ax.set_ylim(-0.45 * top, top)
         self.ax_xt.set_xlabel(f"координата x, {self.sc_x.label}")
         self.ax_xt.xaxis.set_major_formatter(self.sc_x.formatter())
         self.ax_xt.set_ylabel(f"время t, {self.sc_t.label}")
