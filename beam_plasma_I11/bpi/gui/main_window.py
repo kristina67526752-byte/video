@@ -14,6 +14,7 @@ import math
 import os
 import textwrap
 import time
+import warnings
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -182,8 +183,10 @@ class MainWindow:
         # сама картинка спектрограммы копируется в пиксели (см. _raw), а этот
         # невидимый imshow нужен только для цветовой шкалы и подписей осей
         self._sg_cmap = style.seq_cmap()
-        self.im_sg = ax.imshow(np.zeros((2, 2)), origin="lower", aspect="auto",
-                               cmap=self._sg_cmap, vmin=-9, vmax=0.5, alpha=0.0)
+        with warnings.catch_warnings():          # пустая заготовка: пределы осей зададим в reset()
+            warnings.simplefilter("ignore")
+            self.im_sg = ax.imshow(np.zeros((2, 2)), origin="lower", aspect="auto", extent=[0, 1, 0, 1],
+                                   cmap=self._sg_cmap, vmin=-9, vmax=0.5, alpha=0.0)
         self._sg_lut = (self._sg_cmap(np.linspace(0, 1, 256))[:, :3] * 255).astype(np.uint8)
 
         # --- γ(k) и спектр (общая ось k)
