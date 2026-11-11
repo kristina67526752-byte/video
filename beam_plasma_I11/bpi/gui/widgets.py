@@ -16,8 +16,6 @@ def _decades(mults, e0, e1):
 
 # «Круглые» значения параметров (СИ)
 ALPHAS = [v for v in _decades((1, 1.5, 2, 3, 5, 7), -3, -2) if v <= 0.1] + [0.1]   # n_b/n_p
-DENSITIES = _decades((1, 2, 5), 6, 21) + [1e22]                                      # n_p, м⁻³
-TEMPERATURES = _decades((1, 1.5, 2, 3, 5, 7), 3, 6) + [1e7, 1.5e7, 2e7, 3e7]         # T_e, К
 VELOCITIES = ([2e6, 3e6, 4e6, 5e6, 6e6, 8e6]
               + [1e7, 1.2e7, 1.5e7, 2e7, 2.5e7, 3e7, 4e7, 5e7, 6e7, 8e7]
               + [1e8, 1.2e8, 1.5e8, 1.8e8, 2e8, 2.2e8, 2.4e8, 2.6e8, 2.7e8, 2.82e8, 2.9e8])  # v_b, м/с

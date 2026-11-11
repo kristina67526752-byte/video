@@ -162,6 +162,48 @@ class ParagraphText:
         self._key = None
         self.img = None
 
+    def fit(self, text, w_px, h_px, dpi=None):
+        """Разбить текст на строки по ИЗМЕРЕННОЙ ширине букв так, чтобы он целиком
+        поместился в прямоугольник w_px × h_px; что не влезло по высоте — отрезается
+        с многоточием. Так текст никогда не выходит за край панели."""
+        dpi = dpi or self.dpi
+        key = (dpi, self.size, self.weight)
+        if getattr(self, "_mkey", None) != key:
+            fig = Figure(figsize=(1, 1), dpi=dpi)
+            FigureCanvasAgg(fig)
+            self._rend = fig.canvas.get_renderer()
+            from matplotlib.font_manager import FontProperties
+            self._fp = FontProperties(size=self.size, weight=self.weight)
+            self._wcache = {}
+            self._mkey = key
+
+        def width(word):
+            w = self._wcache.get(word)
+            if w is None:
+                w = self._rend.get_text_width_height_descent(word, self._fp, False)[0]
+                self._wcache[word] = w
+            return w
+        space = width("a a") - 2 * width("a")
+        limit = 0.97 * w_px
+        lines = []
+        for par in text.split("\n"):
+            cur, cw = [], 0.0
+            for word in par.split():
+                ww = width(word)
+                if cur and cw + space + ww > limit:
+                    lines.append(" ".join(cur))
+                    cur, cw = [word], ww
+                else:
+                    cw = cw + space + ww if cur else ww
+                    cur.append(word)
+            lines.append(" ".join(cur))
+        line_h = self.size * dpi / 72.0 * self.linespacing * 1.17
+        nmax = max(1, int(h_px / line_h))
+        if len(lines) > nmax:
+            lines = lines[:nmax]
+            lines[-1] = lines[-1].rstrip(" .,;:") + " …"
+        return "\n".join(lines)
+
     def render(self, text, w_px, h_px, dpi=None):
         dpi = dpi or self.dpi
         key = (text, int(w_px), int(h_px), dpi)

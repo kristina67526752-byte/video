@@ -22,7 +22,6 @@ from matplotlib.widgets import Slider, Button, RadioButtons, CheckButtons
 
 from .. import dispersion as disp
 from .. import diagnostics as diag
-from .. import presets
 from ..constants import (C_LIGHT, K_B, EPS0, M_E, ION_LABEL, lorentz_gamma, thermal_velocity)
 from ..pic import PIC, PICParams
 from ..units import Scale, fmt, sci
@@ -30,14 +29,13 @@ from . import style
 from .style import C, MONO
 from .blit import Blitter, Region, SliderBlit, blit_axes
 from .fastdraw import MonoText, ParagraphText, paste, rgb255
-from .widgets import (ListSlider, plain_slider, button, fmt_velocity, ALPHAS, DENSITIES,
-                      TEMPERATURES, VELOCITIES)
+from .widgets import ListSlider, plain_slider, button, fmt_velocity, ALPHAS, VELOCITIES
 from . import texts
 
 # 14.4×8.1 дюйма = 1440×810 точек: окно помещается на экран 13-дюймового ноутбука
 # (MacBook 1440×900); на большом экране его можно развернуть — всё масштабируется.
 FIGSIZE = (14.4, 8.1)
-SPLIT = 0.6          # доля панели внизу справа под таблицу чисел (остальное — пояснение)
+SPLIT = 0.55         # доля панели внизу справа под таблицу чисел (остальное — пояснение)
 XT_NX = 256          # точек по x в картах x–t (окно «Анализ»)
 
 RESULTS_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
@@ -50,11 +48,13 @@ def _pct(x):
 
 class MainWindow:
     def __init__(self, params: PICParams | None = None, theme="dark", maximize=True,
-                 preset="lab"):
+                 ion="H+", T_i=None):
         style.use(theme)
         self.theme = theme
         self.params = params or PICParams()
-        self.preset_idx = next((i for i, d in enumerate(presets.PRESETS) if d["key"] == preset), 0)
+        # сорт и температура ионов, которые включает галочка «ионы подвижны»
+        self.ion_species = self.params.ion if self.params.ion != "none" else ion
+        self.T_i = self.params.T_i if T_i is None else T_i
         self.fig = plt.figure(figsize=FIGSIZE)
         try:
             self.fig.canvas.manager.set_window_title(
@@ -79,7 +79,7 @@ class MainWindow:
         self.rt_status = MonoText(MONO, 8.5, C["text"], C["main"], C["surface"], dpi)
         self.rt_ph = MonoText(MONO, 9, C["text"], C["main"], C["surface"], dpi)
         self.rt_E = MonoText(MONO, 8, C["text"], C["main"], C["surface"], dpi)
-        self.rt_num = MonoText(MONO, 7, C["text"], C["main"], C["panel"], dpi)
+        self.rt_num = MonoText(MONO, 7.8, C["text"], C["main"], C["panel"], dpi)
         self.rt_exp_h = ParagraphText(8.5, C["text"], C["panel"], dpi, weight="bold")
         self.rt_exp = ParagraphText(7.6, C["text2"], C["panel"], dpi)
         self.s_status = self.s_ph = self.s_E = self.s_num = ""
@@ -130,6 +130,10 @@ class MainWindow:
         ax.grid(False)
         ax.set_facecolor(C["surface"])
         self.ln_sep = anim(ax.plot([], [], color=C["text"], lw=1.0, alpha=0.9)[0])
+        # подсветка каверны (всплеск поля в яме концентрации ионов)
+        from matplotlib.patches import Rectangle
+        self.band_ph = anim(ax.add_patch(Rectangle((0, 0), 0, 1, transform=ax.get_xaxis_transform(),
+                                                   fc=C["ion"], ec="none", alpha=0.22)))
         # легенда цветов — над осями, справа (под картинкой её бы закрыло)
         y = 0.918
         f.text(0.474, y, "— сепаратриса", color=C["text"], ha="right", va="bottom", fontsize=8)
@@ -153,6 +157,8 @@ class MainWindow:
         self.ln_E = anim(ax.plot([], [], color=C["field"], lw=1.4)[0])
         self.ln_nb = anim(ax.plot([], [], color=C["beam"], lw=1.0, alpha=0.9)[0])
         self.ln_ni = anim(ax.plot([], [], color=C["ion"], lw=1.5)[0])
+        self.band_E = anim(ax.add_patch(Rectangle((0, 0), 0, 1, transform=ax.get_xaxis_transform(),
+                                                  fc=C["ion"], ec=C["ion"], alpha=0.25)))
         # подписи линий (все три нормированы на свой максимум; сами максимумы — в строке слева)
         f.text(0.48, 0.425, "— E(x)", color=C["field"], ha="right", va="bottom", fontsize=8)
         self.lg_nb = f.text(0.446, 0.425, "— δn_b", color=C["beam"], ha="right",
@@ -229,30 +235,26 @@ class MainWindow:
         f = self.fig
         p = self.params
 
-        # три строки по два ползунка; значения — «круглые» числа в СИ
-        y1, y2, y3, h = 0.222, 0.196, 0.170, 0.018
+        # ползунки: параметры пучка из задания (n_b/n_p, v_b) + разброс скоростей + скорость счёта
+        y1, y2, h = 0.218, 0.182, 0.02
         xl, wl, xr, wr = 0.075, 0.115, 0.345, 0.105
         self.s_alpha = ListSlider(f, [xl, y1, wl, h], "n_b/n_p", ALPHAS, p.alpha,
                                   lambda v: f"{v:.3g}")
         self.s_vb = ListSlider(f, [xr, y1, wr, h], "v_b", VELOCITIES, p.vb, fmt_velocity)
         self.s_dv = plain_slider(f, [xl, y2, wl, h], "Δv_b/v_b", 0.0, 0.3, p.dvb / p.vb, 0.01)
-        self.s_np = ListSlider(f, [xr, y2, wr, h], "n_p", DENSITIES, p.n_p,
-                               lambda v: f"{sci(v, 2)} м⁻³")
-        self.s_Te = ListSlider(f, [xl, y3, wl, h], "T_e", TEMPERATURES, p.T_e,
-                               lambda v: f"{sci(v, 2)} К")
-        self.s_speed = plain_slider(f, [xr, y3, wr, h], "скорость", 1, 40, 5, 1)
+        self.s_speed = plain_slider(f, [xr, y2, wr, h], "скорость", 1, 40, 5, 1)
         self._sync_valtexts()
         self.s_speed.valtext.set_text("5 шаг/кадр")
-        for s_ in (self.s_alpha, self.s_vb, self.s_np, self.s_Te):
+        for s_ in (self.s_alpha, self.s_vb):
             s_.on_changed(self._on_slider)
         self.s_dv.on_changed(self._on_slider)
         self.s_speed.on_changed(lambda v: self.s_speed.valtext.set_text(f"{int(v)} шаг/кадр"))
         # ползунки перерисовывают только себя (иначе каждое движение = полная перерисовка)
         self._slider_blits = [SliderBlit(f, sl_, C["surface"])
                               for sl_ in (self.s_alpha.slider, self.s_vb.slider, self.s_dv,
-                                          self.s_np.slider, self.s_Te.slider, self.s_speed)]
+                                          self.s_speed)]
 
-        ax = f.add_axes([0.012, 0.075, 0.118, 0.07])
+        ax = f.add_axes([0.012, 0.06, 0.118, 0.075])
         style.style_widget_axes(ax)
         ax.set_title("Сценарий", fontsize=8, loc="left", color=C["text2"], pad=2)
         self.r_scen = RadioButtons(ax, ("пучок в плазме", "встречные пучки"),
@@ -263,7 +265,7 @@ class MainWindow:
             t.set_fontsize(8.3)
         self.r_scen.on_clicked(lambda lab: self._param_changed(restart_now=True))
 
-        ax = f.add_axes([0.136, 0.067, 0.132, 0.078])
+        ax = f.add_axes([0.136, 0.05, 0.132, 0.085])
         style.style_widget_axes(ax)
         ax.set_title("Показ и физика", fontsize=8, loc="left", color=C["text2"], pad=2)
         self.c_opts = CheckButtons(ax, ("сепаратриса", "пауза на стадиях", "ионы подвижны"),
@@ -275,31 +277,19 @@ class MainWindow:
 
         bt = lambda rect, label, cb, hl=False, fs=8.5: button(f, rect, label, cb, hl, fs)
 
-        self.b_env = bt([0.274, 0.108, 0.115, 0.04], "", lambda e: self.next_preset(), fs=7.8)
-        self.b_save = bt([0.274, 0.064, 0.115, 0.04], "Сохранить PNG", lambda e: self.save_png())
-        self.b_play = bt([0.395, 0.108, 0.073, 0.04], "|| Пауза", self._on_play, hl=True)
-        self.b_reset = bt([0.472, 0.108, 0.073, 0.04], "↺ Заново", lambda e: self.reset())
-        self.b_back = bt([0.395, 0.064, 0.073, 0.04], "◀ Назад", lambda e: self.back())
-        self.b_step = bt([0.472, 0.064, 0.073, 0.04], "Шаг ▶", lambda e: self.single_step())
-        self._set_env_label()
-        y, hh = 0.014, 0.038
-        names = (("Теория γ(k)", self.open_theory), ("Одна волна", self.open_single),
-                 ("Таблица E_sat", self.open_table), ("Солитоны", self.open_solitons),
-                 ("Анализ ω–k, x–t", self.open_analysis), ("Формулы", self.open_formulas),
-                 ("Справка", self.show_help))
-        widths = (0.072, 0.068, 0.08, 0.064, 0.098, 0.062, 0.059)
-        x = 0.012
-        self.b_windows = []
-        for (lab, cb), w in zip(names, widths):
-            self.b_windows.append(bt([x, y, w, hh], lab, (lambda e, cb=cb: cb()), fs=8))
-            x += w + 0.005
+        self.b_play = bt([0.278, 0.10, 0.085, 0.045], "|| Пауза", self._on_play, hl=True)
+        self.b_reset = bt([0.368, 0.10, 0.085, 0.045], "↺ Заново", lambda e: self.reset())
+        self.b_save = bt([0.458, 0.10, 0.087, 0.045], "Сохранить PNG", lambda e: self.save_png())
+        self.b_back = bt([0.278, 0.05, 0.085, 0.045], "◀ Назад", lambda e: self.back())
+        self.b_step = bt([0.368, 0.05, 0.085, 0.045], "Шаг ▶", lambda e: self.single_step())
+        self.b_an = bt([0.458, 0.05, 0.087, 0.045], "Анализ ω–k, x–t", lambda e: self.open_analysis(),
+                       fs=8)
 
     # ================================================================ параметры
     def _slider_values(self):
-        """Значения параметров (СИ) по положениям ползунков."""
+        """Значения параметров пучка (СИ) по положениям ползунков."""
         vb = self.s_vb.val
-        return dict(alpha=self.s_alpha.val, vb=vb, dvb=float(self.s_dv.val) * vb,
-                    n_p=self.s_np.val, T_e=self.s_Te.val)
+        return dict(alpha=self.s_alpha.val, vb=vb, dvb=float(self.s_dv.val) * vb)
 
     def _sync_valtexts(self):
         v = self._slider_values()
@@ -321,11 +311,9 @@ class MainWindow:
 
     def _current_params(self):
         scen = "two_stream" if self.r_scen.value_selected == "встречные пучки" else "beam"
-        pr = presets.PRESETS[self.preset_idx]
         ions_on = self.c_opts.get_status()[2]
-        v = self._slider_values()
-        return self.params.copy(scenario=scen, ion=pr["ion"] if ions_on else "none",
-                                T_i=pr["T_i"], **v)
+        return self.params.copy(scenario=scen, ion=self.ion_species if ions_on else "none",
+                                T_i=self.T_i, **self._slider_values())
 
     def _on_check(self, label):
         st = self.c_opts.get_status()
@@ -336,20 +324,6 @@ class MainWindow:
             self.reset()
         else:
             self.blit.update(force=True)
-
-    def _set_env_label(self):
-        pr = presets.PRESETS[self.preset_idx]
-        name = pr["name"].split(" (")[0].replace(" у Земли", "")
-        self.b_env.label.set_text(f"Среда ▸ {name}")
-
-    def next_preset(self, idx=None):
-        """Следующий набор параметров реальной плазмы (кнопка «Среда»)."""
-        self.preset_idx = (self.preset_idx + 1) % len(presets.PRESETS) if idx is None else idx
-        pr = presets.PRESETS[self.preset_idx]
-        self._set_env_label()
-        for s_, val in ((self.s_np, pr["n_p"]), (self.s_Te, pr["T_e"]), (self.s_vb, pr["vb"])):
-            s_.set_val(val)
-        self.reset()
 
     # ================================================================ запуск
     def reset(self):
@@ -366,7 +340,6 @@ class MainWindow:
         self.th_anchor = None
         self.status_msg = ""
         two = p.scenario == "two_stream"
-        pr = presets.PRESETS[self.preset_idx]
         if not two and p.vb < 4 * s.vte:
             self.status_msg = "v_b < 4·v_Te: пучок в тепловом «хвосте» плазмы — рост слабый"
 
@@ -491,9 +464,9 @@ class MainWindow:
         ions = f"ионы {ION_LABEL[p.ion]} подвижны" if s.m_i else "ионы неподвижны"
         I = self.info
         self.txt_sub.set_text(
-            f"1D PIC: {s.ns}×{s.N:,} макрочастиц · сетка {p.ng} узлов · Δt = {fmt(s.dt, 'с')} · "
-            f"ящик L = {fmt(s.L, 'м')} = {p.n_waves} длин волны · f_p = {fmt(I['fpe'], 'Гц')} · "
-            f"λ_D = {fmt(I['lambda_D'], 'м')} · {scen} · {ions} · среда: {pr['name']}"
+            f"n_p = {sci(p.n_p, 2)} м⁻³ · T_e = {sci(p.T_e, 2)} К · 1D PIC: {s.ns}×{s.N:,} макрочастиц · сетка {p.ng} узлов · Δt = {fmt(s.dt, 'с')} · "
+            f"L = {fmt(s.L, 'м')} = {p.n_waves} длин волны · f_p = {fmt(I['fpe'], 'Гц')} · "
+            f"λ_D = {fmt(I['lambda_D'], 'м')} · {scen} · {ions}"
             .replace(",", " "))
         self.ln_sep.set_visible(self.show_sep)
         self._update_artists(force=True)
@@ -677,9 +650,12 @@ class MainWindow:
         paste(buf, im[:, :int(SPLIT * bi.width) - 2 * pad], bi.x0 + pad, H - bi.y1 + pad)
         xe = bi.x0 + SPLIT * bi.width + pad
         we = bi.x1 - xe - pad
-        hh = 8.5 * dpi / 72 * 1.45 * (self.s_exp_h.count("\n") + 1) + 4
-        paste(buf, self.rt_exp_h.render(self.s_exp_h, we, hh, dpi), xe, H - bi.y1 + pad)
-        paste(buf, self.rt_exp.render(self.s_exp, we, bi.height - 2 * pad - hh, dpi),
+        # текст разбивается на строки по измеренной ширине и обрезается по высоте панели
+        head = self.rt_exp_h.fit(self.s_exp_h, we, 0.3 * bi.height, dpi)
+        hh = 8.5 * dpi / 72 * 1.6 * (head.count("\n") + 1) + 4
+        hb = bi.height - 2 * pad - hh
+        paste(buf, self.rt_exp_h.render(head, we, hh, dpi), xe, H - bi.y1 + pad)
+        paste(buf, self.rt_exp.render(self.rt_exp.fit(self.s_exp, we, hb, dpi), we, hb, dpi),
               xe, H - bi.y1 + pad + hh)
 
     # ================================================================ данные кадра
@@ -721,6 +697,17 @@ class MainWindow:
             nmax = np.abs(dni).max()
             self.ln_ni.set_ydata(dni / max(nmax, 1e-300))
             self.s_E += f"  max|δn_i|/n_i = {nmax * 100:.1f}%"
+        cav = self._find_cavern() if s.m_i else None
+        if cav is not None:
+            x0, half, Wm, dn = cav
+            for b in (self.band_ph, self.band_E):
+                b.set_x(x0 - half)
+                b.set_width(2 * half)
+            self.s_E = (f"КАВЕРНА x = {fmt(x0, 'м')}: поле {fmt(float(np.abs(s.E).max()), 'В/м')} "
+                        f"(W = {Wm:.2f}), δn_i = {dn * 100:+.0f}%")
+        else:
+            for b in (self.band_ph, self.band_E):
+                b.set_width(0)
 
         if not (right or force):
             return
@@ -799,92 +786,78 @@ class MainWindow:
                          f"{self._sps:4.0f} шаг/с  (счёт {self._ms_phys:.0f} мс, "
                          f"рисование {self._ms_draw:.0f} мс){msg}")
 
+    def _find_cavern(self):
+        """Каверна — место, где максимум усреднённого поля совпал с ямой концентрации
+        ионов. Условная граница: W = ε₀⟨E²⟩/(2n k_BT_e) > 0.3 и δn_i/n_i < −5 % в той же точке.
+        Возвращает (x, полуширина, W, δn_i/n_i) или None."""
+        s = self.sim
+        W = diag.wave_level(s)
+        i = int(np.argmax(W))
+        dn = s.ion_perturbation()
+        j0, j1 = max(i - 8, 0), min(i + 9, W.size)
+        dmin = float(dn[j0:j1].min())
+        if W[i] < 0.3 or dmin > -0.05:
+            return None
+        half = max(8 * s.lambda_D, 4 * s.dx)
+        return float(i * s.dx), half, float(W[i]), dmin
+
     # ---------------------------------------------------------------- тексты
     def _numbers_text(self, A):
-        """Таблица чисел (все величины в СИ). Строки, начинающиеся с «§», — заголовки."""
+        """Короткая таблица главных чисел (все в СИ). Строки с «§» — заголовки."""
         s, p, tr, I = self.sim, self.params, self.tr, self.info
-        g = s.gamma_ref
-        wp = s.wpe
+        g, wp = s.gamma_ref, s.wpe
         gph = float(lorentz_gamma(s.v_phase))
-        L = []
-        L.append(f"§ПЛАЗМА n_p={sci(p.n_p, 2)} м⁻³ T_e={sci(p.T_e, 2)} К")
-        L.append(f" f_p={fmt(I['fpe'], 'Гц')} ω_p={sci(wp)} с⁻¹ λ_D={fmt(I['lambda_D'], 'м')} "
-                 f"ν_ei/γ={I['nu_ei'] / g:.0e}")
-        if p.scenario == "beam":
-            a = p.alpha
-            L.append(f"§ПУЧОК n_b/n_p={a:.4g} v_b={sci(p.vb)} м/с={I['beta_b']:.3f}c γ_b={I['gamma_b']:.4f}")
-            L.append("§ТЕОРИЯ  1 − ω_p²/ω² − ω_b²/(ω − k·v_b)² = 0")
-            L.append(f" k_max={sci(s.k_max)} рад/м (λ={fmt(2 * np.pi / s.k_max, 'м')}) kv_b/ω_p={s.k_max * p.vb / wp:.3f}")
-            L.append(f" γ_max={sci(s.gamma_max)} с⁻¹ = {s.gamma_max / wp:.4f}·ω_p")
-            gh, gw = disp.gamma_hint(a, wp), disp.gamma_weak_beam(a, wp, I["gamma_b"])
-            L.append(f" подсказка (√3/2)(n_b/n_p)^⅓ω_p  {sci(gh)} {_pct(gh / s.gamma_max - 1)}")
-            L.append(f" (√3/2)(n_b/2n_p)^⅓ω_p/γ_b       {sci(gw)} {_pct(gw / s.gamma_max - 1)}")
-            L.append(f" с температурой (кинетика): γ={sci(g)} с⁻¹, мода m={s.m_main}")
-        else:
-            L.append(f"§ПОТОКИ ±v_b/2 = ±{sci(p.vb / 2)} м/с, Δv = {sci(p.dvb, 2)} м/с")
-            L.append("§ТЕОРИЯ 1 − ω_p1²/(ω−ku)² − ω_p1²/(ω+ku)² = 0")
-            L.append(f" k_max={sci(s.k_max)} рад/м (λ={fmt(2 * np.pi / s.k_max, 'м')})")
-            L.append(f" γ_max={sci(s.gamma_max)} с⁻¹ = {s.gamma_max / wp:.4f}·ω_p1; ω_r=0")
-        L.append(f"§СЧЁТ  t={fmt(s.t, 'с')} = {s.t * wp:.0f}/ω_p")
-        if tr.gamma_meas is not None:
-            fz = "" if tr.gamma_frozen else " …"
-            L.append(f" γ_изм=d(lnE₀)/dt={sci(tr.gamma_meas)} с⁻¹ {_pct(tr.gamma_meas / g - 1)}{fz}")
-        else:
-            L.append(" γ_изм: ждём конца затравки (t > 4/γ)")
         kk = s.k_modes[s.m_main]
+        L = [f"§ПЛАЗМА  f_p = {fmt(I['fpe'], 'Гц')}   λ_D = {fmt(I['lambda_D'], 'м')}",
+             f" ω_p = {sci(wp)} с⁻¹   ν_ei/γ = {I['nu_ei'] / g:.0e}"]
+        if p.scenario == "beam":
+            gh = disp.gamma_hint(p.alpha, wp)
+            L += [f"§ТЕОРИЯ  λ = {fmt(2 * np.pi / s.k_max, 'м')}   γ_b = {I['gamma_b']:.4f}",
+                  f" γ = {sci(g)} с⁻¹ = {g / wp:.4f}·ω_p",
+                  f" подсказка задания: {sci(gh)} с⁻¹ ({_pct(gh / g - 1)})"]
+        else:
+            L += [f"§ТЕОРИЯ  λ = {fmt(2 * np.pi / s.k_max, 'м')}",
+                  f" γ = {sci(g)} с⁻¹ = {g / wp:.4f}·ω_p1"]
+        L.append(f"§СЧЁТ  t = {fmt(s.t, 'с')} = {s.t * wp:.0f}/ω_p")
+        if tr.gamma_meas is not None:
+            L.append(f" γ_изм = {sci(tr.gamma_meas)} с⁻¹ ({_pct(tr.gamma_meas / g - 1)})"
+                     + ("" if tr.gamma_frozen else " …"))
+        else:
+            L.append(" γ_изм: ждём конца затравки")
         wB = float(diag.bounce_frequency(A, kk, gph))
-        L.append(f" E₀={fmt(A, 'В/м')} ω_B=√(ekE₀/m)={sci(wB)} с⁻¹ ω_B/γ={wB / g:.2f}")
+        L.append(f" E₀ = {fmt(A, 'В/м')}   ω_B/γ = {wB / g:.2f}")
         if tr.sat is not None:
             Es = tr.sat["A"]
             wBs = float(diag.bounce_frequency(Es, kk, gph))
-            L.append(f"§НАСЫЩЕНИЕ t={fmt(tr.sat['t'], 'с')}: E_sat={fmt(Es, 'В/м')}")
-            L.append(f" теория захвата 3.12γ²m/(ek)={fmt(tr.A_trap, 'В/м')} ω_B/γ={wBs / g:.2f}")
-            if tr.bounce is not None and p.scenario == "beam" and not s.m_i:
-                L.append(f" период колебаний {fmt(tr.bounce, 'с')} ↔ 2π/ω_B={fmt(2 * np.pi / wBs, 'с')}")
+            L += [f"§НАСЫЩЕНИЕ  t = {fmt(tr.sat['t'], 'с')}",
+                  f" E_sat = {fmt(Es, 'В/м')}   ω_B/γ = {wBs / g:.2f}",
+                  f" теория захвата: {fmt(tr.A_trap, 'В/м')}"]
         else:
-            L.append(f" захват при ω_B/γ≈1.77: E_sat≈3.12γ²m/(ek)={fmt(tr.A_trap, 'В/м')}")
+            L.append(f" теория захвата: E_sat ≈ {fmt(tr.A_trap, 'В/м')}")
         n = s.h_n
         if n > 0:
             K0 = self.K0
             WE = s.h_WE[n - 1]
             dK = s.h_K[n - 1] - s.h_K[0]
             err = (WE - s.h_WE[0] + dK.sum()) / K0
-            L.append(f"§ЭНЕРГИЯ K_b0=n_b(γ_b−1)mc²={fmt(K0, 'Дж/м³')}")
-            ion = f" ионы {dK[2] / K0 * 100:+.2f}%" if s.m_i else ""
-            L.append(f" поле {fmt(WE, 'Дж/м³')}={WE / K0 * 100:.1f}% пучок {dK[1] / K0 * 100:+.1f}% "
-                     f"плазма {dK[0] / K0 * 100:+.1f}%")
-            L.append(f" невязка ΔW_E+ΣΔK = {err * 100:+.3f}% K_b0{ion}")
+            L += [f"§ЭНЕРГИЯ  K_b0 = {fmt(K0, 'Дж/м³')}",
+                  f" поле {WE / K0 * 100:.1f}%  пучок {dK[1] / K0 * 100:+.1f}%  плазма {dK[0] / K0 * 100:+.1f}%",
+                  f" невязка {err * 100:+.3f}% K_b0"]
         if tr.stage >= 3 and self.ql is not None and p.scenario == "beam":
             q = self.ql
             WEavg = s.h_WE[max(0, n - int(20 / p.dt_wp)):n].mean()
-            L.append(f"§КВАЗИЛИНЕЙНО плато [{sci(q['v1'], 2)}, {sci(q['v2'], 2)}] м/с")
-            L.append(f" W_E=(K_b0−K_плато)/2={q['WE_ql'] / self.K0 * 100:.1f}% ↔ счёт "
-                     f"{WEavg / self.K0 * 100:.1f}%")
+            L.append(f"§БАЛАНС ПЛАТО  {q['WE_ql'] / self.K0 * 100:.1f}% ↔ счёт {WEavg / self.K0 * 100:.1f}%")
         if s.m_i:
-            W = diag.wave_level(s)
             dni = s.ion_perturbation()
-            L.append(f"§ИОНЫ {ION_LABEL[p.ion]} m_i/m_e={I['mass_ratio']:.0f} c_s={sci(I['cs'], 2)} м/с")
-            L.append(f" W=ε₀⟨E²⟩/2nk_BT_e: max {W.max():.3f}  δn_i/n_i: min {dni.min() * 100:+.1f}%")
+            L.append(f"§ИОНЫ {ION_LABEL[p.ion]}  W max {diag.wave_level(s).max():.2f}  "
+                     f"δn_i min {dni.min() * 100:+.1f}%")
         return "\n".join(L)
 
     def _explanation(self):
-        bi = self.ax_info.bbox
-        width_px = (1 - SPLIT) * bi.width - 0.012 * self.fig.bbox.width
-        chars = max(28, int(width_px / (7.6 * self.fig.dpi / 72 * 0.56)))
-        wrap = lambda t: "\n".join(textwrap.fill(par, chars) for par in t.split("\n"))
-        hwrap = lambda t: textwrap.fill(t, int(chars * 0.8))
-        if self.explain_key == "help":
-            pr = presets.PRESETS[self.preset_idx]
-            body = ("СРЕДА: " + pr["note"] + "\n\n"
-                    "Ползунки задают параметры в СИ; счёт перезапускается, когда мышь "
-                    "отпущена. «Среда ▸» переключает готовые наборы реальной плазмы. "
-                    "«Ионы подвижны» — ионы становятся частицами с настоящей массой: "
-                    "после насыщения появляются каверны.\n\n" + texts.HELP_HINT)
-            return hwrap("СПРАВКА"), wrap(body)
+        """Заголовок и текст пояснения (переносы строк делает _raw_right по ширине панели)."""
         if self.explain_key is not None:
             head, body = texts.PANELS[self.explain_key]
-            body += "\n\n(Пробел — продолжить; нажмите на другой график, чтобы прочитать о нём.)"
-            return hwrap(head), wrap(body)
+            return head, body + "\n(Пробел — продолжить.)"
         s, p, tr = self.sim, self.params, self.tr
         stages = texts.STAGES_BEAM if p.scenario == "beam" else texts.STAGES_TWO
         head, body = stages[tr.stage]
@@ -907,7 +880,7 @@ class MainWindow:
             dni = s.ion_perturbation()
             kw.update(dni=f"{np.sqrt(np.mean(dni ** 2)) * 100:.1f}%", dnmin=f"{dni.min() * 100:+.0f}%",
                       Wmax=f"{diag.wave_level(s).max():.2f}")
-        return hwrap(head.format(N=tr.n_stages)), wrap(body.format(**kw)) + "\n\n" + wrap(texts.HELP_HINT)
+        return head.format(N=tr.n_stages), body.format(**kw)
 
     # ================================================================ действия
     def _set_play_label(self):
@@ -966,37 +939,6 @@ class MainWindow:
         self._update_artists()
         self.blit.update(force=True)
 
-    def show_help(self):
-        self.explain_key = "help"
-        self._pause("справка — в правой нижней панели")
-        self._update_artists(force=True)
-        self.blit.update(force=True)
-
-    def open_theory(self):
-        from .theory_window import TheoryWindow
-        p = self.params
-        self.children.append(TheoryWindow(n_p=p.n_p, T_e=p.T_e, alpha=p.alpha, vb=p.vb, dvb=p.dvb))
-
-    def open_single(self):
-        from .single_wave_window import SingleWaveWindow
-        p = self.params
-        self.children.append(SingleWaveWindow(n_p=p.n_p, alpha=p.alpha, vb=p.vb, dvb=p.dvb))
-
-    def open_formulas(self):
-        from .formulas_window import FormulasWindow
-        self.children.append(FormulasWindow(params=self.params))
-
-    def open_table(self):
-        from .table_window import TableWindow
-        self.children.append(TableWindow(base=self.params))
-
-    def open_solitons(self):
-        from .soliton_window import SolitonWindow
-        p = self.params
-        pr = presets.PRESETS[self.preset_idx]
-        self.children.append(SolitonWindow(n_p=p.n_p, T_e=p.T_e, T_i=p.T_i, ion=pr["ion"],
-                                           alpha=p.alpha, vb=p.vb))
-
     def open_analysis(self):
         from .analysis_window import AnalysisWindow
         self.children.append(AnalysisWindow(self))
@@ -1012,8 +954,6 @@ class MainWindow:
             self.back()
         elif k == "r":
             self.reset()
-        elif k == "h":
-            self.open_formulas()
 
     def _on_click(self, event):
         tb = getattr(self.fig.canvas, "toolbar", None)
