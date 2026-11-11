@@ -418,8 +418,9 @@ def paragraphs(S: dict) -> list[tuple[str, str | None, str]]:
     quiet = camp[("GATE_QUIET", "P", "K3")]
     quiet_c = camp[("GATE_QUIET", "P", "CUSUM")]
     res_flow = (
-        f" При атаке в 70 % оборотов подозрение на захваченный терминал при K = 3 возникало в "
-        f"{_rng(a_share, 0, pc)} % суток за {_rng(a_h, 1)} ч; у Б2 — ни разу. «Тихий» нарушитель "
+        f" При атаке в 70 % оборотов подозрение на захваченный терминал при K = 3 возникало от "
+        f"{pc(min(a_share), 0)} % суток (служба уборки, где нет независимого источника) до "
+        f"{pc(max(a_share), 0)} % (ложный признак заправки); у Б2 — ни разу. «Тихий» нарушитель "
         f"({pc(f['q_quiet'], 0)} % отметок) выявлялся в {pc(quiet['detected_share'], 0)} % суток "
         f"правилом K = 3 и в {pc(quiet_c['detected_share'], 0)} % — CUSUM и давал "
         f"{nm(quiet['false_ready_before_detect_mean'])} ложного решения в сутки. Неисправности "
