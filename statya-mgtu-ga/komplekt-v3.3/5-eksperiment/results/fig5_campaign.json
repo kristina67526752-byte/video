@@ -1,7 +1,7 @@
 {
- "seed": 1004,
+ "seed": 1019,
  "scenario": "GATE",
- "bad_term": "GATE-T00",
- "n_forged": 18,
- "flag_P_h": 19.564955275652842
+ "bad_term": "GATE-T02",
+ "n_forged": 14,
+ "flag_P_h": 19.344811272543243
 }

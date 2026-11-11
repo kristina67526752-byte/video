@@ -1,5 +1,5 @@
 generator,rules,n_rules,fpr,fpr_lo,fpr_hi,recall,top_fp_key,top_fp_share
-base,base,27,0.0511,0.0419,0.0623,0.7527,R1:order:DEB.END>CLN.START,0.4674
-base,alt,29,0.4628,0.4398,0.4859,0.75,R1:order:LOD.END>BRD.START,0.4946
-alt,base,27,0.3811,0.359,0.4038,0.7107,R1:order:DEB.END>CLN.START,0.9344
-alt,alt,29,0.0439,0.0354,0.0544,0.7693,R1:order:DEB.END>WAT.START,0.2785
+base,base,27,0.0433,0.0349,0.0538,0.7053,R1:order:DEB.END>CLN.START,0.2564
+base,alt,29,0.2822,0.2619,0.3035,0.7273,R1:order:LOD.END>BRD.START,0.5965
+alt,base,27,0.1561,0.1401,0.1736,0.6813,R1:order:DEB.END>CLN.START,0.7829
+alt,alt,29,0.0411,0.0329,0.0513,0.7187,R4:time,0.1892

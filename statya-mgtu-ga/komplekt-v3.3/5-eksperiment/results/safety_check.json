@@ -13,9 +13,9 @@
  },
  "v3": {
   "d1_outcome": "manual",
-  "d1_time": 45.88755520034776,
+  "d1_time": 38.24975356773365,
   "n_alarms": 1,
-  "first_alarm": 42.88755520034776,
+  "first_alarm": 27.887555200347762,
   "first_key": "('R1', 'unconfirmed', ('SAF', 'END'), ('FUEL', 'START'))"
  }
 }
