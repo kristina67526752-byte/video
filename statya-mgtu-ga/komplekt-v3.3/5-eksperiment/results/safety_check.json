@@ -1,0 +1,21 @@
+{
+ "case_id": "S06-C00000",
+ "true_safety": false,
+ "meter": true,
+ "true_d1": 35.24975356773365,
+ "share_fuel_last_normal": 0.17283333333333334,
+ "v2": {
+  "d1_outcome": "false",
+  "d1_time": 28.600949294541596,
+  "n_alarms": 0,
+  "first_alarm": null,
+  "first_key": "None"
+ },
+ "v3": {
+  "d1_outcome": "manual",
+  "d1_time": 38.24975356773365,
+  "n_alarms": 1,
+  "first_alarm": 32.88755520034776,
+  "first_key": "('R1', 'unconfirmed', ('SAF', 'END'), ('FUEL', 'START'))"
+ }
+}

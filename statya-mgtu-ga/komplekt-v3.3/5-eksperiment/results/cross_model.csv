@@ -1,0 +1,5 @@
+generator,rules,n_rules,fpr,fpr_lo,fpr_hi,recall,top_fp_key,top_fp_share
+base,base,27,0.0433,0.0349,0.0538,0.72,R1:order:DEB.END>CLN.START,0.2564
+base,alt,29,0.2817,0.2614,0.3029,0.742,R1:order:LOD.END>BRD.START,0.5957
+alt,base,27,0.1561,0.1401,0.1736,0.6927,R1:order:DEB.END>CLN.START,0.7829
+alt,alt,29,0.0417,0.0334,0.0519,0.73,R2:short,0.1867

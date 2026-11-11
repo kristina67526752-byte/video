@@ -29,6 +29,11 @@ XML = "http://www.w3.org/XML/1998/namespace"
 NS = {"w": W}
 
 
+def norm(s: str) -> str:
+    """Неразрывные пробелы — как обычные (длина строки не меняется)."""
+    return s.replace("\u00a0", " ").replace("\u202f", " ").replace("\u2009", " ")
+
+
 def q(tag: str) -> str:
     return "{%s}%s" % (W, tag)
 
@@ -148,7 +153,7 @@ class Builder:
         return [el for el in self.body if el.tag == q("p")]
 
     def find(self, prefix: str):
-        hits = [p for p in self.paras() if self.text(p).startswith(prefix)]
+        hits = [p for p in self.paras() if norm(self.text(p)).startswith(norm(prefix))]
         assert len(hits) == 1, (prefix, len(hits))
         return hits[0]
 
@@ -189,12 +194,13 @@ class Builder:
         return r
 
     def replace(self, p, old: str, new: str):
-        runs = [r for r in p.findall(q("r")) if old in self.text(r)]
+        runs = [r for r in p.findall(q("r")) if norm(old) in norm(self.text(r))]
         assert len(runs) == 1, (old[:50], len(runs))
         run = runs[0]
         full = self.text(run)
-        assert full.count(old) == 1, old[:50]
-        i = full.index(old)
+        assert norm(full).count(norm(old)) == 1, old[:50]
+        i = norm(full).index(norm(old))
+        old = full[i:i + len(old)]
         before, after = full[:i], full[i + len(old):]
         # общие начало и конец старого и нового фрагмента не выделяются
         plain_new = re.sub(r"\{FN\d+\}", "", new)
