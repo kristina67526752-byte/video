@@ -129,6 +129,7 @@ class Builder33(Builder):
 
 def build(src, results, figures, out, *, highlight=False, anonymous=False, core_from=None):
     S = json.loads((results / "summary.json").read_text(encoding="utf-8"))
+    S["_tradeoff"] = json.loads((results / "tradeoff_W.json").read_text(encoding="utf-8"))["points"]
     b = Builder33(src, highlight)
     b.apply_edits()
     b.references()

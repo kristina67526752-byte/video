@@ -97,6 +97,9 @@ def facts(S: dict) -> dict:
 
 def gap_phrase(f: dict) -> tuple[str, str]:
     g = 100 * f["gap"]
+    if abs(g) < 0.05:
+        return ("результат совпадает с монитором ограничений, которому переданы те же правила",
+                "the result coincides with that of the constraint monitor given the same rules")
     if f["overlap"]:
         return (f"различие с монитором ограничений при одинаковых правилах ({nm(abs(g))} п. п.) "
                 "лежит в пределах разброса между выборками",
@@ -251,9 +254,18 @@ def paragraphs(S: dict) -> list[tuple[str, str | None, str]]:
     grid = S["grid_P"]                                  # сетка П из gh_integrity/run.py
     sym = {"prec_tol": "δ_{p}", "dur_tol": "δ_{d}", "cross_tol": "δ_{c}", "stale_max": "Δ_{max}",
            "grace": "W", "missing_horizon": "H"}
-    on_edge = [sym[k] for k, v in grid.items() if cp[k] in (v[0], v[-1])]
-    edge = (f"На границе перебранной сетки оказались {', '.join(on_edge)}, то есть оптимум по "
-            "этим допускам не локализован. " if on_edge else "")
+    tr = {x["W"]: x for x in S["_tradeoff"] if x["method"] == "P" and x["feasible"]}
+    on_edge = [sym[k] for k, v in grid.items() if cp[k] in (v[0], v[-1]) and k != "grace"]
+    edge = (
+        "Окно W ограничено 15 мин: критерий калибровки не учитывает задержку тревоги, и без "
+        "ограничения выбирается наибольшее окно. На широкой сетке полнота V1–V5 на калибровочной "
+        f"выборке растёт с {pc(tr[10.0]['recall'], 0)} % при W = 10 мин до "
+        f"{pc(tr[15.0]['recall'], 0)} % при 15, {pc(tr[20.0]['recall'], 0)} % при 20 и "
+        f"{pc(tr[30.0]['recall'], 0)} % при 30 мин, а медианная задержка тревоги — с "
+        f"{nm(tr[10.0]['lat_median'], 0)} до {nm(tr[30.0]['lat_median'], 0)} мин; 15 мин — рабочая "
+        "точка, выбранная авторами. ")
+    if on_edge:
+        edge += f"На границе сетки остались {', '.join(on_edge)}. "
 
     abstract = (
         " Решения о готовности воздушного судна к посадке пассажиров и о завершении его "
