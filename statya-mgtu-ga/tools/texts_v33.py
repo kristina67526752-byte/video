@@ -191,6 +191,9 @@ def edits(S: dict) -> list[tuple[str, str, str]]:
          "Постановку задачи определили авторы; модель процесса и допущения сформированы с помощью "
          "ассистента по графу [21] и нормативным документам и на данных эксплуатации не "
          "проверялись"),
+        ("1Regional Information", "Center “Pulkovo”", "Center Pulkovo"),
+        ("Gleb V. Golovchenko", "Center “Pulkovo”", "Center Pulkovo"),
+        ("Veronika V. Gorbatko", "Center “Pulkovo”", "Center Pulkovo"),
         ("5. Mashoshin", "(2026). Protection",
          "(2026). Zashchita korporativnykh informatsionnykh sistem aviapredpriyatiy ot atak "
          "nulevogo dnya: podkhod k obnaruzheniyu vtorzheniy na osnove glubokogo "
