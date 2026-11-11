@@ -44,11 +44,12 @@ ALL_TYPES = VIOLATION_TYPES
 # С версии 3.3 сетка шире (чтобы оптимум не ложился на её край), а монитор Б3 получает те же
 # правила, что и П, включая подтверждение SAF и сверку со справочными значениями: это обычные
 # ограничения предшествования с условием по данным (MP-Declare).
-GRID_P = {"prec_tol": [2, 4, 6, 8], "dur_tol": [1, 2, 3], "cross_tol": [5, 8, 12],
-          "stale_max": [15, 30, 45], "grace": [5, 10, 15, 20], "missing_horizon": [20, 30, 45]}
+GRID_P = {"prec_tol": [2, 4, 6, 8, 10, 12], "dur_tol": [1, 2, 3, 4, 5], "cross_tol": [5, 8, 12],
+          "stale_max": [15, 30, 45], "grace": [5, 10, 15, 20, 30],
+          "missing_horizon": [20, 30, 45, 60]}
 GRID_B2 = {"stale_max": [15, 30], "grace": [5, 10, 15]}
-GRID_B3 = {"prec_tol": [2, 4, 6, 8], "dur_tol": [1, 2, 3], "cross_tol": [5, 8, 12],
-           "stale_max": [15, 30, 45], "grace": [0, 5, 10, 15, 20]}   # grace — буфер β
+GRID_B3 = {"prec_tol": [2, 4, 6, 8, 10, 12], "dur_tol": [1, 2, 3, 4, 5], "cross_tol": [5, 8, 12],
+           "stale_max": [15, 30, 45], "grace": [0, 5, 10, 15, 20, 30]}   # grace — буфер β
 # Группы подвидов по тому, зависит ли исход от метода (версия 3.3, замечание о составе выборки)
 BY_CONSTRUCTION = {"V1a", "V3a", "V3b", "V4-start", "V4-end", "V7a"}   # дубль, пропуск, флаг
 OUT_OF_REACH = {"V6", "V7b", "V8"}                                     # граница применимости
@@ -134,6 +135,7 @@ def main(argv: list[str] | None = None) -> None:
     t0 = time.time()
     base = Params()
     summary: dict = {"generated_by": "gh_integrity.run", "version": VERSION, "quick": a.quick,
+                     "grid_P": GRID_P, "grid_B3": GRID_B3,
                      "fpr_max": FPR_MAX, "data": "synthetic", "base_params": asdict(base),
                      "environment": {"python": platform.python_version(),
                                      "numpy": np.__version__}}
