@@ -310,6 +310,22 @@ def kinetic_growth(k, species):
     return w.real, w.imag
 
 
+def _newton_polish(w, k, sp, iters=60):
+    """Метод Ньютона для ε(ω,k) = 0 сразу для массива k (нормированные переменные);
+    шаг ограничен, чтобы корень не уходил на соседнюю ветвь."""
+    w = np.array(w, dtype=complex)
+    for _ in range(iters):
+        D, dD = _kinetic_D_norm(w, k, sp)
+        st = D / dD
+        st = np.where(np.isfinite(st), st, 0)
+        big = np.abs(st) > 0.05
+        st[big] *= 0.05 / np.abs(st[big])
+        w = w - st
+        if np.all(np.abs(st) < 1e-13):
+            break
+    return w
+
+
 def kinetic_growth_curve(k, species, iters=60):
     """γ(k) кинетической теории вдоль массива k (по возрастанию, рад/м) методом
     продолжения по k: в точке максимума холодного инкремента корень находится
@@ -343,6 +359,23 @@ def kinetic_growth_curve(k, species, iters=60):
         w[i] = newton(k[i], w[i - 1])
     for i in range(i0 - 1, -1, -1):
         w[i] = newton(k[i], w[i + 1])
+    # Продолжение по k иногда «перескакивает» на соседнюю (плазменную) ветвь — например,
+    # при малых k, где растущий корень зажат у пучкового резонанса ω ≈ kv_b. Поэтому в
+    # каждой точке корень ищется ещё двумя способами: (а) продолжение по температуре от
+    # холодного корня при том же k; (б) метод Ньютона от гидродинамического корня с
+    # поправкой Бома–Гросса. Из сошедшихся корней берётся тот, у которого Im ω больше:
+    # инкремент γ(k) — это максимум Im ω по всем корням ε(ω,k) = 0.
+    rf = _fluid_roots_norm(k, sp)
+    wf = rf[np.arange(k.size), np.argmax(rf.imag, axis=1)]
+    cands = [w, _kinetic_growth_norm(k, sp), _newton_polish(wf, k, sp)]
+    best = wf.copy()                          # если не сошёлся ни один — гидродинамика
+    best_im = np.full(k.size, -np.inf)
+    for c in cands:
+        D = np.abs(_kinetic_D_norm(c, k, sp)[0])
+        ok = np.isfinite(D) & (D < 1e-8) & (c.imag > best_im)
+        best = np.where(ok, c, best)
+        best_im = np.where(ok, c.imag, best_im)
+    w = best
     w = w * w0
     return w.real, w.imag
 

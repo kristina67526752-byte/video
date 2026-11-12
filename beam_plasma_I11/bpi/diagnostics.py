@@ -154,7 +154,12 @@ def linear_window(sim):
 
 def measure_modes(sim, min_frac=0.5):
     """Инкремент γ и частота ω каждой моды ящика из истории E_k(t), рад/с.
-    γ — наклон ln|E_k|,  ω = −d(arg E_k)/dt  (волна E ∝ cos(kx − ωt))."""
+    γ — наклон ln|E_k|,  ω = −d(arg E_k)/dt  (волна E ∝ cos(kx − ωt)).
+
+    Оценка погрешности g_err: окно делится пополам, γ измеряется отдельно по каждой
+    половине, g_err = |γ₁ − γ₂|/2. Если рост мода чисто экспоненциальный, половины
+    дают одно и то же; если мода ещё не выделилась из шума или её искажают соседние
+    корни, половины расходятся — и это видно в g_err."""
     h = sim.hist
     t = h["t"]
     t1, t2 = linear_window(sim)
@@ -170,9 +175,12 @@ def measure_modes(sim, min_frac=0.5):
             continue
         ek = h["Ek"][sel, m - 1]
         g, r2 = fit_exp(ts, np.abs(ek))
+        nh = ts.size // 2
+        g1 = fit_exp(ts[:nh], np.abs(ek[:nh]))[0]
+        g2 = fit_exp(ts[nh:], np.abs(ek[nh:]))[0]
         ph = np.unwrap(np.angle(ek))
         w = -np.polyfit((ts - ts[0]) / T, ph, 1)[0] / T
-        out.append(dict(m=m, k=sim.k_modes[m], g_th=gth, g=g, r2=r2,
+        out.append(dict(m=m, k=sim.k_modes[m], g_th=gth, g=g, g_err=0.5 * abs(g1 - g2), r2=r2,
                         w_th=sim.omega_modes_th[m - 1], w=w))
     return out
 
