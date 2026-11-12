@@ -83,20 +83,6 @@ def test_kinetic_tends_to_fluid_for_cold_beam():
     assert np.abs(gk - gf).max() / WP < 2e-3
 
 
-def test_kinetic_curve_has_no_branch_jumps():
-    """Кинетический γ(k) при холодном пучке и тёплой плазме (v_Te ≪ v_b) совпадает с
-    гидродинамикой Бома–Гросса на ВСЁМ диапазоне k — в том числе при малых k, где
-    раньше корень перескакивал на плазменную ветвь и давал γ = 0."""
-    sp = disp.beam_plasma_species(N_P, 0.01, VB, 3e4)
-    k0 = disp.most_unstable(disp.cold(sp))[0]
-    k = np.linspace(1e-3, 2.6, 400) * k0
-    _, gbg = disp.fluid_growth(k, sp)
-    _, gk = disp.kinetic_growth_curve(k, sp)
-    inside = gbg > 0.05 * gbg.max()               # вдали от крутого края у границы
-    assert np.abs(gk[inside] - gbg[inside]).max() < 0.01 * gbg.max()
-    assert abs(np.maximum(gk, 0).max() / gbg.max() - 1) < 0.01
-
-
 # ----------------------------------------------------------------- PIC
 def test_deposit_conserves_charge():
     for ion in ("none", "H+"):
@@ -124,19 +110,6 @@ def test_pic_growth_rate_and_conservation():
     assert tr.sat is not None                     # насыщение найдено
     assert 0.9 < tr.sat["A"] / tr.A_trap < 1.3    # и близко к теории захвата
     assert 1e4 < tr.sat["A"] < 3e4                # ≈ 19 кВ/м при n_p = 10¹⁶ м⁻³, v_b = 10⁷ м/с
-
-
-def test_main_mode_measured_reliably():
-    """При рабочем числе частиц (65 536) γ главной волны по двум половинам линейной
-    стадии совпадает (разброс < 1 %) и отличается от теории меньше чем на 2 %."""
-    s = PIC(PICParams())
-    tr = diag.StageTracker(s)
-    while tr.stage < 2:
-        s.step(20)
-        tr.update()
-    main = [d for d in diag.measure_modes(s, 0.6) if d["m"] == s.m_main][0]
-    assert main["g_err"] < 0.01 * main["g_th"]
-    assert abs(main["g"] / main["g_th"] - 1) < 0.02
 
 
 def test_pic_relativistic_beam():

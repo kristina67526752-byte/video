@@ -7,11 +7,11 @@
 Файл должен лежать в папке проекта рядом с папкой bpi/.
 
 Из терминала:
-    python run.py                      главное окно (PIC-модель в реальном времени)
+    python run.py                      главное окно (PIC-модель в реальном времени,
+                                       ионы всегда подвижны, как в реальной плазме)
     python run.py --alpha 0.02 --vb 2e7 --dv 1e6     n_b/n_p, v_b [м/с], Δv_b [м/с]
     python run.py --np 1e14 --Te 1.5e6               n_p [м⁻³], T_e [К]
-    python run.py --ions               подвижные ионы (каверны после насыщения)
-    python run.py --ion Ar+            сорт ионов: H+, D+, He+, Ar+, O+
+    python run.py --ion Ar+            сорт ионов: H+ (по умолчанию), D+, He+, Ar+, O+
     python run.py --two-stream         встречные пучки
     python run.py --npart 32768        вдвое меньше частиц — для слабого компьютера
     python run.py --light              светлая тема (для снимков в отчёт)
@@ -87,7 +87,6 @@ def main():
     ap.add_argument("--alpha", type=float, default=0.01, help="n_b/n_p (0.001…0.1)")
     ap.add_argument("--vb", type=float, default=1.0e7, help="скорость пучка v_b, м/с (< 2.9e8)")
     ap.add_argument("--dv", type=float, default=0.0, help="разброс скоростей пучка Δv_b, м/с")
-    ap.add_argument("--ions", action="store_true", help="подвижные ионы")
     ap.add_argument("--ion", default="H+", choices=["H+", "D+", "He+", "Ar+", "O+"], help="сорт ионов")
     ap.add_argument("--two-stream", action="store_true", help="встречные пучки")
     ap.add_argument("--npart", type=int, default=65536, help="макрочастиц каждого сорта")
@@ -105,7 +104,7 @@ def main():
 
     style.use("light" if a.light else "dark")
     p = PICParams(scenario="two_stream" if a.two_stream else "beam", n_p=a.np, T_e=a.Te, T_i=a.Ti,
-                  alpha=a.alpha, vb=a.vb, dvb=a.dv, ion=a.ion if a.ions else "none", npart=a.npart)
+                  alpha=a.alpha, vb=a.vb, dvb=a.dv, ion=a.ion, npart=a.npart)
     keep = MainWindow(p, theme="light" if a.light else "dark", ion=a.ion)
     print("Окно модели открыто. Закройте его, чтобы завершить программу.")
     plt.show()

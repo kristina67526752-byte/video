@@ -288,12 +288,11 @@ def main():
         for m in ms:
             rows.append(dict(case=short, m=m["m"], k=m["k"], gamma_th=m["g_th"], gamma_pic=m["g"],
                              err_pct=(m["g"] / m["g_th"] - 1) * 100,
-                             unc_pct=m["g_err"] / m["g_th"] * 100,
                              omega_th=m["w_th"], omega_pic=m["w"]))
     fig.tight_layout()
     fig.savefig(os.path.join(RES, "E1_gamma_k.png"), dpi=150)
     plt.close(fig)
-    cols = ["case", "m", "k", "gamma_th", "gamma_pic", "err_pct", "unc_pct", "omega_th", "omega_pic"]
+    cols = ["case", "m", "k", "gamma_th", "gamma_pic", "err_pct", "omega_th", "omega_pic"]
     save_csv("E1_gamma_k.csv", rows, cols)
     E = "{:.3e}"
     md += ["## E1. Инкремент γ(k): PIC против точной теории", "",
@@ -302,15 +301,12 @@ def main():
            "γ — наклон ln|E_k(t)| методом наименьших "
            "квадратов на отрезке линейной стадии [4/γ, момент, когда главная волна достигла "
            "5 % от уровня насыщения]; ω = −d arg E_k/dt. Теория — кинетическая, с реальной "
-           "температурой плазмы. «Разброс» — оценка погрешности измерения: половина разницы "
-           "между γ, измеренными по первой и второй половине окна. Отклонение от теории "
-           "у крайних волн сравнимо с этим разбросом: за короткую линейную стадию "
-           "(≈2 e-кратных роста) они не успевают выделиться из шума и соседних корней.", "",
+           "температурой плазмы.", "",
            md_table(rows, [("случай", "case"), ("m", "m"), ("k, рад/м", "k"),
                            ("γ теория, с⁻¹", "gamma_th"), ("γ PIC, с⁻¹", "gamma_pic"), ("ошибка, %", "err_pct"),
-                           ("разброс, %", "unc_pct"), ("ω теория, рад/с", "omega_th"), ("ω PIC, рад/с", "omega_pic")],
+                           ("ω теория, рад/с", "omega_th"), ("ω PIC, рад/с", "omega_pic")],
                     {"k": "{:.1f}", "gamma_th": E, "gamma_pic": E,
-                     "err_pct": "{:+.2f}", "unc_pct": "{:.1f}", "omega_th": E, "omega_pic": E}),
+                     "err_pct": "{:+.2f}", "omega_th": E, "omega_pic": E}),
            "", "![](E1_gamma_k.png)", ""]
 
     # ------------------------------------------------------------------ E2 E_sat(α)

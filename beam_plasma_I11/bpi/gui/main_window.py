@@ -51,9 +51,10 @@ class MainWindow:
                  ion="H+", T_i=None):
         style.use(theme)
         self.theme = theme
-        self.params = params or PICParams()
-        # сорт и температура ионов, которые включает галочка «ионы подвижны»
-        self.ion_species = self.params.ion if self.params.ion != "none" else ion
+        # ионы всегда подвижны (частицы с настоящей массой), как в реальной плазме
+        p0 = params or PICParams()
+        self.params = p0 if p0.ion != "none" else p0.copy(ion=ion)
+        self.ion_species = self.params.ion
         self.T_i = self.params.T_i if T_i is None else T_i
         self.fig = plt.figure(figsize=FIGSIZE)
         try:
@@ -201,19 +202,13 @@ class MainWindow:
         ax = self.ax_gk
         ax.set_title("Инкремент γ(k)", loc="left")
         ax.tick_params(labelbottom=False)
-        # теория: уравнение из задания (холодные плазма и пучок) и — если заметно
-        # отличается — кинетика с реальной температурой и разбросом скоростей пучка
-        self.ln_gk_cold, = ax.plot([], [], color=C["main"], lw=1.6,
-                                   label="теория (задание)")
-        self.ln_gk_th, = ax.plot([], [], color=C["beam"], lw=1.4, ls="--",
-                                 label="кинетика")
-        self.pt_gk_box, = ax.plot([], [], "o", ms=4.5, mfc="none", mec=C["text2"], mew=0.9,
-                                  label="волны ящика")
-        self.pt_gk_hint, = ax.plot([], [], "x", ms=7, mew=1.8, color=C["text"],
-                                   label="подсказка")
-        self.ln_gk_err = anim(ax.plot([], [], color=C["field"], lw=1.6)[0])
-        self.pt_gk_meas = anim(ax.plot([], [], "o", ms=7, mfc=C["field"], mec=C["surface"],
-                                       mew=1.5, label="счёт")[0])
+        self.ln_gk_cold, = ax.plot([], [], color=C["text2"], ls="--", lw=1.3,
+                                   label="уравнение из задания")
+        self.ln_gk_th, = ax.plot([], [], color=C["main"], lw=1.3, label="с температурой")
+        self.pt_gk_box, = ax.plot([], [], "o", ms=5, mfc="none", mec=C["text2"], mew=1.0,
+                                  label="моды ящика")
+        self.pt_gk_meas = anim(ax.plot([], [], "o", ms=8, mfc=C["field"], mec=C["surface"],
+                                       mew=2, label="измерено (PIC)")[0])
 
         ax = self.ax_sp
         ax.set_title("Спектр волн A_k² сейчас", loc="left")
@@ -274,8 +269,8 @@ class MainWindow:
         ax = f.add_axes([0.136, 0.05, 0.132, 0.085])
         style.style_widget_axes(ax)
         ax.set_title("Показ и физика", fontsize=8, loc="left", color=C["text2"], pad=2)
-        self.c_opts = CheckButtons(ax, ("сепаратриса", "пауза на стадиях", "ионы подвижны"),
-                                   (self.show_sep, self.autopause, p.ion != "none"))
+        self.c_opts = CheckButtons(ax, ("сепаратриса", "пауза на стадиях"),
+                                   (self.show_sep, self.autopause))
         for t in self.c_opts.labels:
             t.set_color(C["text"])
             t.set_fontsize(8.3)
@@ -317,19 +312,14 @@ class MainWindow:
 
     def _current_params(self):
         scen = "two_stream" if self.r_scen.value_selected == "встречные пучки" else "beam"
-        ions_on = self.c_opts.get_status()[2]
-        return self.params.copy(scenario=scen, ion=self.ion_species if ions_on else "none",
+        return self.params.copy(scenario=scen, ion=self.ion_species,
                                 T_i=self.T_i, **self._slider_values())
 
     def _on_check(self, label):
         st = self.c_opts.get_status()
-        ions_changed = (st[2] != (self.params.ion != "none"))
         self.show_sep, self.autopause = st[0], st[1]
         self.ln_sep.set_visible(self.show_sep)
-        if ions_changed:
-            self.reset()
-        else:
-            self.blit.update(force=True)
+        self.blit.update(force=True)
 
     # ================================================================ запуск
     def reset(self):
@@ -427,45 +417,27 @@ class MainWindow:
         self.im_sg.set_extent([0, self.T_view, 0.5 * dk, (s.m_store + 0.5) * dk])
         self.ax_sg.set_ylim(0, min(3.0 * s.k_max, (s.m_store + 0.5) * dk))
 
-        # --- γ(k): теория. Сплошная — уравнение из задания (холодные плазма и пучок).
-        # Пунктир — кинетика с реальной T_e и разбросом Δv_b; рисуется, только если она
-        # заметно отличается (γ_max больше чем на 3 %), иначе две линии сливаются.
+        # --- γ(k): теория (уравнение из задания и кинетика с реальными температурами)
         kk = np.linspace(1e-3, 2.6, 400) * s.k_max
         cold = disp.cold(s.theory_species)
         _, g = disp.fluid_growth(kk, cold)
         self.ln_gk_cold.set_data(kk, g)
         gtop = g.max()
-        warm = any(vt > 0 for (_, _, vt) in s.theory_species)
-        gk = None
-        if warm:
+        if any(vt > 0 for (_, _, vt) in s.theory_species):
             _, gk = disp.kinetic_growth_curve(kk, s.theory_species)
             gk = np.maximum(gk, 0)
-        if gk is not None and abs(gk.max() / g.max() - 1) > 0.03:
             self.ln_gk_th.set_data(kk, gk)
-            self.ln_gk_th.set_label("тёплый пучок" if p.dvb > 0 else "с учётом T_e")
+            self.ln_gk_th.set_label("с температурой (кинетика)")
             gtop = max(gtop, gk.max())
         else:
             self.ln_gk_th.set_data([], [])
             self.ln_gk_th.set_label("_нет")
         km = s.k_modes[1:s.m_store + 1]
-        grow = s.gamma_modes_th > 0.02 * s.gamma_ref
-        self.pt_gk_box.set_data(km[grow], s.gamma_modes_th[grow])
-        # подсказка задания: максимум при k ≈ ω_p/v_b, γ ≈ (√3/2)(n_b/n_p)^⅓·ω_p
-        if p.scenario == "beam":
-            gh = disp.gamma_hint(p.alpha, s.wpe)
-            self.pt_gk_hint.set_data([s.wpe / p.vb], [gh])
-            self.pt_gk_hint.set_label("подсказка")
-            gtop = max(gtop, gh)
-        else:
-            self.pt_gk_hint.set_data([], [])
-            self.pt_gk_hint.set_label("_нет")
+        self.pt_gk_box.set_data(km, s.gamma_modes_th)
         self.ax_gk.set_xlim(0, 2.6 * s.k_max)
-        # запас сверху, чтобы легенда стояла над кривой и не закрывала точки
-        gcurve = max(g.max(), gk.max() if gk is not None else 0.0, s.gamma_ref, 1e-6 * s.wpe)
-        self.ax_gk.set_ylim(0, max(1.15 * gtop, 1.75 * gcurve))
-        self.ax_gk.legend(loc="upper right", fontsize=6.3, borderpad=0.3, labelspacing=0.25,
-                          handlelength=1.5, framealpha=0.85)
-        self.ln_gk_err.set_data([], [])
+        self.ax_gk.set_ylim(0, 1.25 * max(gtop, s.gamma_ref, 1e-6 * s.wpe))
+        self.ax_gk.legend(loc="center right", fontsize=6.3, borderpad=0.3, labelspacing=0.2,
+                          handlelength=1.4)
         self.pt_gk_meas.set_data([], [])
         self.ax_sp.set_ylim(1e-9 * self.tr.A_trap ** 2, 30 * self.tr.A_trap ** 2)
 
@@ -719,7 +691,9 @@ class MainWindow:
         if s.m_i:
             dni = s.ion_perturbation()[::self._xdec]
             nmax = np.abs(dni).max()
-            self.ln_ni.set_ydata(dni / max(nmax, 1e-300))
+            # шкала не мельче ±5 %: до насыщения ионы почти не сдвигаются, и линия лежит
+            # около нуля, а не показывает усиленный до ±1 шум макрочастиц
+            self.ln_ni.set_ydata(dni / max(nmax, 0.05))
             self.s_E += f"  max|δn_i|/n_i = {nmax * 100:.1f}%"
         cav = self._find_cavern() if s.m_i else None
         if cav is not None:
@@ -775,17 +749,11 @@ class MainWindow:
         # --- γ(k): измеренные точки (когда закончилась линейная стадия)
         if stage >= 2 and self.modes_meas is None:
             self.modes_meas = diag.measure_modes(s, min_frac=0.6)
-        # показываем только волны, у которых γ измерен точнее 10 % (см. measure_modes)
-        good = [d for d in (self.modes_meas or []) if d["g_err"] < 0.1 * d["g_th"]]
-        if good:
-            self.pt_gk_meas.set_data([d["k"] for d in good], [d["g"] for d in good])
-            ex = np.repeat([d["k"] for d in good], 3)
-            ey = np.ravel([[d["g"] - d["g_err"], d["g"] + d["g_err"], np.nan] for d in good])
-            ex[2::3] = np.nan
-            self.ln_gk_err.set_data(ex, ey)
+        if self.modes_meas:
+            self.pt_gk_meas.set_data([d["k"] for d in self.modes_meas],
+                                     [d["g"] for d in self.modes_meas])
         else:
             self.pt_gk_meas.set_data([], [])
-            self.ln_gk_err.set_data([], [])
 
         # --- спектр сейчас (вертикальные «палочки»), (В/м)²
         amp2 = (s.mode_amplitudes()[:s.m_store]) ** 2
