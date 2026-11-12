@@ -223,22 +223,28 @@ ROW = ["ONB", "GPU", "PBB", "DEB", "UNL", "WAT", "CLN", "CAT", "FUEL", "LOD", "B
 
 
 def fig_example(cases, p: Params, pB: Params, out: Path) -> dict:
-    """Пример оборота с ложным завершением заправки (V1), автоматический счётчик доступен."""
+    """Пример оборота с ложным завершением операции (V1), которое П выявляет, а Б2 пропускает
+    и объявляет готовность к посадке. Ищется сначала заправка, затем загрузка багажа: после
+    исправления условия D1 (версия 3.3) ложное окончание заправки редко даёт ложное «готово»,
+    так как посадка ждёт и другие операции. Без штатных отклонений, чтобы пример был нагляден."""
     pick = None
-    for c in cases:
-        if c.vtype == "V1" and c.gt_target == "FUEL" and \
-                c.auto_avail.get("METER") and \
-                not any(x.split(":")[0] in ("offline", "correction", "unmodeled_variant")
-                        for x in c.features):
+    order = {"FUEL": 0, "LOD": 1}
+    cand = sorted((c for c in cases if c.vtype == "V1" and c.gt_target in order),
+                  key=lambda c: order[c.gt_target])
+    for c in cand:
+        if not any(x.split(":")[0] in ("offline", "correction", "uncorrected",
+                                       "unmodeled_variant") for x in c.features):
             steps = evaluate_case(c.meta(), c.messages, p)
             stepsB = evaluate_case(c.meta(), c.messages, pB)
             d1, d2 = true_readiness(c)
             oP = derive(steps, METHODS["P"], p.grace, p.missing_horizon, c.gt_inj_time, d1, d2)
             oB = derive(stepsB, METHODS["B2"], pB.grace, pB.missing_horizon, c.gt_inj_time, d1, d2)
-            if oP["detect_time"] is not None and oB["d1_outcome"] == "false":
+            if (oP["detect_time"] is not None and oB["d1_outcome"] == "false"
+                    and oP["d1_outcome"] != "false"):
                 pick = (c, oP, oB, steps, stepsB)
                 break
     if pick is None:
+        print("fig2_example_case: подходящий оборот не найден, рисунок не построен")
         return {}
     c, oP, oB, steps, stepsB = pick
     groupsB = METHODS["B2"]
@@ -254,6 +260,8 @@ def fig_example(cases, p: Params, pB: Params, out: Path) -> dict:
         else:
             ax.plot([c.truth[(op, END)]], [y], marker="D", color="0.6", ms=3)
     for m in {x["msg_id"]: x for x in c.messages}.values():
+        if m["op"] not in ymap:                 # подтверждение SAF на рисунке не показано
+            continue
         y = ymap[m["op"]]
         if m["gt_injected"]:
             ax.plot(m["recv_time"], y - 0.3, marker="X", color="black", ms=6.5, zorder=5)
@@ -285,11 +293,13 @@ def fig_example(cases, p: Params, pB: Params, out: Path) -> dict:
     ax.legend(handles=leg, fontsize=5.8, frameon=False, loc="upper center",
               bbox_to_anchor=(0.5, -0.16), ncol=3)
     _save(fig, out, "fig2_example_case")
-    return {"case_id": c.case_id, "forged_recv": c.gt_inj_time, "alarm_P": t_alarm,
+    return {"case_id": c.case_id, "target": c.gt_target, "forged_recv": c.gt_inj_time,
+            "alarm_P": t_alarm,
             "alarm_key": list(oP["detect_key"]), "d1_B2_time": d1_b,
             "d1_true": true_readiness(c)[0], "d1_P_outcome": oP["d1_outcome"],
             "d1_B2_outcome": oB["d1_outcome"], "P_hold_from": hold_P[0] if hold_P else None,
-            "fuel_true_end": c.truth[("FUEL", END)], "fuel_true_start": c.truth[("FUEL", START)]}
+            "target_true_start": c.truth[(c.gt_target, START)],
+            "target_true_end": c.truth[(c.gt_target, END)]}
 
 
 def make_all(res: Path, out: Path, sample_cases, p: Params, pB: Params) -> None:
@@ -310,8 +320,10 @@ if __name__ == "__main__":                      # перестроить рис�
     root = Path(__file__).resolve().parents[1]
     summ = json.loads((root / "results" / "summary.json").read_text(encoding="utf-8"))
     base = Params()
-    pP = replace(base, **summ["calibrated"]["P"])
-    pB = replace(base, **summ["calibrated"]["B2"])
+    def cfg(m):                                 # служебные поля калибровки («_feasible») — прочь
+        return {k: v for k, v in summ["calibrated"][m].items() if not k.startswith("_")}
+    pP = replace(base, **cfg("P"))
+    pB = replace(base, safety_trust="manual", trusted_norms=False, **cfg("B2"))   # как в run.py
     d = summ["dataset"]
     sample = generate_dataset(1, d["n_normal_per_seed"], d["n_per_type_per_seed"], base)
     make_all(root / "results", root / "figures", sample, pP, pB)

@@ -1,1 +1,18 @@
-{}
+{
+ "case_id": "S01-C00629",
+ "target": "LOD",
+ "forged_recv": 20.72375927387404,
+ "alarm_P": 35.72375927387404,
+ "alarm_key": [
+  "R2",
+  "short",
+  "LOD"
+ ],
+ "d1_B2_time": 30.267005376908617,
+ "d1_true": 33.40564820841574,
+ "d1_P_outcome": "manual",
+ "d1_B2_outcome": "false",
+ "P_hold_from": 30.267005376908617,
+ "target_true_start": 15.332195813946806,
+ "target_true_end": 33.40564820841574
+}
