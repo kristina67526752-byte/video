@@ -7,7 +7,7 @@ from dataclasses import replace
 import numpy as np
 
 from .detectors import METHODS, MODE, alarm_keys, derive, evaluate_case
-from .model import D2_EVENTS, END, SERVICE_OPS, START, Params, d1_preds
+from .model import D2_EVENTS, END, SERVICE_OPS, Params, d1_preds
 from .simulate import Case
 
 

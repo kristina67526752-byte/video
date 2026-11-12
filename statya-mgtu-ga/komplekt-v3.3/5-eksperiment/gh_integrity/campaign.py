@@ -25,7 +25,7 @@
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass, replace
+from dataclasses import dataclass
 
 import numpy as np
 
@@ -37,7 +37,8 @@ from .simulate import generate_case
 # Пулы терминалов — по числу ресурсов в модельном сценарии [Головченко, Асмоловская] при той
 # же интенсивности (~10 рейсов/ч): заправщики 4, уборочные бригады 4, кейтеринг-машины 3,
 # наземные бригады 5 (выход и трап), перрон 10 = 5 багажных тягачей + 2 водовоза + 3 буксира;
-# руководители смены (подтверждение мер безопасности) 3 — допущение.
+# рабочие места подтверждения мер безопасности (роль SUPV: экипаж или координатор оборота) 3 —
+# допущение.
 POOLS = {"RAMP": 10, "PBB_OP": 5, "GATE": 5, "CLEAN": 4, "CATER": 3, "FUEL": 4, "SUPV": 3}
 ATTACKS = {"FUEL": ("FUEL", "V1"), "CLEAN": ("CLN", "V1"), "GATE": ("BRD", "V1"),
            "SAFETY": (None, "V7"),                      # сценарий -> (операция, вид)

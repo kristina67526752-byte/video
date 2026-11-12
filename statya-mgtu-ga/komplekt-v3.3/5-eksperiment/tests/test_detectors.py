@@ -167,7 +167,7 @@ def test_d1_follows_process_model():
 
 def test_late_safety_confirmation_gives_alarm():
     """Подтверждение SAF, пришедшее после начала заправки, исключения не даёт."""
-    from gh_integrity.model import MANUAL, START
+    from gh_integrity.model import START
     p = replace(QUIET, p_safety_fuelling=1.0)
     c = generate_dataset(5, 1, 0, p)[0]
     assert c.safety
@@ -181,3 +181,25 @@ def test_late_safety_confirmation_gives_alarm():
     o = derive(evaluate_case(c.meta(), sorted(msgs, key=lambda m: m["recv_time"]), p),
                METHODS["P"], 5, 15, None, d1, d2)
     assert o["n_alarms"] > 0
+
+
+def test_subtype_groups_partition_and_by_construction_detected():
+    """Группы «по построению / содержательные / вне возможностей» покрывают все подвиды, а
+    обнаружение по построению у П действительно полное (на малой выборке без отклонений)."""
+    from gh_integrity.run import BY_CONSTRUCTION, OUT_OF_REACH, group_of
+    from gh_integrity.simulate import VIOLATION_TYPES
+    assert not BY_CONSTRUCTION & OUT_OF_REACH
+    cs = generate_dataset(11, 0, 15, QUIET, VIOLATION_TYPES)
+    seen = set()
+    for c in cs:
+        if c.gt_inj_time is None or c.subtype == "V5a":
+            continue
+        x = {"subtype": c.subtype or "", "vtype": c.vtype}
+        seen.add(group_of(x))
+        if group_of(x) == "construct":
+            steps = evaluate_case(c.meta(), c.messages, QUIET)
+            twin = evaluate_case(c.meta(), c.twin_messages, QUIET)
+            tk = alarm_keys(twin, METHODS["P"], 5, 15)
+            o = derive(steps, METHODS["P"], 5, 15, c.gt_inj_time, *true_readiness(c), tk)
+            assert o["detect_time"] is not None, c.subtype
+    assert seen == {"construct", "subst", "reach"}

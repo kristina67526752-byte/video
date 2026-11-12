@@ -85,6 +85,7 @@ def _inconsistencies(meta: dict, msgs: dict, eff: dict, bad_corr: set, p: Params
     claimed = any(m["safety"] for _, k, m in ev.get(("FUEL", START), []) if k == MANUAL)
     confirmed = ("SAF", END) in first
     if p.safety_trust == "confirmed":
+        # подтверждение — до начала заправки; допуск δp (часы и ввод), как в правилах R1
         in_time = confirmed and (("FUEL", START) not in first
                                  or first[("SAF", END)] <= first[("FUEL", START)] + p.prec_tol)
         safety = claimed and in_time
@@ -92,9 +93,9 @@ def _inconsistencies(meta: dict, msgs: dict, eff: dict, bad_corr: set, p: Params
             # подтверждения нет: противоречие (ожидание W — подтверждение может запоздать)
             keys.add(("R1", "unconfirmed", ("SAF", END), ("FUEL", START)))
         elif claimed and confirmed and not in_time:
-            # с версии 3.3: подтверждение позже начала заправки исключения не даёт
+            # подтверждение позже начала заправки (сверх допуска) исключения не даёт
             keys.add(("R1", "order", ("SAF", END), ("FUEL", START)))
-    else:                                 # версия 2: доверие признаку в отметке заправщика
+    else:                                 # без правил доверия: признак из отметки заправщика
         safety = claimed
 
     for op in INTERVAL_OPS:                                    # T: END не раньше START

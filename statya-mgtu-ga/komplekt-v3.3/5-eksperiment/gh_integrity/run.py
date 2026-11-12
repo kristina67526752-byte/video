@@ -1,13 +1,14 @@
-"""Полный воспроизводимый прогон эксперимента (версия 3).
+"""Полный воспроизводимый прогон эксперимента (версия 3.3).
 
-    python -m gh_integrity.run            # полный прогон (≈20–30 мин)
-    python -m gh_integrity.run --quick    # сокращённый прогон для проверки
+    python -m gh_integrity.run              # полный прогон (≈25 мин на одном ядре)
+    python -m gh_integrity.run --quick      # сокращённый прогон для проверки
+    python -m gh_integrity.run --tradeoff   # компромисс «окно W — полнота — задержка» (≈20 мин)
 
 Этапы:
 1) калибровка допусков на выборке seed=0 (условие: доля ложных тревог ≤ FPR_MAX) для П, Б2
    и Б3; точки сетки дают кривые «ложные тревоги — полнота»;
-2) проверка на независимых выборках seed=1..N с зафиксированными допусками; П версии 2
-   (доверие признаку safety и полям отметки) — для сравнения с исправленной моделью доверия;
+2) проверка на независимых выборках seed=1..N с зафиксированными допусками; П без правил
+   доверия (P_v2: признак safety и количества из отметок) — для сравнения;
 3) последствия: исходы решений, задержки с учётом ручных проверок, нагрузка на смену,
    момент выявления относительно решений, условные категории тяжести;
 4) сравнение при разных бюджетах ложных тревог; анализ чувствительности; проверка на данных
@@ -29,7 +30,7 @@ from pathlib import Path
 
 import numpy as np
 
-from .detectors import METHODS, MODE, alarm_keys, derive, evaluate_case
+from .detectors import METHODS, alarm_keys, derive, evaluate_case
 from .evaluate import (SEVERITY, calibrate, run_methods, summarize, true_readiness, wilson)
 from .model import END, MANUAL, START, Params, precedence
 from .simulate import VIOLATION_NAMES, VIOLATION_TYPES, generate_dataset
@@ -39,14 +40,14 @@ ROOT = Path(__file__).resolve().parents[1]
 RES, FIG, DATA = ROOT / "results", ROOT / "figures", ROOT / "data"
 FPR_MAX = 0.05
 BUDGETS = (0.025, 0.05, 0.10)
-MAIN_TYPES = ["V1", "V2", "V3", "V4", "V5"]          # калибровка и показатель версии 3.0
+MAIN_TYPES = ["V1", "V2", "V3", "V4", "V5"]          # виды для калибровки допусков
 ALL_TYPES = VIOLATION_TYPES
 # Окно ожидания W ограничено сверху: критерий калибровки (максимум полноты при ограничении на
 # ложные тревоги) не учитывает задержку тревоги, и без ограничения выбирается наибольшее W.
 # Компромисс «окно — полнота — задержка» на широкой сетке: results/tradeoff_W.json; 15 мин —
 # рабочая точка, выбранная авторами (дальше полнота растёт медленно, а задержка — линейно).
 W_MAX = 15
-# С версии 3.3 сетка шире (чтобы оптимум не ложился на её край), а монитор Б3 получает те же
+# Сетка допусков; монитор Б3 получает те же
 # правила, что и П, включая подтверждение SAF и сверку со справочными значениями: это обычные
 # ограничения предшествования с условием по данным (MP-Declare).
 GRID_P = {"prec_tol": [2, 4, 6, 8, 10, 12], "dur_tol": [1, 2, 3, 4, 5], "cross_tol": [5, 8, 12],
@@ -55,7 +56,7 @@ GRID_P = {"prec_tol": [2, 4, 6, 8, 10, 12], "dur_tol": [1, 2, 3, 4, 5], "cross_t
 GRID_B2 = {"stale_max": [15, 30], "grace": [5, 10, 15]}
 GRID_B3 = {"prec_tol": [2, 4, 6, 8, 10, 12], "dur_tol": [1, 2, 3, 4, 5], "cross_tol": [5, 8, 12],
            "stale_max": [15, 30, 45], "grace": [0, 5, 10, W_MAX]}   # grace — буфер β
-# Группы подвидов по тому, зависит ли исход от метода (версия 3.3, замечание о составе выборки)
+# Группы подвидов по тому, зависит ли исход от метода
 BY_CONSTRUCTION = {"V1a", "V3a", "V3b", "V4-start", "V4-end", "V7a"}   # дубль, пропуск, флаг
 OUT_OF_REACH = {"V6", "V7b", "V8"}                                     # граница применимости
 
@@ -69,6 +70,9 @@ def group_of(x: dict) -> str:
     if key in OUT_OF_REACH or x["vtype"] in OUT_OF_REACH:
         return "reach"
     return "subst"
+# Широкая сетка для оценки компромисса по окну W (режим --tradeoff)
+WIDE_GRACE_P = [5, 10, 15, 20, 30]
+WIDE_GRACE_B3 = [0, 5, 10, 15, 20, 30]
 V2_TRUST = {"safety_trust": "manual", "trusted_norms": False}
 DAY = 180                                           # оборотов в сутки (для нагрузки)
 
@@ -130,10 +134,56 @@ def _p(x) -> float:
     return float(np.percentile(x, 95)) if len(x) else float("nan")
 
 
+def tradeoff() -> None:
+    """Калибровка на широкой сетке (W до 30 мин) и лучшая выполнимая точка для каждого W.
+
+    Пишет results/calibration_grid_wide.csv.gz и results/tradeoff_W.json; значения в
+    tradeoff_W.json округлены так же, как в CSV (4 знака)."""
+    base = Params()
+    cal = generate_dataset(0, 600, 100, base, MAIN_TYPES)
+    gp = dict(GRID_P, grace=WIDE_GRACE_P)
+    g3 = dict(GRID_B3, grace=WIDE_GRACE_B3)
+    g_p = calibrate(cal, base, gp, {"P": METHODS["P"]}, FPR_MAX, MAIN_TYPES)
+    g_b = calibrate(cal, replace(base, **V2_TRUST), GRID_B2, {"B2": METHODS["B2"]}, FPR_MAX,
+                    MAIN_TYPES)
+    g_3 = calibrate(cal, replace(base, missing_horizon=0), g3, {"B3": METHODS["B3"]}, FPR_MAX,
+                    MAIN_TYPES)
+    rows = [{k: v for k, v in r.items() if not k.endswith("_ci")} for r in g_p + g_b + g_3]
+    _write_csv(RES / "calibration_grid_wide.csv.gz", rows)
+
+    def r4(v):
+        return round(float(v), 4)
+    out = []
+    for m, grid_rows in (("P", g_p), ("B3", g_3)):
+        rr = [{k: (r4(v) if isinstance(v, float) else v) for k, v in r.items()} for r in grid_rows]
+        for W in sorted({float(r["grace"]) for r in rr}):
+            f = [r for r in rr if float(r["grace"]) == W and r["fpr"] <= FPR_MAX]
+            if not f:
+                out.append({"method": m, "W": W, "feasible": False,
+                            "fpr_min": min(r["fpr"] for r in rr if float(r["grace"]) == W)})
+                continue
+            b = max(f, key=lambda r: (r["recall"], -r["fpr"]))
+            out.append({"method": m, "W": W, "feasible": True, "fpr": b["fpr"],
+                        "recall": b["recall"], "lat_median": b["lat_median"],
+                        "lat_p90": b["lat_p90"]})
+    note = ("Лучшая выполнимая точка (ложные тревоги <= 5 %) для каждого окна W на калибровочной "
+            "выборке; широкая сетка: prec_tol 2..12, dur_tol 1..5, cross_tol 5/8/12, stale_max "
+            "15/30/45, W до 30, H 20..60")
+    (RES / "tradeoff_W.json").write_text(json.dumps({"note": note, "points": out},
+                                                    ensure_ascii=False, indent=1),
+                                         encoding="utf-8")
+    print("tradeoff done")
+
+
 def main(argv: list[str] | None = None) -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--quick", action="store_true")
+    ap.add_argument("--tradeoff", action="store_true",
+                    help="только калибровка на широкой сетке и компромисс по окну W")
     a = ap.parse_args(argv)
+    if a.tradeoff:
+        tradeoff()
+        return
     n_seeds, n_norm, n_type = (2, 200, 30) if a.quick else (10, 600, 100)
     grid_p = {k: [v[0], v[-1]] for k, v in GRID_P.items()} if a.quick else GRID_P
     grid_b3 = {k: [v[0], v[-1]] for k, v in GRID_B3.items()} if a.quick else GRID_B3
