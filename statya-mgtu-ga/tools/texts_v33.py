@@ -359,7 +359,7 @@ def paragraphs(S: dict) -> list[tuple[str, str | None, str]]:
         f"выявил {pc(P['recall_subst'])} % (между выборками "
         f"{pc(P['subst_seed_min'])}–{pc(P['subst_seed_max'])} %), Б3 — {pc(B3['recall_subst'])} % "
         f"({pc(B3['subst_seed_min'])}–{pc(B3['subst_seed_max'])} %), Б2 — {pc(B2['recall_subst'])} %: "
-        f"{gap_ru}. По подвидам (рис. 2) П и Б3 близки: подлог с подавлением подлинной отметки "
+        f"{gap_ru}. По видам (рис. 2) П и Б3 различаются мало; по подвидам: подлог с подавлением подлинной отметки "
         f"(V1b) — {pc(d.sub[('P', 'V1b')]['recall'], 0)} и {pc(d.sub[('B3', 'V1b')]['recall'], 0)} %, "
         f"сдвиг метки окончания — {pc(d.sub[('P', 'V2-end')]['recall'], 0)} и "
         f"{pc(d.sub[('B3', 'V2-end')]['recall'], 0)} %, нарушение порядка только в данных (V5b) — "
@@ -419,7 +419,7 @@ def paragraphs(S: dict) -> list[tuple[str, str | None, str]]:
     quiet_c = camp[("GATE_QUIET", "P", "CUSUM")]
     res_flow = (
         f" При атаке в 70 % оборотов подозрение на захваченный терминал при K = 3 возникало от "
-        f"{pc(min(a_share), 0)} % суток (служба уборки, где нет независимого источника) до "
+        f"{pc(min(a_share), 0)} % суток (служба уборки: её окончание проверяется только нормой длительности) до "
         f"{pc(max(a_share), 0)} % (ложный признак заправки); у Б2 — ни разу. «Тихий» нарушитель "
         f"({pc(f['q_quiet'], 0)} % отметок) выявлялся в {pc(quiet['detected_share'], 0)} % суток "
         f"правилом K = 3 и в {pc(quiet_c['detected_share'], 0)} % — CUSUM и давал "
@@ -519,7 +519,7 @@ def paragraphs(S: dict) -> list[tuple[str, str | None, str]]:
         " Recall is the share of detected violations; 95% Wilson intervals in brackets (generator "
         "randomness only). All violations: all types except V5a; substantive: V1b, V2, V5b, V7c; "
         "by construction: V1a, V3, V4, V7a; out of reach: V6, V7b, V8. False decisions are "
-        f"turnarounds of categories C1 and C2 (С1, С2) out of {n_viol:,} with violations, assuming an "
+        f"turnarounds of categories С1 and С2 out of {n_viol:,} with violations, assuming an "
         "error-free manual check; checks are on normal turnarounds, 180 per day.")
 
     return [
@@ -549,9 +549,9 @@ def table4(S: dict) -> list[list[list[str] | None]]:
     d = D(S)
     head = [["Метод /", "Method"], ["Ложные тревоги, % /", "False alarms, %"],
             ["Все нарушения, % /", "All violations, %"],
-            ["Содержа-", "тельные, % /", "Substantive, %"],
-            ["По постро-", "ению, % /", "By construc-", "tion, %"],
-            ["Вне возмож-", "ностей, % /", "Out of reach, %"],
+            ["Содержатель-", "ные, % /", "Substantive, %"],
+            ["По построе-", "нию, % /", "By construc-", "tion, %"],
+            ["Вне возмож-", "ностей, % /", "Out of", "reach, %"],
             ["Ложных решений С1 и С2 /", "False decisions"],
             ["Проверок в сутки /", "Checks per day"]]
     rows = [head]

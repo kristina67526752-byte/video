@@ -104,6 +104,12 @@ class Builder33(Builder):
         tbls = self.tables()
         t4, t5 = tbls[3], tbls[4]
         self.fill_table(t4, T.table4(S))
+        widths = [1500, 1150, 1250, 1350, 1150, 1150, 1150, 938]      # сумма прежняя, 9638
+        for g, w in zip(t4.find(q("tblGrid")).findall(q("gridCol")), widths):
+            g.set(q("w"), str(w))
+        for tr in t4.findall(q("tr")):
+            for tc, w in zip(tr.findall(q("tc")), widths):
+                tc.find(q("tcPr")).find(q("tcW")).set(q("w"), str(w))
         trs = t5.findall(q("tr"))
         new_row = copy.deepcopy(trs[1])
         trs[4].addnext(new_row)                    # строка «тихого» нарушителя — после атак
