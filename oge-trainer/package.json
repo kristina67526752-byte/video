@@ -11,7 +11,8 @@
     "demo": "vite --mode demo",
     "build:demo": "tsc -b && vite build --mode demo",
     "push-tasks": "node scripts/push-tasks.mjs",
-    "check-tasks": "node scripts/push-tasks.mjs --dry-run"
+    "check-tasks": "node scripts/push-tasks.mjs --dry-run",
+    "check-settings": "node --input-type=module -e \"import('./scripts/settings.mjs').then((m) => m.printDiagnosis())\""
   },
   "dependencies": {
     "@supabase/supabase-js": "2.45.4",
