@@ -1,0 +1,43 @@
+# Yandex Cloud API Gateway для тренажёра.
+# Отдаёт сайт из бакета Object Storage и пересылает запросы /sb/... в Supabase,
+# чтобы ученикам в России не нужен был прямой доступ к netlify.app и supabase.co.
+# Замените три значения: ИМЯ_БАКЕТА, ID_СЕРВИСНОГО_АККАУНТА, АДРЕС_SUPABASE (без / в конце).
+openapi: 3.0.0
+info:
+  title: oge-english
+  version: 1.0.0
+paths:
+  /:
+    get:
+      x-yc-apigateway-integration:
+        type: object_storage
+        bucket: ИМЯ_БАКЕТА
+        object: index.html
+        service_account_id: ID_СЕРВИСНОГО_АККАУНТА
+  /sb/{path+}:
+    x-yc-apigateway-any-method:
+      parameters:
+        - name: path
+          in: path
+          required: true
+          schema:
+            type: string
+      x-yc-apigateway-integration:
+        type: http
+        url: АДРЕС_SUPABASE/{path}
+        timeouts:
+          connect: 5
+          read: 30
+  /{file+}:
+    get:
+      parameters:
+        - name: file
+          in: path
+          required: true
+          schema:
+            type: string
+      x-yc-apigateway-integration:
+        type: object_storage
+        bucket: ИМЯ_БАКЕТА
+        object: '{file}'
+        service_account_id: ID_СЕРВИСНОГО_АККАУНТА
