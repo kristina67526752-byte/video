@@ -5,6 +5,7 @@ import { countFor } from '../lib/progress';
 import type { Passage, Section, Solution, Task } from '../lib/types';
 import type { TaskState } from '../lib/progress';
 import TaskCard from '../components/TaskCard';
+import OpenTaskCard from '../components/OpenTaskCard';
 import { Legend, ProgressBar } from '../components/ProgressBar';
 
 function TextPanel({ section, passage, tasks, states, onGapClick }: {
@@ -91,9 +92,19 @@ export default function PassagePage() {
             {next ? <Link className="btn ghost small" to={`/p/${next.id}`}>Дальше →</Link> : <span />}
           </div>
         </div>
-        <div className="mini-progress"><ProgressBar c={c} thin /><Legend c={c} /></div>
+        {section.kind !== 'open' && <div className="mini-progress"><ProgressBar c={c} thin /><Legend c={c} /></div>}
       </div>
 
+      {section.kind === 'open' ? (
+        <div className="open-wrap">
+          {section.instruction && <p className="instruction">{section.instruction}</p>}
+          {tasks.map((t) => <OpenTaskCard key={t.id} task={t} />)}
+          <div className="pager bottom">
+            {prev ? <Link className="btn ghost" to={`/p/${prev.id}`}>← Предыдущее</Link> : <span />}
+            {next ? <Link className="btn primary" to={`/p/${next.id}`}>Следующее →</Link> : <Link className="btn ghost" to={`/s/${section.id}`}>К списку</Link>}
+          </div>
+        </div>
+      ) : (
       <div className="split">
         <section className={'text-pane' + (textOpen ? ' open' : '')}>
           <button className="text-toggle" onClick={() => setTextOpen(!textOpen)} aria-expanded={textOpen}>
@@ -115,6 +126,7 @@ export default function PassagePage() {
           </div>
         </section>
       </div>
+      )}
     </div>
   );
 }

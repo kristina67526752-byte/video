@@ -19,7 +19,7 @@ export default function TeacherPage() {
   const [sort, setSort] = useState<SortKey>('activity');
   const [live, setLive] = useState(0);
   const timer = useRef<number | undefined>(undefined);
-  const totalTasks = index?.tasksById.size || 1;
+  const totalTasks = index ? [...index.tasksById.values()].filter((t) => t.kind !== 'open').length || 1 : 1;
 
   const load = useCallback(async () => {
     try { setRows(await api.teacherOverview()); setUpdated(new Date()); setError(null); }

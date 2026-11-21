@@ -15,7 +15,7 @@ function validate(data) {
   const sectionIds = new Set(); const passageIds = new Set(); const taskIds = new Set();
   for (const s of data.sections || []) {
     if (!s.id || !s.title) errors.push(`Раздел без id/title: ${JSON.stringify(s).slice(0, 80)}`);
-    if (!['matching', 'tfn', 'gap'].includes(s.kind)) errors.push(`Раздел ${s.id}: kind должен быть matching | tfn | gap`);
+    if (!['matching', 'tfn', 'gap', 'open'].includes(s.kind)) errors.push(`Раздел ${s.id}: kind должен быть matching | tfn | gap`);
     if (sectionIds.has(s.id)) errors.push(`Повтор id раздела ${s.id}`); sectionIds.add(s.id);
   }
   for (const p of data.passages || []) {
@@ -29,7 +29,8 @@ function validate(data) {
     if (taskIds.has(t.id)) errors.push(`Повтор id задания ${t.id}`); taskIds.add(t.id);
     if (!sectionIds.has(t.section_id)) errors.push(`${where}: нет раздела ${t.section_id}`);
     if (t.passage_id && !passageIds.has(t.passage_id)) errors.push(`${where}: нет текста ${t.passage_id}`);
-    if (!['text', 'choice', 'matching'].includes(t.kind)) errors.push(`${where}: kind должен быть text | choice | matching`);
+    if (!['text', 'choice', 'matching', 'open'].includes(t.kind)) errors.push(`${where}: kind должен быть text | choice | matching | open`);
+    if (t.kind === 'open') { if (!t.prompt) errors.push(`${where}: пустой prompt`); continue; }
     if (!t.prompt) errors.push(`${where}: пустой prompt`);
     if (!Array.isArray(t.answers) || !t.answers.length || t.answers.some((a) => typeof a !== 'string' || !a.trim())) errors.push(`${where}: answers должен быть непустым списком строк`);
     if (t.kind === 'text' && !String(t.prompt).includes('_____')) errors.push(`${where}: в prompt нет пропуска «_____» (5 подчёркиваний)`);
@@ -86,6 +87,11 @@ try {
   console.error(`\n✗ Неверный адрес проекта: «${url}». В файле НАСТРОЙКИ.txt строка должна выглядеть так:\n  VITE_SUPABASE_URL=https://abcd1234.supabase.co\nБез лишних слов перед https.`);
   process.exit(1);
 }
+// Письма и устная часть (kind = open) не проверяются на сервере — в базу их не загружаем, сайт берёт их из catalog.json.
+const openSections = new Set(data.sections.filter((s) => s.kind === 'open').map((s) => s.id));
+data.sections = data.sections.filter((s) => !openSections.has(s.id));
+data.passages = data.passages.filter((p) => !openSections.has(p.section_id));
+data.tasks = data.tasks.filter((t) => t.kind !== 'open');
 const pick = (o, keys) => Object.fromEntries(keys.map((k) => [k, o[k] ?? null]));
 try {
   await upsert(sb, 'sections', data.sections.map((s) => pick(s, ['id', 'title', 'subtitle', 'kind', 'instruction', 'sort'])));

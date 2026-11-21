@@ -252,3 +252,24 @@ label.check input { width: 16px; height: 16px; }
 }
 .teacher-code summary { cursor: pointer; font-weight: 600; color: var(--muted); }
 .error-item .link { align-self: flex-start; }
+
+/* письмо и устная часть */
+.open-wrap { max-width: 860px; display: flex; flex-direction: column; gap: 14px; }
+.open-task .status { margin-left: auto; }
+.open-prompt { font-family: var(--read); font-size: 16.5px; line-height: 1.6; margin: 6px 0 12px; }
+.open-prompt p { margin: 0 0 6px; }
+.email-box { border: 1px solid var(--line); border-left: 4px solid var(--primary); background: var(--surface-2); border-radius: 10px; padding: 12px 14px; margin: 8px 0 10px; }
+.email-head { font-family: var(--ui); font-size: 14px; color: var(--muted); margin: 0 0 2px !important; }
+.letter { width: 100%; font: 16px/1.6 var(--read); color: var(--text); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; resize: vertical; outline: none; }
+.letter:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-soft); }
+.word-count { flex: 1; font-size: 14px; }
+.word-count.ok { color: var(--ok); } .word-count.warn { color: var(--warn); } .word-count.bad { color: var(--bad); }
+.read-text { font-size: 18px; line-height: 1.75; background: var(--surface-2); border-radius: 10px; padding: 14px 16px; }
+.talk-plan { margin: 6px 0; padding-left: 22px; } .talk-plan li { margin-bottom: 4px; } .talk-plan li.plain { list-style: none; margin-left: -22px; }
+.timer { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 12px 14px; border-radius: 10px; background: var(--surface-2); margin-bottom: 8px; font-size: 16px; }
+.timer b { font-variant-numeric: tabular-nums; font-size: 20px; }
+.timer.prep { background: var(--warn-soft); } .timer.speak { background: var(--ok-soft); } .timer.done { background: var(--primary-soft); }
+.letter { min-height: 280px; display: block; margin-bottom: 8px; }
+.open-task .task-head { flex-wrap: wrap; }
+.open-task .num { white-space: nowrap; }
+.open-task .task-head .status { white-space: normal; }

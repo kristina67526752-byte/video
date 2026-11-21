@@ -40,9 +40,15 @@ export default function HomePage() {
             <Link key={s.id} to={`/s/${s.id}`} className="card section-card">
               <div className="section-num">{s.title}</div>
               <h2>{s.subtitle}</h2>
-              <p className="muted small">{n} {s.kind === 'matching' ? 'наборов текстов' : 'текстов'} · {c.total} заданий</p>
-              <ProgressBar c={c} />
-              <Legend c={c} />
+              {s.kind === 'open' ? (
+                <p className="muted small">{n} заданий · без автопроверки: выполненное отправляйте преподавателю в личные сообщения</p>
+              ) : (
+                <>
+                  <p className="muted small">{n} {s.kind === 'matching' ? 'наборов текстов' : 'текстов'} · {c.total} заданий</p>
+                  <ProgressBar c={c} />
+                  <Legend c={c} />
+                </>
+              )}
             </Link>
           );
         })}

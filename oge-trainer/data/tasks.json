@@ -31,6 +31,22 @@
    "kind": "gap",
    "sort": 4,
    "instruction": "Образуйте от слов, напечатанных заглавными буквами, однокоренные слова так, чтобы они грамматически и лексически соответствовали содержанию текста. Заполните пропуски полученными словами."
+  },
+  {
+   "id": "writing-35",
+   "title": "Задание 35",
+   "subtitle": "Письмо",
+   "kind": "open",
+   "sort": 5,
+   "instruction": "Напишите ответ на электронное письмо зарубежного друга (100–120 слов). Ответьте на все три вопроса и соблюдайте правила оформления письма. Готовый текст отправьте преподавателю в личные сообщения."
+  },
+  {
+   "id": "speaking",
+   "title": "Устная часть",
+   "subtitle": "Чтение вслух и монолог",
+   "kind": "open",
+   "sort": 6,
+   "instruction": "Выполните задание вслух с таймером, запишите голосовое сообщение и отправьте его преподавателю в личные сообщения."
   }
  ],
  "passages": [
@@ -1524,6 +1540,1049 @@
    "sort": 74,
    "title": "Tom woke up relatively early. But he…",
    "body": ""
+  },
+  {
+   "id": "m-talk-01",
+   "section_id": "speaking",
+   "title": "Монолог: your school",
+   "body": "",
+   "sort": 101
+  },
+  {
+   "id": "m-talk-02",
+   "section_id": "speaking",
+   "title": "Монолог: conflicts with your friends",
+   "body": "",
+   "sort": 102
+  },
+  {
+   "id": "r-01",
+   "section_id": "speaking",
+   "title": "Чтение вслух: People have always wanted to discover…",
+   "body": "",
+   "sort": 1
+  },
+  {
+   "id": "e-01",
+   "section_id": "writing-35",
+   "title": "Письмо от Ann: School clubs",
+   "body": "",
+   "sort": 1
+  },
+  {
+   "id": "r-02",
+   "section_id": "speaking",
+   "title": "Чтение вслух: Without the energy from the Sun,…",
+   "body": "",
+   "sort": 2
+  },
+  {
+   "id": "m-talk-03",
+   "section_id": "speaking",
+   "title": "Монолог: your school holidays",
+   "body": "",
+   "sort": 103
+  },
+  {
+   "id": "r-03",
+   "section_id": "speaking",
+   "title": "Чтение вслух: Since 2007 high-speed trains have become…",
+   "body": "",
+   "sort": 3
+  },
+  {
+   "id": "m-talk-04",
+   "section_id": "speaking",
+   "title": "Монолог: travelling",
+   "body": "",
+   "sort": 104
+  },
+  {
+   "id": "m-talk-05",
+   "section_id": "speaking",
+   "title": "Монолог: hobbies",
+   "body": "",
+   "sort": 105
+  },
+  {
+   "id": "r-04",
+   "section_id": "speaking",
+   "title": "Чтение вслух: Studies of the atmosphere first received…",
+   "body": "",
+   "sort": 4
+  },
+  {
+   "id": "r-05",
+   "section_id": "speaking",
+   "title": "Чтение вслух: Most people enjoy watching the night…",
+   "body": "",
+   "sort": 5
+  },
+  {
+   "id": "e-02",
+   "section_id": "writing-35",
+   "title": "Письмо от Jim: New Year resolutions",
+   "body": "",
+   "sort": 2
+  },
+  {
+   "id": "r-06",
+   "section_id": "speaking",
+   "title": "Чтение вслух: The mobile phone has become an…",
+   "body": "",
+   "sort": 6
+  },
+  {
+   "id": "e-03",
+   "section_id": "writing-35",
+   "title": "Письмо от Ann: Exams",
+   "body": "",
+   "sort": 3
+  },
+  {
+   "id": "r-07",
+   "section_id": "speaking",
+   "title": "Чтение вслух: Table tennis is the third most…",
+   "body": "",
+   "sort": 7
+  },
+  {
+   "id": "r-08",
+   "section_id": "speaking",
+   "title": "Чтение вслух: A zoo, also known as a…",
+   "body": "",
+   "sort": 8
+  },
+  {
+   "id": "m-talk-06",
+   "section_id": "speaking",
+   "title": "Монолог: reading books",
+   "body": "",
+   "sort": 106
+  },
+  {
+   "id": "m-talk-07",
+   "section_id": "speaking",
+   "title": "Монолог: travelling",
+   "body": "",
+   "sort": 107
+  },
+  {
+   "id": "m-talk-08",
+   "section_id": "speaking",
+   "title": "Монолог: keeping fit",
+   "body": "",
+   "sort": 108
+  },
+  {
+   "id": "e-04",
+   "section_id": "writing-35",
+   "title": "Письмо от Jim: Sports",
+   "body": "",
+   "sort": 4
+  },
+  {
+   "id": "r-09",
+   "section_id": "speaking",
+   "title": "Чтение вслух: The first vacuum cleaner was designed…",
+   "body": "",
+   "sort": 9
+  },
+  {
+   "id": "r-10",
+   "section_id": "speaking",
+   "title": "Чтение вслух: The Arctic Ocean is the smallest…",
+   "body": "",
+   "sort": 10
+  },
+  {
+   "id": "r-11",
+   "section_id": "speaking",
+   "title": "Чтение вслух: It’s hard to find a more…",
+   "body": "",
+   "sort": 11
+  },
+  {
+   "id": "m-talk-09",
+   "section_id": "speaking",
+   "title": "Монолог: family",
+   "body": "",
+   "sort": 109
+  },
+  {
+   "id": "r-12",
+   "section_id": "speaking",
+   "title": "Чтение вслух: Great Britain is home to the…",
+   "body": "",
+   "sort": 12
+  },
+  {
+   "id": "r-13",
+   "section_id": "speaking",
+   "title": "Чтение вслух: Bicycles or bikes are an important…",
+   "body": "",
+   "sort": 13
+  },
+  {
+   "id": "r-14",
+   "section_id": "speaking",
+   "title": "Чтение вслух: English is the third most-spoken language…",
+   "body": "",
+   "sort": 14
+  },
+  {
+   "id": "r-15",
+   "section_id": "speaking",
+   "title": "Чтение вслух: Human activity creates waste. The problem…",
+   "body": "",
+   "sort": 15
+  },
+  {
+   "id": "m-talk-10",
+   "section_id": "speaking",
+   "title": "Монолог: animals",
+   "body": "",
+   "sort": 110
+  },
+  {
+   "id": "e-05",
+   "section_id": "writing-35",
+   "title": "Письмо от Ann: Future profession",
+   "body": "",
+   "sort": 5
+  },
+  {
+   "id": "m-talk-11",
+   "section_id": "speaking",
+   "title": "Монолог: your school",
+   "body": "",
+   "sort": 111
+  },
+  {
+   "id": "r-16",
+   "section_id": "speaking",
+   "title": "Чтение вслух: The construction of the longest and…",
+   "body": "",
+   "sort": 16
+  },
+  {
+   "id": "r-17",
+   "section_id": "speaking",
+   "title": "Чтение вслух: The rainforest can be described as…",
+   "body": "",
+   "sort": 17
+  },
+  {
+   "id": "m-talk-12",
+   "section_id": "speaking",
+   "title": "Монолог: school life",
+   "body": "",
+   "sort": 112
+  },
+  {
+   "id": "m-talk-13",
+   "section_id": "speaking",
+   "title": "Монолог: shopping",
+   "body": "",
+   "sort": 113
+  },
+  {
+   "id": "r-18",
+   "section_id": "speaking",
+   "title": "Чтение вслух: Global warming is a result of…",
+   "body": "",
+   "sort": 18
+  },
+  {
+   "id": "e-06",
+   "section_id": "writing-35",
+   "title": "Письмо от Ann: The life of modern teenagers",
+   "body": "",
+   "sort": 6
+  },
+  {
+   "id": "m-talk-14",
+   "section_id": "speaking",
+   "title": "Монолог: sports",
+   "body": "",
+   "sort": 114
+  },
+  {
+   "id": "m-talk-15",
+   "section_id": "speaking",
+   "title": "Монолог: environmental problems",
+   "body": "",
+   "sort": 115
+  },
+  {
+   "id": "m-talk-16",
+   "section_id": "speaking",
+   "title": "Монолог: travelling",
+   "body": "",
+   "sort": 116
+  },
+  {
+   "id": "m-talk-17",
+   "section_id": "speaking",
+   "title": "Монолог: your school",
+   "body": "",
+   "sort": 117
+  },
+  {
+   "id": "r-19",
+   "section_id": "speaking",
+   "title": "Чтение вслух: Snowdon is the highest mountain in…",
+   "body": "",
+   "sort": 19
+  },
+  {
+   "id": "m-talk-18",
+   "section_id": "speaking",
+   "title": "Монолог: your free time",
+   "body": "",
+   "sort": 118
+  },
+  {
+   "id": "r-20",
+   "section_id": "speaking",
+   "title": "Чтение вслух: Though most people believe that the…",
+   "body": "",
+   "sort": 20
+  },
+  {
+   "id": "m-talk-19",
+   "section_id": "speaking",
+   "title": "Монолог: films",
+   "body": "",
+   "sort": 119
+  },
+  {
+   "id": "r-21",
+   "section_id": "speaking",
+   "title": "Чтение вслух: We don’t realize how lucky we…",
+   "body": "",
+   "sort": 21
+  },
+  {
+   "id": "r-22",
+   "section_id": "speaking",
+   "title": "Чтение вслух: In 1642 a French student invented…",
+   "body": "",
+   "sort": 22
+  },
+  {
+   "id": "r-23",
+   "section_id": "speaking",
+   "title": "Чтение вслух: Do you know why it is…",
+   "body": "",
+   "sort": 23
+  },
+  {
+   "id": "r-24",
+   "section_id": "speaking",
+   "title": "Чтение вслух: A robot is a machine that…",
+   "body": "",
+   "sort": 24
+  },
+  {
+   "id": "r-25",
+   "section_id": "speaking",
+   "title": "Чтение вслух: Venus is one of the hottest…",
+   "body": "",
+   "sort": 25
+  },
+  {
+   "id": "r-26",
+   "section_id": "speaking",
+   "title": "Чтение вслух: We are always told that we…",
+   "body": "",
+   "sort": 26
+  },
+  {
+   "id": "m-talk-20",
+   "section_id": "speaking",
+   "title": "Монолог: pocket money",
+   "body": "",
+   "sort": 120
+  },
+  {
+   "id": "r-27",
+   "section_id": "speaking",
+   "title": "Чтение вслух: The Channel Tunnel is a rail…",
+   "body": "",
+   "sort": 27
+  },
+  {
+   "id": "r-28",
+   "section_id": "speaking",
+   "title": "Чтение вслух: The word “tsunami” can be translated…",
+   "body": "",
+   "sort": 28
+  },
+  {
+   "id": "e-07",
+   "section_id": "writing-35",
+   "title": "Письмо от Ann: Family gatherings",
+   "body": "",
+   "sort": 7
+  },
+  {
+   "id": "e-08",
+   "section_id": "writing-35",
+   "title": "Письмо от Jim: Health",
+   "body": "",
+   "sort": 8
+  },
+  {
+   "id": "r-29",
+   "section_id": "speaking",
+   "title": "Чтение вслух: Wombats are exotic animals that only…",
+   "body": "",
+   "sort": 29
+  },
+  {
+   "id": "m-talk-21",
+   "section_id": "speaking",
+   "title": "Монолог: school homework",
+   "body": "",
+   "sort": 121
+  },
+  {
+   "id": "r-30",
+   "section_id": "speaking",
+   "title": "Чтение вслух: The Caspian Sea is one of…",
+   "body": "",
+   "sort": 30
+  },
+  {
+   "id": "r-31",
+   "section_id": "speaking",
+   "title": "Чтение вслух: Nowadays solar energy is widely used…",
+   "body": "",
+   "sort": 31
+  },
+  {
+   "id": "m-talk-22",
+   "section_id": "speaking",
+   "title": "Монолог: TV",
+   "body": "",
+   "sort": 122
+  },
+  {
+   "id": "m-talk-23",
+   "section_id": "speaking",
+   "title": "Монолог: TV",
+   "body": "",
+   "sort": 123
+  },
+  {
+   "id": "r-32",
+   "section_id": "speaking",
+   "title": "Чтение вслух: One day a young man who…",
+   "body": "",
+   "sort": 32
+  },
+  {
+   "id": "m-talk-24",
+   "section_id": "speaking",
+   "title": "Монолог: your school",
+   "body": "",
+   "sort": 124
+  },
+  {
+   "id": "r-33",
+   "section_id": "speaking",
+   "title": "Чтение вслух: The carrot is a root vegetable…",
+   "body": "",
+   "sort": 33
+  },
+  {
+   "id": "e-09",
+   "section_id": "writing-35",
+   "title": "Письмо от Emily: Coming late",
+   "body": "",
+   "sort": 9
+  },
+  {
+   "id": "m-talk-25",
+   "section_id": "speaking",
+   "title": "Монолог: learning foreign languages",
+   "body": "",
+   "sort": 125
+  },
+  {
+   "id": "r-34",
+   "section_id": "speaking",
+   "title": "Чтение вслух: Recycling is a technology that helps…",
+   "body": "",
+   "sort": 34
+  },
+  {
+   "id": "r-35",
+   "section_id": "speaking",
+   "title": "Чтение вслух: Oxford University is the oldest university…",
+   "body": "",
+   "sort": 35
+  },
+  {
+   "id": "r-36",
+   "section_id": "speaking",
+   "title": "Чтение вслух: Our planet is the only planet…",
+   "body": "",
+   "sort": 36
+  },
+  {
+   "id": "m-talk-26",
+   "section_id": "speaking",
+   "title": "Монолог: keeping fit",
+   "body": "",
+   "sort": 126
+  },
+  {
+   "id": "r-37",
+   "section_id": "speaking",
+   "title": "Чтение вслух: The human brain is the most…",
+   "body": "",
+   "sort": 37
+  },
+  {
+   "id": "m-talk-27",
+   "section_id": "speaking",
+   "title": "Монолог: the Internet",
+   "body": "",
+   "sort": 127
+  },
+  {
+   "id": "r-38",
+   "section_id": "speaking",
+   "title": "Чтение вслух: Nowadays people can’t imagine their kitchen…",
+   "body": "",
+   "sort": 38
+  },
+  {
+   "id": "m-talk-28",
+   "section_id": "speaking",
+   "title": "Монолог: your best friend",
+   "body": "",
+   "sort": 128
+  },
+  {
+   "id": "m-talk-29",
+   "section_id": "speaking",
+   "title": "Монолог: the place where you live",
+   "body": "",
+   "sort": 129
+  },
+  {
+   "id": "m-talk-30",
+   "section_id": "speaking",
+   "title": "Монолог: household chores",
+   "body": "",
+   "sort": 130
+  },
+  {
+   "id": "e-10",
+   "section_id": "writing-35",
+   "title": "Письмо от Andrew: Learning foreign languages",
+   "body": "",
+   "sort": 10
+  },
+  {
+   "id": "e-11",
+   "section_id": "writing-35",
+   "title": "Письмо от Lily: Holidays",
+   "body": "",
+   "sort": 11
+  },
+  {
+   "id": "e-12",
+   "section_id": "writing-35",
+   "title": "Письмо от Ben: Learning foreign languages",
+   "body": "",
+   "sort": 12
+  },
+  {
+   "id": "e-13",
+   "section_id": "writing-35",
+   "title": "Письмо от Andrew: School",
+   "body": "",
+   "sort": 13
+  },
+  {
+   "id": "e-14",
+   "section_id": "writing-35",
+   "title": "Письмо от Harry: Reading",
+   "body": "",
+   "sort": 14
+  },
+  {
+   "id": "e-15",
+   "section_id": "writing-35",
+   "title": "Письмо от Jim: School subjects",
+   "body": "",
+   "sort": 15
+  },
+  {
+   "id": "e-16",
+   "section_id": "writing-35",
+   "title": "Письмо от Jane: Household chores",
+   "body": "",
+   "sort": 16
+  },
+  {
+   "id": "e-17",
+   "section_id": "writing-35",
+   "title": "Письмо от Sophie: Future profession",
+   "body": "",
+   "sort": 17
+  },
+  {
+   "id": "e-18",
+   "section_id": "writing-35",
+   "title": "Письмо от Alice: Watching TV",
+   "body": "",
+   "sort": 18
+  },
+  {
+   "id": "e-19",
+   "section_id": "writing-35",
+   "title": "Письмо от Alice: Career plans",
+   "body": "",
+   "sort": 19
+  },
+  {
+   "id": "e-20",
+   "section_id": "writing-35",
+   "title": "Письмо от Andrew: Music lessons",
+   "body": "",
+   "sort": 20
+  },
+  {
+   "id": "e-21",
+   "section_id": "writing-35",
+   "title": "Письмо от Andrew: Sports",
+   "body": "",
+   "sort": 21
+  },
+  {
+   "id": "e-22",
+   "section_id": "writing-35",
+   "title": "Письмо от Emma: Mobile phones",
+   "body": "",
+   "sort": 22
+  },
+  {
+   "id": "e-23",
+   "section_id": "writing-35",
+   "title": "Письмо от Ben: Pets",
+   "body": "",
+   "sort": 23
+  },
+  {
+   "id": "e-24",
+   "section_id": "writing-35",
+   "title": "Письмо от Ben: News",
+   "body": "",
+   "sort": 24
+  },
+  {
+   "id": "e-25",
+   "section_id": "writing-35",
+   "title": "Письмо от Paul: Ecological problems",
+   "body": "",
+   "sort": 25
+  },
+  {
+   "id": "e-26",
+   "section_id": "writing-35",
+   "title": "Письмо от Harry: Music",
+   "body": "",
+   "sort": 26
+  },
+  {
+   "id": "e-27",
+   "section_id": "writing-35",
+   "title": "Письмо от Ben: Theatre",
+   "body": "",
+   "sort": 27
+  },
+  {
+   "id": "e-28",
+   "section_id": "writing-35",
+   "title": "Письмо от Emma: Museum",
+   "body": "",
+   "sort": 28
+  },
+  {
+   "id": "e-29",
+   "section_id": "writing-35",
+   "title": "Письмо от Lily: Family holidays",
+   "body": "",
+   "sort": 29
+  },
+  {
+   "id": "e-30",
+   "section_id": "writing-35",
+   "title": "Письмо от Emily: Learning foreign languages",
+   "body": "",
+   "sort": 30
+  },
+  {
+   "id": "e-31",
+   "section_id": "writing-35",
+   "title": "Письмо от Ann: My best friend",
+   "body": "",
+   "sort": 31
+  },
+  {
+   "id": "e-32",
+   "section_id": "writing-35",
+   "title": "Письмо от Ben: Books",
+   "body": "",
+   "sort": 32
+  },
+  {
+   "id": "e-33",
+   "section_id": "writing-35",
+   "title": "Письмо от Ma: Robots",
+   "body": "",
+   "sort": 33
+  },
+  {
+   "id": "e-34",
+   "section_id": "writing-35",
+   "title": "Письмо от Ann: Diet",
+   "body": "",
+   "sort": 34
+  },
+  {
+   "id": "e-35",
+   "section_id": "writing-35",
+   "title": "Письмо от Nancy: Excursion",
+   "body": "",
+   "sort": 35
+  },
+  {
+   "id": "e-36",
+   "section_id": "writing-35",
+   "title": "Письмо от Ben: School clubs",
+   "body": "",
+   "sort": 36
+  },
+  {
+   "id": "e-37",
+   "section_id": "writing-35",
+   "title": "Письмо от Harry: The end of the school year",
+   "body": "",
+   "sort": 37
+  },
+  {
+   "id": "e-38",
+   "section_id": "writing-35",
+   "title": "Письмо от Ben: Future career",
+   "body": "",
+   "sort": 38
+  },
+  {
+   "id": "e-39",
+   "section_id": "writing-35",
+   "title": "Письмо от Andrew: Watching films",
+   "body": "",
+   "sort": 39
+  },
+  {
+   "id": "e-40",
+   "section_id": "writing-35",
+   "title": "Письмо от Jane: Exam preparation",
+   "body": "",
+   "sort": 40
+  },
+  {
+   "id": "e-41",
+   "section_id": "writing-35",
+   "title": "Письмо от Andrew: My new school",
+   "body": "",
+   "sort": 41
+  },
+  {
+   "id": "e-42",
+   "section_id": "writing-35",
+   "title": "Письмо от Ben: Clothes",
+   "body": "",
+   "sort": 42
+  },
+  {
+   "id": "e-43",
+   "section_id": "writing-35",
+   "title": "Письмо от Ben: Sport in everyday life",
+   "body": "",
+   "sort": 43
+  },
+  {
+   "id": "e-44",
+   "section_id": "writing-35",
+   "title": "Письмо от Ben: Zoo",
+   "body": "",
+   "sort": 44
+  },
+  {
+   "id": "e-45",
+   "section_id": "writing-35",
+   "title": "Письмо от Kate: Souvenirs",
+   "body": "",
+   "sort": 45
+  },
+  {
+   "id": "e-46",
+   "section_id": "writing-35",
+   "title": "Письмо от Kate: Books",
+   "body": "",
+   "sort": 46
+  },
+  {
+   "id": "e-47",
+   "section_id": "writing-35",
+   "title": "Письмо от Ann: Sports",
+   "body": "",
+   "sort": 47
+  },
+  {
+   "id": "e-48",
+   "section_id": "writing-35",
+   "title": "Письмо от Kate: School",
+   "body": "",
+   "sort": 48
+  },
+  {
+   "id": "e-49",
+   "section_id": "writing-35",
+   "title": "Письмо от Kate: Pets",
+   "body": "",
+   "sort": 49
+  },
+  {
+   "id": "e-50",
+   "section_id": "writing-35",
+   "title": "Письмо от Andrew: Mother’s Day",
+   "body": "",
+   "sort": 50
+  },
+  {
+   "id": "e-51",
+   "section_id": "writing-35",
+   "title": "Письмо от Ben: Presents",
+   "body": "",
+   "sort": 51
+  },
+  {
+   "id": "e-52",
+   "section_id": "writing-35",
+   "title": "Письмо от Ben: Hobby",
+   "body": "",
+   "sort": 52
+  },
+  {
+   "id": "e-53",
+   "section_id": "writing-35",
+   "title": "Письмо от Kate: Christmas time",
+   "body": "",
+   "sort": 53
+  },
+  {
+   "id": "e-54",
+   "section_id": "writing-35",
+   "title": "Письмо от Sam: School",
+   "body": "",
+   "sort": 54
+  },
+  {
+   "id": "e-55",
+   "section_id": "writing-35",
+   "title": "Письмо от Ben: Summer",
+   "body": "",
+   "sort": 55
+  },
+  {
+   "id": "e-56",
+   "section_id": "writing-35",
+   "title": "Письмо от Ann: Learning foreign languages",
+   "body": "",
+   "sort": 56
+  },
+  {
+   "id": "e-57",
+   "section_id": "writing-35",
+   "title": "Письмо от Ben: Holidays",
+   "body": "",
+   "sort": 57
+  },
+  {
+   "id": "e-58",
+   "section_id": "writing-35",
+   "title": "Письмо от Tom: Missing my computer",
+   "body": "",
+   "sort": 58
+  },
+  {
+   "id": "e-59",
+   "section_id": "writing-35",
+   "title": "Письмо от Helen: Russian Nature",
+   "body": "",
+   "sort": 59
+  },
+  {
+   "id": "e-60",
+   "section_id": "writing-35",
+   "title": "Письмо от Jane: Family gatherings",
+   "body": "",
+   "sort": 60
+  },
+  {
+   "id": "e-61",
+   "section_id": "writing-35",
+   "title": "Письмо от James: Travelling to Russia",
+   "body": "",
+   "sort": 61
+  },
+  {
+   "id": "e-62",
+   "section_id": "writing-35",
+   "title": "Письмо от Barbara: After school holidays",
+   "body": "",
+   "sort": 62
+  },
+  {
+   "id": "e-63",
+   "section_id": "writing-35",
+   "title": "Письмо от Mary: Hobbies",
+   "body": "",
+   "sort": 63
+  },
+  {
+   "id": "e-64",
+   "section_id": "writing-35",
+   "title": "Письмо от Nick: School friends",
+   "body": "",
+   "sort": 64
+  },
+  {
+   "id": "e-65",
+   "section_id": "writing-35",
+   "title": "Письмо от Jack: Life without gadgets",
+   "body": "",
+   "sort": 65
+  },
+  {
+   "id": "e-66",
+   "section_id": "writing-35",
+   "title": "Письмо от Mike: Ecological problems",
+   "body": "",
+   "sort": 66
+  },
+  {
+   "id": "e-67",
+   "section_id": "writing-35",
+   "title": "Письмо от Edna: Watching films",
+   "body": "",
+   "sort": 67
+  },
+  {
+   "id": "e-68",
+   "section_id": "writing-35",
+   "title": "Письмо от Steve: Collecting things",
+   "body": "",
+   "sort": 68
+  },
+  {
+   "id": "e-69",
+   "section_id": "writing-35",
+   "title": "Письмо от Henry: Career plans",
+   "body": "",
+   "sort": 69
+  },
+  {
+   "id": "e-70",
+   "section_id": "writing-35",
+   "title": "Письмо от Andrew: Sports",
+   "body": "",
+   "sort": 70
+  },
+  {
+   "id": "e-71",
+   "section_id": "writing-35",
+   "title": "Письмо от Mathew: Doing sports",
+   "body": "",
+   "sort": 71
+  },
+  {
+   "id": "e-72",
+   "section_id": "writing-35",
+   "title": "Письмо от Mary: Computer",
+   "body": "",
+   "sort": 72
+  },
+  {
+   "id": "e-73",
+   "section_id": "writing-35",
+   "title": "Письмо от Mary: Russian towns",
+   "body": "",
+   "sort": 73
+  },
+  {
+   "id": "e-74",
+   "section_id": "writing-35",
+   "title": "Письмо от Mark: Pocket money",
+   "body": "",
+   "sort": 74
+  },
+  {
+   "id": "e-75",
+   "section_id": "writing-35",
+   "title": "Письмо от Peter: Weather",
+   "body": "",
+   "sort": 75
+  },
+  {
+   "id": "e-76",
+   "section_id": "writing-35",
+   "title": "Письмо от Molly: School exams",
+   "body": "",
+   "sort": 76
+  },
+  {
+   "id": "e-77",
+   "section_id": "writing-35",
+   "title": "Письмо от Ruth: Russian food",
+   "body": "",
+   "sort": 77
+  },
+  {
+   "id": "e-78",
+   "section_id": "writing-35",
+   "title": "Письмо от Jane: Books",
+   "body": "",
+   "sort": 78
+  },
+  {
+   "id": "e-79",
+   "section_id": "writing-35",
+   "title": "Письмо от Maggy: Travelling",
+   "body": "",
+   "sort": 79
+  },
+  {
+   "id": "e-80",
+   "section_id": "writing-35",
+   "title": "Письмо от Laura: Russian daily life",
+   "body": "",
+   "sort": 80
+  },
+  {
+   "id": "e-81",
+   "section_id": "writing-35",
+   "title": "Письмо от Gerald: Russian transport",
+   "body": "",
+   "sort": 81
   }
  ],
  "tasks": [
@@ -26241,6 +27300,2688 @@
    ],
    "explanation": "В предложении сравниваются два предмета или состояния (есть слово «than») → нужна сравнительная степень.\nGOOD — исключение: good → better → best.\nОтвет: better.",
    "topic": "Степени сравнения прилагательных"
+  },
+  {
+   "id": "9F1047",
+   "section_id": "speaking",
+   "passage_id": "m-talk-01",
+   "sort": 1,
+   "number": "Task 3",
+   "kind": "open",
+   "prompt": "Task 3. You are going to give a talk about your school. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10–12 sentences). Remember to say:\nwhat your typical school day is like;\nwhat your favourite subject is, and why;\nwhat you like most about your school;\nwhat your attitude to your school life is.\nYou have to talk continuously.",
+   "word": null,
+   "options": {
+    "mode": "talk",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Монолог",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "31724F",
+   "section_id": "speaking",
+   "passage_id": "m-talk-02",
+   "sort": 1,
+   "number": "Task 3",
+   "kind": "open",
+   "prompt": "Task 3. You are going to give a talk about conflicts with your friends. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10–12 sentences).\nRemember to say:\n· why teenagers can have a conflict with their friends;\n· what you usually have conflicts with your friends about;\n· how you usually make up with your friends;\n· what your attitude to conflicts with your friends is.\nYou have to talk continuously.",
+   "word": null,
+   "options": {
+    "mode": "talk",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Монолог",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "1D1FF3",
+   "section_id": "speaking",
+   "passage_id": "r-01",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nPeople have always wanted to discover new things and new worlds. We have built spaceships to go to other planets and are planning to visit other galaxies one day. Meanwhile, we know very little about our own planet. The oceans, which cover 70 percent of the planet, are an unknown world to us. The Pacific Ocean is the largest one. The lowest point on the Earth is also there. It is called Challenger Deep and it was discovered in 1875. The Pacific Ocean stretches from the Arctic Ocean to the coast of Antarctica, but most of its water is in the warm tropics, which makes it warm. A lot of fish and animals live in the Pacific Ocean. The place is still waiting for researchers to discover its secrets for us.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "2BD0F7",
+   "section_id": "writing-35",
+   "passage_id": "e-01",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Ann:\nFrom: Ann@mail.uk\nTo: Russian_friend@oge.ru\nSubject: School clubs\n… Our teacher has announced that a Theatre Group is starting next month.\nI’m going to join the club and see if I enjoy being on stage.\n... What do you do after your classes? What club in your school is the most interesting, why do you think so? How long does it take you to do your homework?...\nWrite a message to Ann and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "D5BFFE",
+   "section_id": "speaking",
+   "passage_id": "r-02",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nWithout the energy from the Sun, the Earth would have no life at all. Nowadays everyone knows that the Sun is a star. Like all stars, the Sun is a great burning ball of gases. To us, it seems large and red. The other stars look white or light blue because they are much farther from us than the Sun. In the past, many people believed that the Earth was the centre of the universe. They thought that the Sun and the stars went round it. Only in 1543, a great Polish scientist published a book in which he tried to prove a different point of view. According to him, the Earth and the other planets moved round the Sun. Those people who supported the scientist were often imprisoned and even killed.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "0BF608",
+   "section_id": "speaking",
+   "passage_id": "m-talk-03",
+   "sort": 1,
+   "number": "Task 3",
+   "kind": "open",
+   "prompt": "Task 3. You are going to give a talk about your school holidays. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10–12 sentences). Remember to say:\nwhen you have school holidays;\nwhat school holidays you would make longer, and why;\nwhat you enjoy doing during your school holidays;\nwhat your attitude to school holidays is.\nYou have to talk continuously.",
+   "word": null,
+   "options": {
+    "mode": "talk",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Монолог",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "2DD40C",
+   "section_id": "speaking",
+   "passage_id": "r-03",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nSince 2007 high-speed trains have become a common type of transport in Europe. They make it possible to cut travel times by hours. The trains travel at 350 kilometres an hour, and this is not the limit! The only problem for the engineers is the loud noise the trains produce. People living in the areas the trains travel through suffer from the noise greatly. For the passengers, the situation is different. For their comfort, all the carriages are made sound-proof from the inside. Travelling on high-speed trains is comfortable and pleasant. In the future, a high-speed railroad network could cover most of Europe. For example, a trip from Paris to Rome could take only 3 hours!",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "52060A",
+   "section_id": "speaking",
+   "passage_id": "m-talk-04",
+   "sort": 1,
+   "number": "Task 3",
+   "kind": "open",
+   "prompt": "Task 3. You are going to give a talk about travelling. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10–12 sentences). Remember to say:\nwhy people like travelling in Russia;\nwhat means of transport is the most popular for travelling in Russia, and why;\nwhat places in Russia you would like to visit;\nwhat your attitude to travelling is.\nYou have to talk continuously.",
+   "word": null,
+   "options": {
+    "mode": "talk",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Монолог",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "8B7C0D",
+   "section_id": "speaking",
+   "passage_id": "m-talk-05",
+   "sort": 1,
+   "number": "Task 3",
+   "kind": "open",
+   "prompt": "Task 3. You are going to give a talk about hobbies. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10–12 sentences).\nRemember to say:\n· why it is important for people to have a hobby;\n· what your hobby is and how long you have been doing it;\n· how much time a week you give to your hobby and why;\n· what your attitude to creative hobbies is.\nYou have to talk continuously.",
+   "word": null,
+   "options": {
+    "mode": "talk",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Монолог",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "DEEB74",
+   "section_id": "speaking",
+   "passage_id": "r-04",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nStudies of the atmosphere first received technical support in 1912. Equipment to measure temperature and pressure was invented in Germany. But the question was how to raise it high into the air. In 1921, Russian engineers suggested using planes. The special equipment was put on planes that made regular flights. Thanks to this, scientists got a lot of new information about the structure of the atmosphere. Nowadays scientists use modern flying laboratories to study the structure of clouds at different levels. Unlike the first planes, these laboratories can work in any weather and are able to predict climate changes.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "488EBF",
+   "section_id": "speaking",
+   "passage_id": "r-05",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nMost people enjoy watching the night sky. And the brightest object in the sky is the Moon. Every night the Moon rises in the East and sets in the West. It takes about 27 days to go around the Earth, and it’s an interesting fact that we always see the same side of the Moon. The Moon is the closest object to the Earth. It would take us only thirteen hours to get to the Moon by rocket. If we were able to travel at the speed of light, it would take a bit less than two seconds. There is a very thin atmosphere on the Moon. Life is not possible there. In spite of this, the Moon can be used as a base for space exploration and even for space tourism. Some space companies are planning to take tourists to the Moon in the future.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "818DBE",
+   "section_id": "writing-35",
+   "passage_id": "e-02",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Jim:\nFrom: Jim@mail.uk\nTo: Russian_friend@oge.ru\nSubject: New Year resolutions\n… On December 31st I usually write my New Year resolutions. Unfortunately\nI don’t usually keep them. But this year I decided to be persistent: to make\na resolution and keep it.\n... Do you make New Year resolutions, why or why not? What new hobby or new sport would you like to try? What do you usually do in your free time? …\nWrite a message to Jim and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "D4601D",
+   "section_id": "speaking",
+   "passage_id": "r-06",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nThe mobile phone has become an important part of our everyday life. We can’t imagine our lives without it now. Thanks to the mobile phone we can keep in contact with our relatives and friends at any time. We use them to text and to send emails, to share photos and videos. We can use the Internet and listen to music and do lots of other things. However, according to surveys, mobile phone users mostly spend their time on games and social networking. Around 80 percent of the world’s population has a mobile phone. The mobile phone industry is the fastest growing industry in the world. From 1983 to 2016, worldwide mobile phone subscriptions grew to over seven billion.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "95E510",
+   "section_id": "writing-35",
+   "passage_id": "e-03",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Ann:\nFrom: Ann@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Exams\n… After taking my school exams, I want to study English literature at university. Some people say that it is boring and it takes too much time, but I really like it.\n… How many exams are you going to take this year? How do you prepare for your English exam? Do you like to take exams, why or why not?...\nWrite a message to Ann and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "6A111C",
+   "section_id": "speaking",
+   "passage_id": "r-07",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nTable tennis is the third most played sport in the world after football and cricket. It is considered to be an indoor version of Lawn Tennis. However, they have a lot of differences. Table tennis has a different scoring system, a smaller ball, smaller rackets, and a smaller playing area. Modern table tennis was invented at the end of the 19th century in England. Very soon the new sport became popular all over the world. In 1901, competitions with over 300 participants were already being held. According to numerous studies, table tennis has great effects on human health. It keeps the brain sharp and improves the player’s coordination.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "F62525",
+   "section_id": "speaking",
+   "passage_id": "r-08",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nA zoo, also known as a zoological park or a zoological garden, gives people the opportunity to watch animals from different continents. There are hundreds of zoos all over the world. However, most of them are located in major cities. The first zoo in Russia was opened in 1864, in Moscow. It was a small zoological garden. On the opening day, only 287 animals were on display. Nowadays, the Moscow Zoo is one of the largest in Europe. The unique collection of the Zoo includes over 10000 kinds of animals and birds. Scientists study the animals’ behaviour and reproduction. They also breed rare animals there to stop them dying out.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "262B27",
+   "section_id": "speaking",
+   "passage_id": "m-talk-06",
+   "sort": 1,
+   "number": "Task 3",
+   "kind": "open",
+   "prompt": "Task 3. You are going to give a talk about reading books. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10 – 12 sentences). Remember to say:\nwhether reading is popular with teenagers, and why, or why not;\nwhat kind of books you like reading;\nwhy many people prefer e-books to paper books;\nwhat your attitude to reading is.\nYou have to talk continuously.",
+   "word": null,
+   "options": {
+    "mode": "talk",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Монолог",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "C39D2F",
+   "section_id": "speaking",
+   "passage_id": "m-talk-07",
+   "sort": 1,
+   "number": "Task 3",
+   "kind": "open",
+   "prompt": "Task 3. You are going to give a talk about travelling. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10 – 12 sentences). Remember to say:\nwhy most people enjoy travelling;\nwhat people like doing while travelling;\nwhat place you would like to go to, and why;\nwhat your attitude to travelling is.\nYou have to talk continuously.",
+   "word": null,
+   "options": {
+    "mode": "talk",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Монолог",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "328D2A",
+   "section_id": "speaking",
+   "passage_id": "m-talk-08",
+   "sort": 1,
+   "number": "Task 3",
+   "kind": "open",
+   "prompt": "Task 3. You are going to give a talk about keeping fit. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10 – 12 sentences). Remember to say:\nwhy doing sport is very important for modern teenagers;\nwhat else besides sport young people do to keep fit;\nwhat you enjoy doing in your free time;\nwhat your attitude to doing sports activities is.\nYou have to talk continuously.",
+   "word": null,
+   "options": {
+    "mode": "talk",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Монолог",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "FAEED6",
+   "section_id": "writing-35",
+   "passage_id": "e-04",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Jim:\nFrom: Jim@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Sports\n… I have decided to do sport regularly. My friends have given me different advice on how to start but I can’t choose which sport to play.\n… What sport do you do regularly? What sports facilities can you use in your school? Does the career of a professional sportsperson attract you, why or why not?…\nWrite a message to Jim and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "F903D3",
+   "section_id": "speaking",
+   "passage_id": "r-09",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nThe first vacuum cleaner was designed in 1869. Since then, vacuum cleaners have changed a lot. Nowadays the robot vacuum cleaner is getting more and more popular. This device cleans a house automatically. Following a programme, the robot drives slowly around the house and makes it cleaner. It operates with brushes and a tube. The robot is so flexible that it can get under a table or sofa or reach dust in corners. Some advanced models can also wash floors of all kinds. These functions are provided by a complicated electronic system and sensors inside. The vacuum cleaner looks like a plate and can be kept in the corner. It is friendly to children and animals and works on electricity.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "0E12D1",
+   "section_id": "speaking",
+   "passage_id": "r-10",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nThe Arctic Ocean is the smallest ocean of the world. It covers the northern polar region of the Earth. The Arctic region is a very cold place. The lowest recorded temperature there is minus 68 degrees. In spite of the cold, a lot of animals live on the Arctic ice. The polar bear is one of them. Now, due to global warming, the polar bear is in a serious trouble. The thing is that polar bears hunt seals and they need ice to do this. The bears wait for seals on the ice, hunt them in the water and go back to the shore. If the ice is too thin, it breaks under the bears’ heavy bodies and they may drown. The situation is getting worse and some researchers say the ocean may become ice-free as soon as 2050.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "0990DE",
+   "section_id": "speaking",
+   "passage_id": "r-11",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nIt’s hard to find a more popular Russian symbol than the traditional Russian doll, or Matryoshka. It is well-known all over the world. The first set of dolls appeared in Moscow in 1890. It consisted of eight dolls. All of them were children: seven girls, one boy, and a baby. In those times, Matryoshkas were not meant as toys for children as their price was very high. Mostly, adults bought them as presents or home decorations. There was a belief that if you put a note with a wish into Matryoshka, it would come true. At the beginning of the 20th century, Russia started to export their national dolls abroad.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "BAB9DB",
+   "section_id": "speaking",
+   "passage_id": "m-talk-09",
+   "sort": 1,
+   "number": "Task 3",
+   "kind": "open",
+   "prompt": "Task 3. You are going to give a talk about family. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10–12 sentences).\nRemember to say:\n· why family plays an important role in every person’s life;\n· what a typical Russian family is like;\n· who you feel closest to in your family and why;\n· what your attitude to having a big family is.\nYou have to talk continuously.",
+   "word": null,
+   "options": {
+    "mode": "talk",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Монолог",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "29DADB",
+   "section_id": "speaking",
+   "passage_id": "r-12",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nGreat Britain is home to the world’s oldest school. The King’s School was established in 1567 and it is still open. It has a long history. Many famous people have been educated at this old school. Nowadays The King’s School is an independent secondary school for boys and girls. More than 800 pupils study at the school. Though The King’s School is located in old buildings, it has up-to-date technical equipment and provides a full modern education. The King’s School is also famous for its festival of music, drama and arts. It is held during the last week of the summer term and attracts a lot of people from different parts of the country.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "5CB7D0",
+   "section_id": "speaking",
+   "passage_id": "r-13",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nBicycles or bikes are an important means of transportation in many parts of the world. The first bicycles turned up in Europe in the first half of the 19th century but the word “bicycle” only appeared later, in 1868. There are more bicycles in the world than cars. A lot of people have realized that cycling is an easy way to get around and a great way to cut down on pollution. More and more cities have special places where people can borrow a bike and ride around the city. Over the past few years, a bicycle infrastructure has been created in Moscow. Cycling in the centre of Moscow in summer is one of the most pleasant and quickest ways of seeing the city.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "5226D0",
+   "section_id": "speaking",
+   "passage_id": "r-14",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nEnglish is the third most-spoken language in the world after Chinese and Spanish. Over 840 million people speak English as a first or second language. It is an official language of sixty-seven countries. 80 percent of information stored on all computers in the world is in English. The vocabulary of the English language is the biggest in the world. A new word is added into English almost every two hours. The English language is said to be one of the happiest languages in the world. The word happy is used more often than the word sad! That’s a good reason to learn this language, isn’t it?",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "6C9ADF",
+   "section_id": "speaking",
+   "passage_id": "r-15",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nHuman activity creates waste. The problem isn’t new and space is no exception to the rule. Dead satellites, rocket stages and other things are littering our planet’s orbit. They are getting dangerously close to space stations and there is a great possibility of an accident. Space stations could be completely destroyed by the rubbish. In 1983, a tiny piece of paint from a satellite made a big hole in the side window of a spaceship. There is a great need to “clean up” space and to take away 3,000 tons of space rubbish. To solve the problem, scientists and engineers are designing special spaceships that will collect and recycle space rubbish.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "668AD5",
+   "section_id": "speaking",
+   "passage_id": "m-talk-10",
+   "sort": 1,
+   "number": "Task 3",
+   "kind": "open",
+   "prompt": "Task 3. You are going to give a talk about animals. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10 – 12 sentences). Remember to say:\nwhat wild animals live in your region;\nwhether it is a good idea to keep a wild animal as a pet, and why;\nwhy people build zoos in cities and towns;\nwhat your attitude to zoos is.\nYou have to talk continuously.",
+   "word": null,
+   "options": {
+    "mode": "talk",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Монолог",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "4AB958",
+   "section_id": "writing-35",
+   "passage_id": "e-05",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Ann:\nFrom: Ann@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Future profession\n… I joined the ballet school when I was five. I love dancing and I want to become a dance teacher in the future. So I’m going to take classes at the Ballet Dance Academy one day.\n...What subjects are you good at? When did you begin making plans for the future? What job would you like to do in the future, and why? ...\nWrite a message to Ann and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "7D3B5F",
+   "section_id": "speaking",
+   "passage_id": "m-talk-11",
+   "sort": 1,
+   "number": "Task 3",
+   "kind": "open",
+   "prompt": "Task 3. You are going to give a talk about your school. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10 – 12 sentences). Remember to say:\n· what your typical school day is like;\n· what subjects at school you find most useful for your future, and why;\n· what you are going to do when you leave school;\nwhat your attitude to school life is.\nYou have to talk continuously.",
+   "word": null,
+   "options": {
+    "mode": "talk",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Монолог",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "19E954",
+   "section_id": "speaking",
+   "passage_id": "r-16",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nThe construction of the longest and the deepest railroad tunnel was finished in Europe. The tunnel runs through the Alps and links the north and south of Europe. The length of the tunnel is 57 kilometres. It runs straight from beginning to end. It will allow passenger trains to travel more quickly through the mountains. Modern technologies ensure safety and security when the trains go through the tunnel. The great project started in 2009 and it took 7 years to complete. It is considered to be one of the most amazing engineering constructions in Europe.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "48BDAA",
+   "section_id": "speaking",
+   "passage_id": "r-17",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nThe rainforest can be described as a thick and very tall jungle. The term rain comes from the great quantity of water that these forests get throughout the year. The rainforests are the world’s greatest natural resources. They are called the lungs of our planet. Half of all the kinds of plants and animals that exist on the planet live in the rainforests. Unfortunately, the area with rainforests is being reduced due to global warming. 100 years ago, the rainforests covered 14 percent of the earth’s surface. Now, it is only 6 percent. Scientists say that if the process continues at this rate, the rainforests will have disappeared in forty years.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "F93EA0",
+   "section_id": "speaking",
+   "passage_id": "m-talk-12",
+   "sort": 1,
+   "number": "Task 3",
+   "kind": "open",
+   "prompt": "Task 3. You are going to give a talk about school life. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10–12 sentences). Remember to say:\nwhat your weekday is like;\nwhat you like about your school most of all;\nwhether you prefer classroom learning or online learning, and why;\nwhat your attitude to your school life is.\nYou have to talk continuously.",
+   "word": null,
+   "options": {
+    "mode": "talk",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Монолог",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "FAEEAB",
+   "section_id": "speaking",
+   "passage_id": "m-talk-13",
+   "sort": 1,
+   "number": "Task 3",
+   "kind": "open",
+   "prompt": "Task 3. You are going to give a talk about shopping. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10–12 sentences).\nRemember to say:\n· why many people enjoy shopping;\n· who you like shopping with and why;\n· what you like and dislike shopping for;\n· what your attitude to online shopping is.\nYou have to talk continuously.",
+   "word": null,
+   "options": {
+    "mode": "talk",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Монолог",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "7020AC",
+   "section_id": "speaking",
+   "passage_id": "r-18",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nGlobal warming is a result of human activity. In 1985 there was a big conference in Austria where 89 climate researchers from different countries took part. After long discussions the scientists declared that the climate of the planet had changed. Indeed, it is warmer now than it was years ago. It can be clearly seen in the north. In the Arctic some places are ice-free now and polar bears have lost the place where they lived. The sea level has risen as well. The situation is getting more and more serious. Global warming is a great problem which needs to be solved in the near future.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "A8E7A4",
+   "section_id": "writing-35",
+   "passage_id": "e-06",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Ann:\nFrom: Ann@mail.uk\nTo: Russian_friend@oge.ru\nSubject: The life of modern teenagers\n… I am doing a project about the life of modern teenagers in different countries. I’d like to know about Russian teenagers.\n… What time do you usually come back from school? What do you like to do in your free time? How many foreign languages would you like to speak, and why?...\nWrite a message to Ann and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "AE0AAD",
+   "section_id": "speaking",
+   "passage_id": "m-talk-14",
+   "sort": 1,
+   "number": "Task 3",
+   "kind": "open",
+   "prompt": "Task 3. You are going to give a talk about sports. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10–12 sentences). Remember to say:\nwhy a lot of young people do sports nowadays;\nwhat sports clubs and teams there are in your school;\nwhat you do to keep fit;\nwhat your attitude to doing sports activities is.\nYou have to talk continuously.",
+   "word": null,
+   "options": {
+    "mode": "talk",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Монолог",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "AE51A8",
+   "section_id": "speaking",
+   "passage_id": "m-talk-15",
+   "sort": 1,
+   "number": "Task 3",
+   "kind": "open",
+   "prompt": "Task 3. You are going to give a talk about environmental problems. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10–12 sentences). Remember to say:\n· why people worry about environmental problems nowadays;\n· what the most serious environmental problem in the place where you live is;\n· what young people can do to improve the ecological situation;\n· what your attitude to environmental problems is.\nYou have to talk continuously.",
+   "word": null,
+   "options": {
+    "mode": "talk",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Монолог",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "3BA5AF",
+   "section_id": "speaking",
+   "passage_id": "m-talk-16",
+   "sort": 1,
+   "number": "Task 3",
+   "kind": "open",
+   "prompt": "Task 3. You are going to give a talk about travelling. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10 – 12 sentences). Remember to say:\nwhy most people like travelling;\nwhich season is the best for travelling in your opinion;\nwhat means of transport is the best for travelling, and why;\nwhat your attitude to travelling is.\nYou have to talk continuously.",
+   "word": null,
+   "options": {
+    "mode": "talk",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Монолог",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "37A3A9",
+   "section_id": "speaking",
+   "passage_id": "m-talk-17",
+   "sort": 1,
+   "number": "Task 3",
+   "kind": "open",
+   "prompt": "Task 3. You are going to give a talk about your school. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10 – 12 sentences). Remember to say:\nwhat you like about your school most of all;\nhow many lessons a day you usually have;\nwhat school subjects you have chosen for your exams, and why;\nwhat your attitude to the number of subjects you have to learn is.\nYou have to talk continuously.",
+   "word": null,
+   "options": {
+    "mode": "talk",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Монолог",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "8C87A0",
+   "section_id": "speaking",
+   "passage_id": "r-19",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nSnowdon is the highest mountain in Wales. It is located in a national park. It stands at 1085 metres above sea level, and it is often described as the busiest mountain in Great Britain. Snowdon is very popular with tourists. If you are strong and brave enough to get to the top, you can enjoy wonderful views from there. On a clear day, you can see as far as Ireland! During the summer months there is a café at the top. There, tourists can get a welcome cup of tea, or soup if the weather is cold. If you feel too tired to walk back, you can always take the train down the mountain. The mountain railway was built in 1896. It is safe, and there have never been any accidents on this route.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "86CCA2",
+   "section_id": "speaking",
+   "passage_id": "m-talk-18",
+   "sort": 1,
+   "number": "Task 3",
+   "kind": "open",
+   "prompt": "Task 3. You are going to give a talk about your free time. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10–12 sentences). Remember to say:\nwhether you have a lot of free time, and why, or why not;\nwhat you enjoy doing in your free time;\nwhat your Sunday afternoons are like;\nwhat your attitude to planning your free time is.\nYou have to talk continuously.",
+   "word": null,
+   "options": {
+    "mode": "talk",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Монолог",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "8657A3",
+   "section_id": "speaking",
+   "passage_id": "r-20",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nThough most people believe that the tomato is a vegetable, this plant is actually a fruit. It is a fruit because it has seeds inside like apples, oranges, lemons, and all other types of fruit. The tomato comes from Central and South America. When tomatoes were brought to England, people thought that they were poisonous and refused to eat them. Only in 1820, Robert Johnson proved that tomatoes were absolutely safe and would not affect people’s health. He ate a basket of tomatoes in public. Nowadays, the tomato is widely used in all types of food. There are many different kinds of tomatoes – over 7,500! They differ in size, shape, colour and taste.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "49B7CE",
+   "section_id": "speaking",
+   "passage_id": "m-talk-19",
+   "sort": 1,
+   "number": "Task 3",
+   "kind": "open",
+   "prompt": "Task 3. You are going to give a talk about films. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10 – 12 sentences). Remember to say:\n· what kinds of films modern teenagers enjoy;\n· where you prefer watching films: on TV, on the Internet or in the cinema, and why;\n· what film you have seen recently, what it was about;\n· what your attitude to watching films as a way to spend your free time is.\nYou have to talk continuously.",
+   "word": null,
+   "options": {
+    "mode": "talk",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Монолог",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "498ACE",
+   "section_id": "speaking",
+   "passage_id": "r-21",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nWe don’t realize how lucky we are to have clean water whenever we want. A lot of people around the world do not have such an opportunity. Did you know that more than 750 million people on the Earth do not have clean water to drink? Meanwhile, a lot of water is wasted and polluted. In 1993 the World Day of Water was established. Nowadays a lot of special events are organized in different countries. Their aim is to make people understand how important clean water is for their health, environment and agriculture. Water is essential for our life. We should think about saving it, as the fresh water supplies are limited. We need to keep it clean for ourselves and for future generations.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "BD3BC5",
+   "section_id": "speaking",
+   "passage_id": "r-22",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nIn 1642 a French student invented the first mechanical calculator. He was only 18 and the counting machine was a present for his father. The father worked as a tax collector and the young man wanted to make his job easier. The talented inventor made several machines, but nobody was interested. The young man was ahead of his time. Many years passed before people realized how useful these machines could be and started mass producing them. Today most mechanical calculators have been replaced with electronic models. These small devices can perform a lot of mathematical operations. You just need to enter the numbers by pressing the keys and you’ll see the final result on the screen in no time.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "1FEBCF",
+   "section_id": "speaking",
+   "passage_id": "r-23",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nDo you know why it is hot in the summer and cold in the winter? Most people believe that it is because the Earth is closer to the Sun in the summer and farther from it in the winter. But it is not like this at all! In fact, the distance between the Earth and the Sun is largest in July and smallest in January! Scientists suggest that the reason for different summer and winter temperatures is the angle of the Sun’s rays. In the summer, the rays reach the Earth almost at a right angle. Due to this, the rays are not spread out and a smaller area of the planet’s surface gets the energy. In the winter, the angle changes and the Sun’s rays are spread out over a larger area. Besides this, the long nights and short days do not give enough time for the land to warm up.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "1C83C5",
+   "section_id": "speaking",
+   "passage_id": "r-24",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nA robot is a machine that does work for people. The word “robot” appeared in the 1920s and it was first used in a science fiction story. In real life, the robot was invented later, in 1954. There are different kinds of robots which are used in different industries. Most of them are operated with the help of a computer program. Instead of humans, robots do hard and boring work in unpleasant or dangerous environments. They usually work faster and more accurately than people. They never get tired and do not make mistakes. Nowadays robots are often used for domestic needs – to clean houses or to look after sick and elderly people. Scientists say that soon robots will become a normal part of our life, like mobiles and computers today.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "2A8BC8",
+   "section_id": "speaking",
+   "passage_id": "r-25",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nVenus is one of the hottest planets in the Solar system. The temperature on its surface is 482 degrees. This unfriendly place looks much the same as the Earth 4 billion years ago. Both planets were formed from the same gas cloud, but Venus lost most of its water and atmosphere. This happened because the planet turns very slowly. As a result, now it has no magnetic field to protect it from the Sun’s winds. The planet has turned into a lifeless desert. Most space modules that were sent to Venus could not work on the planet more than two hours. The acidic clouds and high pressure quickly made them absolutely useless.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "DAB0C1",
+   "section_id": "speaking",
+   "passage_id": "r-26",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nWe are always told that we should clean our teeth regularly to keep them healthy and to have fresh breath. It is believed that people started using a kind of paste to clean their teeth around 5000 years ago. However, the ingredients of these tooth powders were very different from ours. For example, the people of ancient Egypt used salt, mint, dried flowers and pepper to create tooth powder. Later, in the 18th century, in some countries in Europe, people brushed their teeth with burnt bread. The first toothpaste appeared in 1890, in Great Britain. At first it was sold in jars. Then special tubes were designed to make the toothpaste more comfortable to use.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "56D1C8",
+   "section_id": "speaking",
+   "passage_id": "m-talk-20",
+   "sort": 1,
+   "number": "Task 3",
+   "kind": "open",
+   "prompt": "Task 3. You are going to give a talk about pocket money. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10–12 sentences).\nRemember to say:\n· why it is important for a teenager to have pocket money;\n· how much pocket money a week you usually get;\n· what you spend your pocket money on and why;\n· what your attitude to earning pocket money is.\nYou have to talk continuously.",
+   "word": null,
+   "options": {
+    "mode": "talk",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Монолог",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "9CD9CF",
+   "section_id": "speaking",
+   "passage_id": "r-27",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nThe Channel Tunnel is a rail tunnel beneath the English Channel which links Great Britain and France. It is considered to be one of the most amazing engineering constructions in Europe. The second longest undersea tunnel in the world was opened in 1994. It is said that 13,000 workers and engineers participated in the construction project. The Channel Tunnel contains three tunnels. The south tunnel is for people who are travelling from France to the UK, the north tunnel takes passengers from the UK to France. Nowadays it takes 35 minutes to go from Paris to London in the Channel Tunnel. The third tunnel is a service tunnel. It is not used by passengers.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "85CACD",
+   "section_id": "speaking",
+   "passage_id": "r-28",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nThe word “tsunami” can be translated from Japanese as “big wave”. It describes a natural process that can be dangerous for people and their homes. Most of the huge waves appear after earthquakes. Most waves are born in the Indian and the Pacific Oceans where volcanoes are active. The mass of water rises from the bottom of the ocean and moves to the shore. It moves at a speed of a plane and can be up to 40 meters high. The wave is very powerful and dangerous. In 2004, a tsunami happened in the Indian Ocean. It was one of the most terrible natural disasters in history. Thousands of people were killed or went missing.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "7D1898",
+   "section_id": "writing-35",
+   "passage_id": "e-07",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Ann:\nFrom: Ann@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Family gatherings\n… We have a special tradition in our family. The last weekend of every month we cook and have a meal together: my parents, my sister Jenny and me.\n… How do you spend time with your family? When do you give each other presents? What do you do to help your parents about the house? …\nWrite a message to Ann and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "B2009D",
+   "section_id": "writing-35",
+   "passage_id": "e-08",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Jim:\nFrom: Jim@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Health\n... I have caught a bad cold. Most people hate being ill. But I sometimes like it.\nIt gives me some time for my hobby.\n… How often do you miss school because of health problems? How can you entertain yourself when you are ill and have to stay indoors? What do you do to stay healthy?...\nWrite a message to Jim and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "151597",
+   "section_id": "speaking",
+   "passage_id": "r-29",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nWombats are exotic animals that only live in Australia. They have become an unofficial symbol of the country. In 1974 a wombat appeared on an Australian stamp for the first time. Since then it has been regularly used on different Australian stamps and coins. Wombats look like little bears and prefer grass to meat. They also love eating berries, plant roots and mushrooms. Like camels, wombats drink little water because there is enough water in fresh grass. Wombats spend most of their life in holes under the ground. With their strong arms and long nails they are able to dig very long and complex tunnels. Fortunately, wombats have few enemies in the animal world. Most wombats live around 15 years.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "DE3D92",
+   "section_id": "speaking",
+   "passage_id": "m-talk-21",
+   "sort": 1,
+   "number": "Task 3",
+   "kind": "open",
+   "prompt": "Task 3. You are going to give a talk about school homework. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10–12 sentences). Remember to say:\nhow long it takes you to do your homework;\nwhat subject you usually start with, and why;\nwhether schoolchildren should be given more or less homework, and why;\nwhat your attitude to school homework is.\nYou have to talk continuously.",
+   "word": null,
+   "options": {
+    "mode": "talk",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Монолог",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "D6E89D",
+   "section_id": "speaking",
+   "passage_id": "r-30",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nThe Caspian Sea is one of the world’s natural wonders. It shares the characteristics of both a sea and a lake. In the past it was called a sea because of its great size and salty water. However, the Caspian Sea is listed as the largest lake in the world. There are about 130 rivers which bring their water to the Caspian Sea. But it is not a freshwater lake – its water is very salty. The Caspian Sea is famous for its wildlife. More than 850 kinds of animals can be found in this unique sea. The Caspian Sea region is also one of the oldest oil-producing areas in the world. It is also rich in other natural resources.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "CDE399",
+   "section_id": "speaking",
+   "passage_id": "r-31",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nNowadays solar energy is widely used as an alternative form of power. Solar panels transform the energy from the sun into electricity. The first plane that does not need fuel was constructed in France in 2015. It uses only the sun’s energy. The panels are placed on the huge wings of the plane. It doesn’t fly very fast. Solar energy can make the plane move at only 140 miles an hour. However, the plane is able to travel round the world. It is safe and can successfully cross areas of bad weather. In the future, engineers hope to construct a model that people can fly in. Our dream of environmentally friendly transport may come true very soon. Would you like to take a flight on the solar plane?",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "D47EE4",
+   "section_id": "speaking",
+   "passage_id": "m-talk-22",
+   "sort": 1,
+   "number": "Task 3",
+   "kind": "open",
+   "prompt": "Task 3. You are going to give a talk about TV. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10–12 sentences). Remember to say:\nwhy people spend time watching TV;\nwhat most teenagers prefer: watching TV or browsing the Internet, and why;\nwhether there is a TV programme you really like;\nwhat your attitude to watching TV as a way to spend your free time is.\nYou have to talk continuously.",
+   "word": null,
+   "options": {
+    "mode": "talk",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Монолог",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "5291EC",
+   "section_id": "speaking",
+   "passage_id": "m-talk-23",
+   "sort": 1,
+   "number": "Task 3",
+   "kind": "open",
+   "prompt": "Task 3. You are going to give a talk about TV. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10 – 12 sentences). Remember to say:\nwhether watching TV is a popular pastime with teenagers, and why, or why not;\nhow many hours a week you watch TV;\nwhat TV programme is the most popular within your family;\nwhat your attitude to TV is.\nYou have to talk continuously.",
+   "word": null,
+   "options": {
+    "mode": "talk",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Монолог",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "CB59E0",
+   "section_id": "speaking",
+   "passage_id": "r-32",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nOne day a young man who lived near the lake in a small American town asked himself, “Why can’t people ski on water if they can ski on snow?” With his brother’s help he constructed several models of skis to test his ideas. He experimented on the local lake for a few days and created skis suitable for the water. This happened in 1922. The young man, who was only 18 at that time, didn’t patent his invention. However, he performed a lot of shows across the country that made him and the sport of water skiing popular. Later, he was recognized as the creator of a new sport – water skiing. Water skiing equipment has been greatly improved since that time, and the number of people who enjoy this sport is growing in many countries.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "C666E8",
+   "section_id": "speaking",
+   "passage_id": "m-talk-24",
+   "sort": 1,
+   "number": "Task 3",
+   "kind": "open",
+   "prompt": "Task 3. You are going to give a talk about your school. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10 – 12 sentences). Remember to say:\nwhat you like most about your school;\nwhat weekday you find the most difficult, and why;\nwhat you would like to change in your school life;\nwhat your attitude to your school life is.\nYou have to talk continuously.",
+   "word": null,
+   "options": {
+    "mode": "talk",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Монолог",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "E975E8",
+   "section_id": "speaking",
+   "passage_id": "r-33",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nThe carrot is a root vegetable which consists mostly of water and sugar. The carrots that we eat today originated from the wild ones which grew in Europe and Asia. The vegetable tasted sweet and the people began to use it as food. There are two main types of carrots. There are eastern carrots that have dark purple roots and western carrots with orange roots. In fact, orange carrots first appeared in Europe in 1721. Dutch farmers selected orange carrots because orange is the colour of the Dutch Royal Family. Now orange carrots are widely grown all over the world. In modern households carrots are cooked and eaten in different ways. The vegetable is boiled, fried, baked and eaten raw. People also make juice from it.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "611FE1",
+   "section_id": "writing-35",
+   "passage_id": "e-09",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Emily:\nFrom: Emily@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Coming late\n… Last month I was late for my classes several times. Though I wasn’t late on purpose and it wasn’t actually my fault, I was punished.\n… Do any students in your class sometimes come too late to school? What are their usual reasons for coming late? Is there any punishment for late comers at your school and what is it?...\nWrite a message to Emily and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "84B5E9",
+   "section_id": "speaking",
+   "passage_id": "m-talk-25",
+   "sort": 1,
+   "number": "Task 3",
+   "kind": "open",
+   "prompt": "Task 3. You are going to give a talk about learning foreign languages. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10 – 12 sentences). Remember to say:\nwhy lots of people learn foreign languages nowadays;\nwhy you have chosen to do the English exam this year;\nwhat you did to prepare for your English exam;\nwhat your attitude to learning foreign languages is.\nYou have to talk continuously.",
+   "word": null,
+   "options": {
+    "mode": "talk",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Монолог",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "8C35E8",
+   "section_id": "speaking",
+   "passage_id": "r-34",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nRecycling is a technology that helps protect the environment and cut down on usage of raw materials. The steel, paper and glass industries recycle a lot. The largest recycler is the steel industry. It recovers more than 70 percent of its original materials. For example, since 1988 they have produced the majority of new metal cans from old ones. Metal parts for cars and planes are other examples of recycling steel. Fragments of waste glass are widely used in construction. For producing writing paper and pens, used packing boxes are an ideal material. They are cheap and easy to recycle. Nowadays more and more recycling centres are appearing in our towns and cities.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "768267",
+   "section_id": "speaking",
+   "passage_id": "r-35",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nOxford University is the oldest university in the English-speaking world. It is also the second oldest university in the world. The University of Oxford is believed to have started in 1133. It is located in Oxford City on the Thames River, not far from London. Oxford University is one of the world’s most impressive centres of education. There are students from different countries there. In fact, there is no building in Oxford called Oxford University. The University includes 38 colleges and related buildings. Over 22,000 students study English language and literature, geography, history, law, modern languages and other subjects there.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "12C16B",
+   "section_id": "speaking",
+   "passage_id": "r-36",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nOur planet is the only planet in the Solar System where rainbows are possible. They are not visible in big cities, due to pollution and smog. But if you are travelling after rain has fallen in the countryside or walking on the beach, you have a good chance to see a rainbow. The rainbow is a multi-coloured arc which appears in the sky. When you see a rainbow, the sun is always behind you and it is raining in front of you. It is impossible to get to the end of the rainbow and to touch it. When you move, the rainbow moves too. We have always learned that rainbows have 7 colours. However, until the 17th century, people used to think there were only 5 colours in the rainbow.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "589265",
+   "section_id": "speaking",
+   "passage_id": "m-talk-26",
+   "sort": 1,
+   "number": "Task 3",
+   "kind": "open",
+   "prompt": "Task 3. You are going to give a talk about keeping fit. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10 – 12 sentences). Remember to say:\n· why a healthy lifestyle is popular nowadays;\n· what you do to keep fit;\n· what sports activities are popular with teenagers in your region;\n· what your attitude to a healthy lifestyle is.\nYou have to talk continuously.",
+   "word": null,
+   "options": {
+    "mode": "talk",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Монолог",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "376C6D",
+   "section_id": "speaking",
+   "passage_id": "r-37",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nThe human brain is the most complex and remarkable organ of the body. It controls everything we do – thinking, learning, and even heart rate. Though the brain makes up only 2 percent of the body’s weight, it uses around 20 percent of its energy. It works 24 hours a day. Even when a person is sleeping, the brain is working hard to keep other organs functioning. Most people think that our brain is more active during the daytime because it needs to deal with a great amount of information. In fact, that’s not true. The brain is far more active when a person is sleeping! However, scientists don’t yet have any explanation for this fact.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "15B835",
+   "section_id": "speaking",
+   "passage_id": "m-talk-27",
+   "sort": 1,
+   "number": "Task 3",
+   "kind": "open",
+   "prompt": "Task 3. You are going to give a talk about the Internet. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10–12 sentences). Remember to say:\nwhy today’s teenagers use the Internet so much;\nhow the Internet makes long-distance communication easier;\nwhat dangers teenagers can face when they use the Internet;\nwhat your attitude to the Internet is.\nYou have to talk continuously.",
+   "word": null,
+   "options": {
+    "mode": "talk",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Монолог",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "AF0833",
+   "section_id": "speaking",
+   "passage_id": "r-38",
+   "sort": 1,
+   "number": "Task 1",
+   "kind": "open",
+   "prompt": "Task 1. You are going to read the text aloud. You have 1.5 minutes to read the text silently, and then be ready to read it aloud. Remember that you will not have more than 2 minutes for reading aloud.\nNowadays people can’t imagine their kitchen without a refrigerator. The first refrigerators appeared at the end of the 18th century. They looked different: they were just iceboxes. The refrigerators of the past were just wooden boxes, sometimes lined inside with metal. People put ice into the box and then placed the food inside to keep it cool. The refrigerator, similar to the one that we have now, was produced by General Electric in 1911, in France. It was very expensive. In those days, with the same money you could buy two cars. Today, in developed countries almost every family has enough money to buy a refrigerator for their kitchen. It’s hard to imagine how difficult and uncomfortable our lives would be without a refrigerator.",
+   "word": null,
+   "options": {
+    "mode": "read",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Чтение вслух",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "6E143C",
+   "section_id": "speaking",
+   "passage_id": "m-talk-28",
+   "sort": 1,
+   "number": "Task 3",
+   "kind": "open",
+   "prompt": "Task 3. You are going to give a talk about your best friend. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10–12 sentences). Remember to say:\nwhat people need friends for;\nhow long you and your friend have known each other;\nwhat you enjoy doing together;\nwhat your attitude to friendship is.\nYou have to talk continuously.",
+   "word": null,
+   "options": {
+    "mode": "talk",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Монолог",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "74F38A",
+   "section_id": "speaking",
+   "passage_id": "m-talk-29",
+   "sort": 1,
+   "number": "Task 3",
+   "kind": "open",
+   "prompt": "Task 3. You are going to give a talk about the place where you live. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10–12 sentences). Remember to say:\nwhat your city, town or village is famous for;\nwhat your favourite place in your city, town or village is, and why you like it;\nwhether you are going to stay in your city, town or village after leaving school or move to another place, and why;\nwhat your attitude to your city, town or village is.\nYou have to talk continuously.",
+   "word": null,
+   "options": {
+    "mode": "talk",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Монолог",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "D1478F",
+   "section_id": "speaking",
+   "passage_id": "m-talk-30",
+   "sort": 1,
+   "number": "Task 3",
+   "kind": "open",
+   "prompt": "Task 3. You are going to give a talk about household chores. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10–12 sentences).\nRemember to say:\n· why it is important to share the household chores in a family;\n· how household chores are divided in your family;\n· what household chores you like and dislike doing and why;\n· what your attitude to ignoring household chores is.\nYou have to talk continuously.",
+   "word": null,
+   "options": {
+    "mode": "talk",
+    "prepSec": 90,
+    "speakSec": 120
+   },
+   "topic": "Монолог",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "B3D343",
+   "section_id": "writing-35",
+   "passage_id": "e-10",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Andrew:\nFrom: Andrew@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Learning foreign languages\n… They say it’s never too late to learn something new. My Grandma decided to prove that and took up a course of French! And she absolutely loves it!\n… What do you find most difficult in learning English? What do you do to improve your English outside the classroom? What’s the best way to learn a foreign language?…\nWrite a message to Andrew and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "1B144E",
+   "section_id": "writing-35",
+   "passage_id": "e-11",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Lily:\nFrom: Lily@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Holidays\n… You’ve probably seen the photos which I took on my holiday. During the rainy days we are having now they bring back good memories!\n...Where did you spend your last summer holidays? What did you do during your holidays? What school holidays do you like most of all and why?...\nWrite a message to Lily and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "AB8044",
+   "section_id": "writing-35",
+   "passage_id": "e-12",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Ben:\nFrom: Ben@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Learning foreign languages\n… I am so fond of Japanese cartoons that I’ve decided to learn Japanese. Mum says it’s hard, but I think it’s worth it. Besides, their writing is cool!\n…What languages do you learn at school? What other language would you like to learn and why? What do you think about my choice of Japanese?…\nWrite a message to Ben and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "7C64F5",
+   "section_id": "writing-35",
+   "passage_id": "e-13",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Andrew:\nFrom: Andrew@mail.uk\nTo: Russian_friend@oge.ru\nSubject: School\n… We have lots of optional courses at school but I spend so much time on my main subjects that I have no time for anything else.\n… What school subject do you find the most difficult and why? How much time do you need to do your homework? How do you spend your time after classes?…\nWrite a message to Andrew and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "B9C6FE",
+   "section_id": "writing-35",
+   "passage_id": "e-14",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Harry:\nFrom: Harry@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Reading\n... It may sound unusual, but my friend likes reading very much. As for me, I read only books from the school list.\n... What books do you like to read? Do you prefer e-books or paper books and why? What hobbies apart from reading are popular with your friends?...\nWrite a message to Harry and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "5C3FF5",
+   "section_id": "writing-35",
+   "passage_id": "e-15",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Jim:\nFrom: Jim@mail.uk\nTo: Russian_friend@oge.ru\nSubject: School subjects\n… Next month I’ll choose my subjects for the next year. I want to continue learning languages. I also need to improve my academic results in general.\n… How many lessons do you usually have a day? What foreign languages can you learn at school? What subject do you find the most important for your future career, and why? ...\nWrite a message to Jim and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "AECCF1",
+   "section_id": "writing-35",
+   "passage_id": "e-16",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Jane:\nFrom: Jane@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Household chores\n… My parents work long hours and don’t have enough time for the household chores. My sister and I try to help them as much as we can, and our parents have more time to spend with us.\n… What do you do to help your parents about the house? Who usually does the shopping in your family? What do you enjoy doing all together when you have free time?…\nWrite a message to Jane and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "96E5FE",
+   "section_id": "writing-35",
+   "passage_id": "e-17",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Sophie:\nFrom: Sophie@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Future profession\n... I love history so much that maybe I’ll become a historian in the future.\n... What school subjects do you find the most important? Is there any school subject that you’d like to study more and why? What career would you like to choose in the future?...\nWrite a message to Sophie and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "07AE07",
+   "section_id": "writing-35",
+   "passage_id": "e-18",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Alice:\nFrom: Alice@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Watching TV\n… My parents say that I watch TV too much. And they are not always happy with the programmes I watch.\n… How much time do you watch TV? What do you prefer: watching TV or browsing the Internet, and why? What else do you do in your free time?...\nWrite a message to Alice and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "708908",
+   "section_id": "writing-35",
+   "passage_id": "e-19",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Alice:\nFrom: Alice@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Career plans\n… Time has come to choose a profession for the future. I’m still thinking about it but I really don’t know what career to choose.\n… What would you like to be in the future? Will you use English for your future job? What do your parents advise you to be? …\nWrite a message to Alice and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "BB170E",
+   "section_id": "writing-35",
+   "passage_id": "e-20",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Andrew:\nFrom: Andrew@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Music lessons\n... My parents want me to do music. It’s not what I really want to do but I have no choice. I’ve promised my parents to take at least 20 lessons. It means I won’t have any free time for about three months!\n… What do you do in your free time? What kind of music do you like? What musical instrument would you like to play, if any?...\nWrite a message to Andrew and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "C7DF0E",
+   "section_id": "writing-35",
+   "passage_id": "e-21",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Andrew:\nFrom: Andrew@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Sports\n… You’ll never believe it but I tried to run a marathon last Saturday. It was awful and in half an hour I was out of the race. So, now I realize how weak and unfit my body is.\n… What do you do to keep fit? What sports facilities do you have in your school? What kind of sport do you find ideal for young people and why?…\nWrite a message to Andrew and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "EA5C0B",
+   "section_id": "writing-35",
+   "passage_id": "e-22",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Emma:\nFrom: Emma@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Mobile phones\n… My mum still can’t download new music into her mobile phone. She says when she was young, there were no mobile phones at all. I just can’t imagine that!\n... What do you use your mobile phone for? Can you live without your mobile phone and why? What other gadgets do you find the most important for you?...\nWrite a message to Emma and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "4C587B",
+   "section_id": "writing-35",
+   "passage_id": "e-23",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Ben:\nFrom: Ben@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Pets\n… My cat is big, white and furry. He is such fun! I can’t understand people who prefer to live without pets.\n… Why don’t some people want to have any pets? Do you approve of keeping exotic pets like spiders or snakes and why? What pets are popular in your country? …\nWrite a message to Ben and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "4C737D",
+   "section_id": "writing-35",
+   "passage_id": "e-24",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Ben:\nFrom: Ben@mail.uk\nTo: Russian_friend@oge.ru\nSubject: News\n… Sometimes I hate our school radio because they talk about things everyone knows. And news should be fresh! One day I will be a reporter and will make really good news.\n… How do you get to know what’s happening in the world? What are you going to be? Do you think English will be necessary for your future career and why? …\nWrite a message to Ben and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "4A4575",
+   "section_id": "writing-35",
+   "passage_id": "e-25",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Paul:\nFrom: Paul@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Ecological problems\n… Yesterday we had a class where we discussed different ecological problems. Our teacher suggested opening an eco-club, where we can do something useful for the environment.\n… What ecological problem do you consider the most serious? What can young people do to protect the environment? Do you think ecological problems should be discussed at school, and why?...\nWrite a message to Paul and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "00DC7D",
+   "section_id": "writing-35",
+   "passage_id": "e-26",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Harry:\nFrom: Harry@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Music\n… Frankly, I don’t understand why some people like classical music. I adore rock and usually listen to it on my way home from school. If my favourite band comes to our town, I’ll definitely go to their concert.\n… What kind of music do you like? Do you think it is necessary to have music lessons at school, why? What musical instrument would you like to play?...\nWrite a message to Harry and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "7CDF74",
+   "section_id": "writing-35",
+   "passage_id": "e-27",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Ben:\nFrom: Ben@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Theatre\n… Last week I went to the theatre. It was a great performance and the actors were wonderful. I was impressed.\n… Do you think it’s exciting to be a famous actor and why? When did you last see a theatrical performance? Have you ever been to the Bolshoi Theatre? …\nWrite a message to Ben and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "1C0276",
+   "section_id": "writing-35",
+   "passage_id": "e-28",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Emma:\nFrom: Emma@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Museum\n… I’ve just returned from our local museum. I was surprised that a visit to\na museum could be so enjoyable.\n... Do you find visiting museums interesting and why? What museum would you like to set up, if any? What do you enjoy doing in your free time?...\nWrite a message to Emma and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "DCEC7F",
+   "section_id": "writing-35",
+   "passage_id": "e-29",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Lily:\nFrom: Lily@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Family holidays\n...Yesterday we celebrated Thanksgiving. This is one of our favourite family holidays when we all get together. And my mother makes a wonderful pumpkin pie!\n...What holiday do you like most and why? How do you celebrate your birthday? What present would you like to get for your next birthday? ...\nWrite a message to Lily and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "87947D",
+   "section_id": "writing-35",
+   "passage_id": "e-30",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Emily:\nFrom: Emily@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Learning foreign languages\n… We are having a Maths test tomorrow. It makes me feel scared! I would rather have three language tests instead of one Maths test. I really find learning foreign languages interesting and not difficult at all.\n…What subject is the most difficult for you? What do you do to improve your English? What language apart from English would you like to learn and why?...\nWrite a message to Emily and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "75EFBC",
+   "section_id": "writing-35",
+   "passage_id": "e-31",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Ann:\nFrom: Ann@mail.uk\nTo: Russian_friend@oge.ru\nSubject: My best friend\n… Oh, my friend is so charming! Everybody in the class is ready to help her. But, you know, I sometimes think she’s just using people to get what she wants.\n…What kind of person is your best friend? When and where did you meet? How do you spend time together?…\nWrite a message to Ann and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "A1B9BB",
+   "section_id": "writing-35",
+   "passage_id": "e-32",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Ben:\nFrom: Ben@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Books\n… What an awful task – to read boring books all summer! And the list is so long! I like reading but the books I like are usually not my school’s choice.\n… How long is your school’s list of books? What kind of books do you like to read? Do you think an electronic book is a good choice when you’re travelling in the summer, and why? …\nWrite a message to Ben and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "9E67BB",
+   "section_id": "writing-35",
+   "passage_id": "e-33",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Maх:\nFrom: Maх@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Robots\n… I’ve just watched a TV series about robots, their past and future. Robots are so cool! If only they could do my homework.\n...What jobs would you like a robot to do at your home? What else can robots be used for? Do you find science fiction films interesting, why or why not?....\nWrite a message to Maх and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "3DE32A",
+   "section_id": "writing-35",
+   "passage_id": "e-34",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Ann:\nFrom: Ann@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Diet\n… My friend has decided to become a model and has just gone on a diet. I told her that it could be dangerous but she wouldn’t listen. Besides, she is a vegetarian, so there are not many products she can let herself eat now.\n… Why do people become vegetarians? What do you do to keep fit? What food do you try to avoid?…\nWrite a message to Ann and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "FD59DA",
+   "section_id": "writing-35",
+   "passage_id": "e-35",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Nancy:\nFrom: Nancy@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Excursion\n… We are going on an excursion to a nearby town to see their chocolate factory. I’ve never seen how chocolate is made and I’m looking forward to this trip.\n… Where have you been with your class? What transport do you usually use when you go on a trip? What events do you celebrate with your class?…\nWrite a message to Nancy and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "DA70D6",
+   "section_id": "writing-35",
+   "passage_id": "e-36",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Ben:\nFrom: Ben@mail.uk\nTo: Russian_friend@oge.ru\nSubject: School clubs\n... I’ve just joined our school Drama club. We give performances in English and in French. Our parents and classmates think that our performances are very good.\n… What do you like most about your school? What school clubs do you have? Have you joined any of your school clubs, and why? …\nWrite a message to Ben and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "9713D4",
+   "section_id": "writing-35",
+   "passage_id": "e-37",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Harry:\nFrom: Harry@mail.uk\nTo: Russian_friend@oge.ru\nSubject: The end of the school year\n… The end of the school year is usually a very stressful time for me. We have to take lots of tests and exams. The only thing that makes me happy is that the holidays are coming.\n…What exams are you taking this year? How do you prepare for your English exam? What are your plans for the coming summer holidays?...\nWrite a message to Harry and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "E675D3",
+   "section_id": "writing-35",
+   "passage_id": "e-38",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Ben:\nFrom: Ben@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Future career\n… Yesterday I did a test to see which job is the best for me. According to the results I should become a doctor. But it is absolutely impossible because I am afraid of blood.\n… What future career would you like to have, and why? Do your parents agree with your choice? In what way will English be useful for your career? …\nWrite a message to Ben and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "31B6D4",
+   "section_id": "writing-35",
+   "passage_id": "e-39",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Andrew:\nFrom: Andrew@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Watching films\n… I’m just back home from the cinema, where I saw ‘Charlie and the Chocolate Factory’ for the third time. I can’t agree when people say it’s a film for kids.\n… Do you prefer watching films at home or at the cinema, and why? What kind of films do you like? Are cartoons still popular with you and your friends?…\nWrite a message to Andrew and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "16D85B",
+   "section_id": "writing-35",
+   "passage_id": "e-40",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Jane:\nFrom: Jane@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Exam preparation\n… It’s the end of the year and exams are coming. Although I have good marks and I have time to revise everything, I feel nervous about my exams.\n… What exam do you find the most difficult this year? How do you get ready for it? What do you do not to be nervous before exams?…\nWrite a message to Jane and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "A20B5E",
+   "section_id": "writing-35",
+   "passage_id": "e-41",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Andrew:\nFrom: Andrew@mail.uk\nTo: Russian_friend@oge.ru\nSubject: My new school\n… I had to change school because we had moved to a new house. My new school is right next to it. It is very convenient but everything is so strange here: new rules, a new uniform, new people. I haven’t made any friends yet.\n… How long does it take you to get to your school? What clothes do you wear to school? How do you spend time with your school friends? …\nWrite a message to Andrew and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "624755",
+   "section_id": "writing-35",
+   "passage_id": "e-42",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Ben:\nFrom: Ben@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Clothes\n… My mum always says, “There’s no bad weather, there’re bad clothes!” That’s why she keeps telling me to put on warm clothes even in spring.\n… Do you agree with the English proverb about bad weather and bad clothes, and why? What clothes do you prefer to wear out of school? What are your favourite colours for clothes? …\nWrite a message to Ben and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "F80CA6",
+   "section_id": "writing-35",
+   "passage_id": "e-43",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Ben:\nFrom: Ben@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Sport in everyday life\n… Yesterday our teacher asked us to stay after classes. A basketball star came to us to talk about sport in everyday life. The way he spoke about being a teenager was funny. He said he didn’t like getting up early!\n… When do you get up in the morning? What do you do to keep fit? Would you like to go in for sports professionally, and why? …\nWrite a message to Ben and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "BD64AF",
+   "section_id": "writing-35",
+   "passage_id": "e-44",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Ben:\nFrom: Ben@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Zoo\n… I’ve just been to the zoo. What lovely animals are there!\n… Which do you think is better for animals – to live in the zoo or in the wild, and why? What animals are common in your region? Have you ever seen any animal in the wild? …\nWrite a message to Ben and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "189FA7",
+   "section_id": "writing-35",
+   "passage_id": "e-45",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Kate:\nFrom: Kate@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Souvenirs\n… We often travel. Dad enjoys seeing new places and Mum likes buying souvenirs.\n… Why do people buy souvenirs when they travel? What’s the best souvenir to bring back in your opinion? What place would you like to visit?…\nWrite a message to Kate and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "CE9FA6",
+   "section_id": "writing-35",
+   "passage_id": "e-46",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Kate:\nFrom: Kate@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Books\n… I’m now reading an amazing book about Thomas Edison, one of the greatest inventors of all time.\n…What kind of books do you enjoy? Would you like to write a book, and why or why not? What qualities are necessary for a good writer?…\nWrite a message to Kate and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "C48794",
+   "section_id": "writing-35",
+   "passage_id": "e-47",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Ann:\nFrom: Ann@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Sports\n… My brother has got a dangerous hobby – he has become a mountain biker. I worry about him. I would like him to spend more time at home. I wish he had chosen a safer entertainment.\n… What indoor sports are most popular with teenagers in your country? Why do teenagers often do extreme sports? What kind of sport is your favourite? …\nWrite a message to Ann and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "4470E7",
+   "section_id": "writing-35",
+   "passage_id": "e-48",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Kate:\nFrom: Kate@mail.uk\nTo: Russian_friend@oge.ru\nSubject: School\n… Tomorrow will be Wednesday, my favourite day at school. We don’t have too many lessons and I can attend my History Drama Club.\n… How many lessons do you usually have a day? What’s your favourite subject at school, and why? What after-class activities can students do in your school?…\nWrite a message to Kate and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "F326E8",
+   "section_id": "writing-35",
+   "passage_id": "e-49",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Kate:\nFrom: Kate@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Pets\n… My friend has an unusual pet, a hedgehog. He found a small hedgehog in the forest and took it home.\n… What pets are most popular in your country? Do you approve of keeping wild animals as pets, why or why not? What pet do you have or would you like to have?…\nWrite a message to Kate and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "09D861",
+   "section_id": "writing-35",
+   "passage_id": "e-50",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Andrew:\nFrom: Andrew@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Mother’s Day\n… It’s Mother’s Day next week, or Mothering Sunday. Dad and I are busy preparing a real surprise holiday for Mum.\n… How is Mother’s Day celebrated in Russia? What presents do you usually give to your Mum? What other family holidays do you celebrate?…\nWrite a message to Andrew and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "74D762",
+   "section_id": "writing-35",
+   "passage_id": "e-51",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Ben:\nFrom: Ben@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Presents\n… My granny is such a kind person. She always brings us presents for everything we celebrate. And I love all her presents!\n… What holidays do you celebrate with your family? What is your favourite holiday and why? What is the best present you’ve ever received? …\nWrite a message to Ben and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "495030",
+   "section_id": "writing-35",
+   "passage_id": "e-52",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Ben:\nFrom: Ben@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Hobby\n… I have decided to take up collecting stamps as my new hobby. My uncle is a traveller and often brings me stamps from different countries.\n… What hobbies are popular with Russian teenagers? What hobby would you like to take up, and why? Do your friends share your interests?…\nWrite a message to Ben and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "57A737",
+   "section_id": "writing-35",
+   "passage_id": "e-53",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Kate:\nFrom: Kate@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Christmas time\n… It’s Christmas time and we’re having a Christmas fair next week at school. And all the money will go to charity. I just thought about making some ginger cookies for the event.\n…What school events do you have during the school year? What is the programme of your school New Year party? What present would you like to get for the New Year?…\nWrite a message to Kate and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "55343D",
+   "section_id": "writing-35",
+   "passage_id": "e-54",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Sam:\nFrom: Sam@mail.uk\nTo: Russian_friend@oge.ru\nSubject: School\n... I’ve just changed school. I’m fond of Mathematics and it’s the major subject in my new school. The only thing I don’t like here is too much homework!\n… What is your favourite subject? How long does it take you to do your homework? What do you do in your free time?...\nWrite a message to Sam and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "5D3935",
+   "section_id": "writing-35",
+   "passage_id": "e-55",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Ben:\nFrom: Ben@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Summer\n… I’ve just been to Australia. That was unbelievable! I definitely want to go there again!\n… Where did you spend your last summer? What did you like most about it? Which country would you like to visit one day, and why? …\nWrite a message to Ben and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "592433",
+   "section_id": "writing-35",
+   "passage_id": "e-56",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Ann:\nFrom: Ann@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Learning foreign languages\n... At school I have to choose a second foreign language to learn. The problem is that I cannot make a choice about what language to take.\n… When did you start learning English? What do you do to improve your English? What foreign language besides English would you like to learn, and why? …\nWrite a message to Ann and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "ACFA37",
+   "section_id": "writing-35",
+   "passage_id": "e-57",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Ben:\nFrom: Ben@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Holidays\n… I’ve just returned from China. They were celebrating the Chinese New Year there. Lots of people were dressed like dragons.\n… What are the most popular holidays in Russia? What is your favourite holiday and why? How do you celebrate it? …\nWrite a message to Ben and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "3137FA",
+   "section_id": "writing-35",
+   "passage_id": "e-58",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Tom:\nFrom: Tom@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Missing my computer\n… My laptop is broken and will be at the repair centre for a week, ’cause it's holiday time now. This made me realise how dependent I am on my computer.\n… How many hours a week do you usually spend on your computer? What do you use it for? People of what professions need excellent computer skills, in your view? …\nWrite a message to Tom and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "BC3107",
+   "section_id": "writing-35",
+   "passage_id": "e-59",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an\nemail message from your English-speaking pen-friend Helen:\nFroTAG_HERE Helen @mail.uk\nTo: Russian_friend@oge.ru\nSubject: Russian Nature\n…I’ve seen\nwonderful pictures of Russia’s nature. It seems so different from the\nregion where I live.\n…What natural\nplaces in Russia are the most beautiful to visit? Do Russians often go\nhiking or camping in the countryside? If you could spend a summer anywhere\nin Russia, where would you go?…\nWrite a message to Helen and answer her 3\nquestions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "68283E",
+   "section_id": "writing-35",
+   "passage_id": "e-60",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Jane:\nFrom: Jane@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Family gatherings\n… Our grandparents visited us this weekend. We had a great time and enjoyed a delicious lunch all together.\n… Do you enjoy having family meals, and why yes or no? On what occasions do you have special family meals? Who is the best cook in your family?…\nWrite a message to Jane and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "9047CB",
+   "section_id": "writing-35",
+   "passage_id": "e-61",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend James:\nFrom: James@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Travelling to Russia\n… My friend was very impressed by the Moscow Kremlin. He said that Russian architecture is fascinating. I’d like to go to Russia for my holidays, too.\n… How do you usually spend your holidays? What is the best season for travelling in Russia and why? What tourist attractions would you recommend seeing in your country? …\nWrite a message to James and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "1350DE",
+   "section_id": "writing-35",
+   "passage_id": "e-62",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Barbara:\nFrom: Barbara@mail.uk\nTo: Russian_friend@oge.ru\nSubject: After school holidays\n… My school is over. I have passed all my exams and am looking forward to my holidays.\n… How do you usually spend your holidays? What are your plans for this summer? Do you prefer to spend your holidays away from home, why yes or no?…\nWrite a message to Barbara and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "A09168",
+   "section_id": "writing-35",
+   "passage_id": "e-63",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Mary:\nFrom: Mary@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Hobbies\n…When I’m not at school or busy with homework, I spend most of my time playing chess. This is my hobby!\n…What kinds of hobbies do you have? How much time do you spend on them? What skills do they develop?…\nWrite a message to Mary and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "442C39",
+   "section_id": "writing-35",
+   "passage_id": "e-64",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Nick:\nFrom: Nick @mail.uk\nTo: Russian_friend@oge.ru\nSubject: School friends\n… We’ve moved house and now I have to go to a new school. It’s a pity because I liked my old school and I had a lot of friends there.\n… What do you like most about your school? Have you got a lot of friends at school? What do you usually do with your school friends in your free time? …\nWrite a message to Nick and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "6B8390",
+   "section_id": "writing-35",
+   "passage_id": "e-65",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Jack:\nFrom: Jack@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Life without gadgets\n… We are carrying out an experimental project at school. The idea is to see how our life would change if we gave up all electronic gadgets.\n… How many hours a day are you online? If you could use only one gadget, what would it be and why? What would you do if you had more free time?…\nWrite a message to Jack and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "3BD918",
+   "section_id": "writing-35",
+   "passage_id": "e-66",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Mike:\nFrom: Mike@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Ecological problems\n… One of my friends gets ill very often. The doctor says that it’s because he lives in a big city with a poor environment.\n… What ecological problems are the most serious in your country? What can teenagers do to make their hometown cleaner? Would you like to live in a big city or in the country and why? …\nWrite a message to Mike and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "E8E0E6",
+   "section_id": "writing-35",
+   "passage_id": "e-67",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Edna:\nFrom: Edna@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Watching films\n…Yesterday I went to the cinema with my friends. We saw a screen version of the book we are going to discuss in our literature lesson next week.\n… Do you prefer to read a book or watch its film adaptation first? What kinds of films do you like? Do you often go to the cinema, and why yes or no? …\nWrite a message to Edna and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "99B764",
+   "section_id": "writing-35",
+   "passage_id": "e-68",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Steve:\nFrom: Steve@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Collecting things\n… My elder brother has decided to collect mugs, imagine that. It’s a nice collection but it takes up so much room.\n… Why do people collect things? What do you collect or what would you like to collect? What other hobbies are popular with teenagers in your country? …\nWrite a message to Steve and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "232907",
+   "section_id": "writing-35",
+   "passage_id": "e-69",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Henry:\nFrom: Henry@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Career plans\n… My family runs a family business. My dad wants me to go into the family business after I finish school. But I’m not sure what I want to do in the future.\n… What are your career plans? What career do your parents advise you to choose? Is there any job you wouldn’t agree to do, why yes or no? …\nWrite a message to Henry and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "7F7EC2",
+   "section_id": "writing-35",
+   "passage_id": "e-70",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Andrew:\nFrom: Andrew@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Sports\n… I’ve decided to take up some sport to be fitter and feel better.\n… What kinds of sports are popular with teenagers in Russia? What sports facilities are there in your school? What kind of sports competitions are usually held at your school? …\nWrite a message to Andrew and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "DB4B71",
+   "section_id": "writing-35",
+   "passage_id": "e-71",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Mathew:\nFrom: Mathew@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Doing sports\n… As you know, I am a tennis club member. I go there regularly, but my best friend doesn’t want to do any sport.\n… Should people do sports, and why yes or no? What sports do you like? What do you do in your PE lessons? …\nWrite a message to Mathew and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "8FD5D1",
+   "section_id": "writing-35",
+   "passage_id": "e-72",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Mary:\nFrom: Mary@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Computer\n… I can’t imagine my life without my computer and the Internet! Now I can write all my stories and immediately send them to my friends to read.\n… What do you use your computer for? How much time do you spend surfing the Internet? What else do you do in your free time? …\nWrite a message to Mary and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "58DCC9",
+   "section_id": "writing-35",
+   "passage_id": "e-73",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Mary:\nFrom: Mary@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Russian towns\n…My teacher told me that Russia has many beautiful small towns. I’d love to travel and see some of them.\n…What small Russian towns would you recommend visiting and why? What is the best way to travel around Russia? Where would you prefer to live, in a big city or in a town, and why?…\nWrite a message to Mary and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "803B2E",
+   "section_id": "writing-35",
+   "passage_id": "e-74",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Mark:\nFrom: Mark@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Pocket money\n… I saved some of my pocket money and have bought a new computer game. I’m glad that I didn’t have to ask my parents to buy it for me. It would be great to find a job next summer.\n… How do you get your pocket money? What do Russian teenagers usually buy with their pocket money? Would you like to get a summer job, and why yes or no? …\nWrite a message to Mark and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "70EA5E",
+   "section_id": "writing-35",
+   "passage_id": "e-75",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Peter:\nFrom: Peter@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Weather\n… Today is Sunday, but I feel bored and unhappy. It’s already been raining hard for two days and there’s nothing to do at home.\n… What is your favourite season and why? What do you do when the weather is rainy? How do you usually spend your weekends? …\nWrite a message to Peter and answer his 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "771EEB",
+   "section_id": "writing-35",
+   "passage_id": "e-76",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Molly:\nFrom: Molly@mail.uk\nTo: Russian_friend@oge.ru\nSubject: School exams\n… I’m having a very busy time now as I’m getting ready for my exams. As far as I know, all students in Russia have to take school exams too.\n… When are you going to have your exams? What exams have you chosen and why? What are your plans for the summer holidays? …\nWrite a message to Molly and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "CE1F87",
+   "section_id": "writing-35",
+   "passage_id": "e-77",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Ruth:\nFrom: Ruth @mail.uk\nTo: Russian_friend@oge.ru\nSubject: Russian food\n…Yesterday I tried borsch in a small Russian café in my city. I liked it a lot. I’d like to try more Russian dishes when I visit Russia.\n…What other traditional Russian dishes would you recommend me to taste? Do Russian families usually cook at home or eat out in restaurants? What dish is your personal favourite, and why?...\nWrite a message to Ruth and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "E8D2BE",
+   "section_id": "writing-35",
+   "passage_id": "e-78",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Jane:\nFrom: Jane@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Books\n… My parents ask me if I’d like to get an electronic book as a birthday present.\nI don’t know what to answer as I’ve never used it actually.\n… What is the main advantage of an e-book, in your opinion? What kinds of books do you like reading? How do you choose a book to read? …\nWrite a message to Jane and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "324F78",
+   "section_id": "writing-35",
+   "passage_id": "e-79",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an email message from your English-speaking pen-friend Maggy:\nFrom: Maggy@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Travelling\n…What a journey! We went by car to Brighton and spent a couple of days at the seaside. I wish we could go there again!\n… Why do you think travelling is so popular? Where would you like to go? How do you prefer to travel? …\nWrite a message to Maggy and answer her 3 questions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "E442A1",
+   "section_id": "writing-35",
+   "passage_id": "e-80",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an\nemail message from your English-speaking pen-friend Laura:\nFroTAG_HERE Laura@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Russian daily life\n…I’ve read that\nRussian families often live in flats rather than houses. That seems quite\ndifferent from where I am from.\n…What are\nRussian homes usually like inside? Do teenagers in Russia\nhelp their parents with housework? What is your usual day like during the\nschool year?…\nWrite a message to Laura and answer her 3\nquestions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
+  },
+  {
+   "id": "C9F6D4",
+   "section_id": "writing-35",
+   "passage_id": "e-81",
+   "sort": 1,
+   "number": "35",
+   "kind": "open",
+   "prompt": "You have received an\nemail message from your English-speaking pen-friend Gerald:\nFroTAG_HERE Gerald@mail.uk\nTo: Russian_friend@oge.ru\nSubject: Russian transport\n…In my small city\nwe usually travel by buses. Yours is a big country, I wonder how people in Russia\nget around.\n…What is the\nmost common way of travelling in Russia? Do people often have to go by long-distance\ntrains? If you could choose, would you rather travel by train, car or\nplane, and why?…\nWrite a message to Gerald and answer his 3\nquestions.\nWrite 100–120 words.\nRemember the rules of email writing.",
+   "word": null,
+   "options": {
+    "mode": "email",
+    "minWords": 100,
+    "maxWords": 120
+   },
+   "topic": "Письмо",
+   "answers": [],
+   "explanation": ""
   }
  ]
 }

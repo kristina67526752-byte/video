@@ -8,6 +8,12 @@ applySettings();
 
 // В демо-режиме (npm run demo) задания с ответами подключаются прямо в браузер — только для локального просмотра.
 // В обычной сборке этот код вырезается, и ответы на сайт не попадают.
+function catalogJson(): string {
+  const d = JSON.parse(readFileSync(new URL('./data/tasks.json', import.meta.url), 'utf8'));
+  const tasks = d.tasks.map(({ answers: _a, explanation: _e, ...t }: Record<string, unknown>) => t);
+  return JSON.stringify({ sections: d.sections, passages: d.passages, tasks });
+}
+
 export default defineConfig(({ mode }) => {
   if (mode !== 'demo') printDiagnosis();
   return {
@@ -23,12 +29,13 @@ export default defineConfig(({ mode }) => {
   }, {
     // Список заданий БЕЗ ответов и разборов кладём рядом с сайтом (catalog.json), чтобы не тянуть его из базы.
     name: 'static-catalog',
-    apply: 'build',
     generateBundle() {
       if (mode === 'demo') return;
-      const d = JSON.parse(readFileSync(new URL('./data/tasks.json', import.meta.url), 'utf8'));
-      const tasks = d.tasks.map(({ answers: _a, explanation: _e, ...t }: Record<string, unknown>) => t);
-      this.emitFile({ type: 'asset', fileName: 'catalog.json', source: JSON.stringify({ sections: d.sections, passages: d.passages, tasks }) });
+      this.emitFile({ type: 'asset', fileName: 'catalog.json', source: catalogJson() });
+    },
+    configureServer(server) {
+      // при npm run dev отдаём тот же catalog.json
+      server.middlewares.use('/catalog.json', (_req, res) => { res.setHeader('content-type', 'application/json'); res.end(catalogJson()); });
     },
   }],
   base: './',

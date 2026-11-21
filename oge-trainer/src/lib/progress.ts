@@ -18,8 +18,9 @@ export function buildStates(attempts: Attempt[]): Map<string, TaskState> {
 }
 
 export function countFor(tasks: Task[], states: Map<string, TaskState>): Counts {
-  const c: Counts = { total: tasks.length, correct: 0, wrong: 0, left: 0, firstOk: 0, attempted: 0 };
-  for (const t of tasks) {
+  const checked = tasks.filter((t) => t.kind !== 'open');
+  const c: Counts = { total: checked.length, correct: 0, wrong: 0, left: 0, firstOk: 0, attempted: 0 };
+  for (const t of checked) {
     const s = states.get(t.id);
     if (!s) { c.left++; continue; }
     c.attempted++;

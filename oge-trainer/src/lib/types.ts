@@ -1,6 +1,6 @@
 export type Role = 'student' | 'teacher';
-export type SectionKind = 'matching' | 'tfn' | 'gap';
-export type TaskKind = 'text' | 'choice' | 'matching';
+export type SectionKind = 'matching' | 'tfn' | 'gap' | 'open';
+export type TaskKind = 'text' | 'choice' | 'matching' | 'open';
 
 export interface Section {
   id: string; title: string; subtitle: string | null; kind: SectionKind; instruction: string | null; sort: number;
@@ -8,9 +8,10 @@ export interface Section {
 export interface Passage { id: string; section_id: string; title: string | null; body: string; sort: number }
 export interface ChoiceOption { value: string; label: string }
 export interface MatchingOptions { letters: string[]; questions: string[] }
+export interface OpenOptions { mode: 'email' | 'read' | 'talk'; minWords?: number; maxWords?: number; prepSec?: number; speakSec?: number }
 export interface Task {
   id: string; section_id: string; passage_id: string | null; sort: number; number: string | null;
-  kind: TaskKind; prompt: string; word: string | null; options: ChoiceOption[] | MatchingOptions | null; topic: string | null;
+  kind: TaskKind; prompt: string; word: string | null; options: ChoiceOption[] | MatchingOptions | OpenOptions | null; topic: string | null;
 }
 export interface Catalog { sections: Section[]; passages: Passage[]; tasks: Task[] }
 

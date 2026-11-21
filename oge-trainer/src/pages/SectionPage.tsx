@@ -29,12 +29,20 @@ export default function SectionPage() {
       <div className="crumbs"><Link to="/">Тренажёр</Link> / {section.title}</div>
       <h1>{section.title} <span className="muted">· {section.subtitle}</span></h1>
       {section.instruction && <p className="instruction">{section.instruction}</p>}
-      <div className="card"><ProgressBar c={c} /><Legend c={c} /></div>
-      <div className="chips">
+      {section.kind !== 'open' && <div className="card"><ProgressBar c={c} /><Legend c={c} /></div>}
+      {section.kind !== 'open' && <div className="chips">
         {FILTERS.map(([k, label]) => <button key={k} className={'chip' + (filter === k ? ' active' : '')} onClick={() => setFilter(k)}>{label}</button>)}
-      </div>
+      </div>}
       <div className="grid passages">
         {items.map(({ p, c: pc }) => {
+          if (section.kind === 'open') {
+            return (
+              <Link key={p.id} to={`/p/${p.id}`} className="card passage-card">
+                <div className="passage-top"><span className="muted small">№ {passages.indexOf(p) + 1}</span></div>
+                <h3>{p.title}</h3>
+              </Link>
+            );
+          }
           const status = pc.attempted === 0 ? 'Не начато' : pc.correct === pc.total ? 'Выполнено' : 'В процессе';
           return (
             <Link key={p.id} to={`/p/${p.id}`} className="card passage-card">

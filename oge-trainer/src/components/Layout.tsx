@@ -34,9 +34,9 @@ export default function Layout() {
             const c = countFor(index.tasksBySection.get(s.id) || [], states);
             return (
               <NavLink key={s.id} to={`/s/${s.id}`} className="side-item">
-                <div className="side-head"><b>{s.title}</b><span className="muted small">{pct(c.correct, c.total)}%</span></div>
+                <div className="side-head"><b>{s.title}</b><span className="muted small">{c.total ? pct(c.correct, c.total) + '%' : ''}</span></div>
                 <div className="small muted">{s.subtitle}</div>
-                <ProgressBar c={c} thin />
+                {c.total > 0 && <ProgressBar c={c} thin />}
               </NavLink>
             );
           })}

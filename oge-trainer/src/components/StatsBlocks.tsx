@@ -19,7 +19,7 @@ export function shortPrompt(t: Task | undefined): string {
 export function SectionBreakdown({ index, states }: { index: Index; states: Map<string, TaskState> }) {
   return (
     <div className="breakdown">
-      {index.sections.map((s) => {
+      {index.sections.filter((s) => s.kind !== 'open').map((s) => {
         const c = countFor(index.tasksBySection.get(s.id) || [], states);
         return (
           <div key={s.id} className="bd-row">
