@@ -69,6 +69,16 @@ if (!url || !key || key.startsWith('eyJhbGciOi...')) {
   console.error('\nОткройте файл НАСТРОЙКИ.txt в папке проекта и вставьте адрес проекта и ключ service_role (см. инструкцию внутри файла).');
   process.exit(1);
 }
+let role = null;
+try { role = JSON.parse(Buffer.from(key.split('.')[1], 'base64url').toString()).role; } catch { /* не JWT */ }
+if (role && role !== 'service_role') {
+  console.error(`\n✗ В строке SUPABASE_SERVICE_ROLE_KEY стоит ключ «${role}», а нужен «service_role».\n  Supabase → Project Settings → API Keys → View legacy API keys → service_role → Reveal → скопировать.`);
+  process.exit(1);
+}
+if (key.startsWith('sb_')) {
+  console.error('\n✗ В строке SUPABASE_SERVICE_ROLE_KEY стоит ключ нового формата (sb_...). Нужен legacy-ключ service_role (начинается с eyJ).');
+  process.exit(1);
+}
 let sb;
 try {
   sb = createClient(url, key, { auth: { persistSession: false } });
@@ -86,7 +96,8 @@ try {
   const m = String(e.message || e);
   console.error('\n✗ Не удалось загрузить задания: ' + m);
   if (/fetch failed|ENOTFOUND|getaddrinfo/i.test(m)) console.error('  Проверьте адрес проекта в НАСТРОЙКИ.txt (вида https://abcd1234.supabase.co) и интернет.');
-  else if (/Invalid API key|JWT|401|403|permission/i.test(m)) console.error('  Проверьте ключ service_role в НАСТРОЙКИ.txt: скопируйте его заново целиком (legacy-ключ, начинается с eyJ).');
+  else if (/permission denied/i.test(m)) console.error('  У служебного ключа нет прав на таблицы. Выполните в Supabase → SQL Editor:\n    grant usage on schema public to service_role;\n    grant all on all tables in schema public to service_role;\n    grant all on all sequences in schema public to service_role;\n  и запустите npm run push-tasks ещё раз.');
+  else if (/Invalid API key|JWT|401|403/i.test(m)) console.error('  Проверьте ключ service_role в НАСТРОЙКИ.txt: скопируйте его заново целиком (legacy-ключ, начинается с eyJ).');
   else if (/relation|does not exist|schema cache/i.test(m)) console.error('  В базе нет таблиц: выполните файл supabase/schema.sql в Supabase → SQL Editor.');
   process.exit(1);
 }

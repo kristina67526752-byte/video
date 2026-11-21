@@ -270,6 +270,11 @@ revoke all on public.profiles, public.sections, public.passages, public.tasks, p
 revoke all on public.profiles, public.sections, public.passages, public.tasks, public.attempts from authenticated;
 grant select on public.profiles, public.sections, public.passages, public.attempts to authenticated;
 grant update (display_name) on public.profiles to authenticated;
+-- Служебный ключ service_role (скрипт загрузки заданий) — полный доступ к таблицам.
+-- В новых проектах Supabase эти права не всегда выдаются автоматически.
+grant usage on schema public to service_role;
+grant all on all tables in schema public to service_role;
+grant all on all sequences in schema public to service_role;
 grant select (id, section_id, passage_id, sort, number, kind, prompt, word, options, topic) on public.tasks to authenticated;
 
 revoke execute on function public.check_answer(text, text), public.get_solutions(text[], uuid),
