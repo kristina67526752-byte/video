@@ -8,7 +8,13 @@ async function fetchAll<T>(make: (from: number, to: number) => PromiseLike<{ dat
   const out: T[] = [];
   const size = 1000;
   for (let from = 0; ; from += size) {
-    const { data, error } = await make(from, from + size - 1);
+    let res = await make(from, from + size - 1);
+    // при обрыве связи пробуем ещё два раза
+    for (let attempt = 1; attempt <= 2 && res.error && /fetch|network|load failed/i.test(res.error.message); attempt++) {
+      await new Promise((r) => setTimeout(r, 1500 * attempt));
+      res = await make(from, from + size - 1);
+    }
+    const { data, error } = res;
     if (error) throw new Error(error.message);
     out.push(...(data || []));
     if (!data || data.length < size) break;
