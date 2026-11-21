@@ -27,7 +27,15 @@ export function parseSettings(text) {
     // если значение вставили рядом со словом-заглушкой, а её не стёрли — убираем заглушку
     let v = cleanValue(m[2]).replace(/ВСТАВЬТЕ_(АДРЕС_ПРОЕКТА|КЛЮЧ_SERVICE_ROLE|КЛЮЧ_ANON)/gi, '');
     if (!v || /ВСТАВЬТЕ/i.test(v)) continue; // заглушка ещё не заменена
-    if (m[1] === 'VITE_SUPABASE_URL') v = normalizeUrl(v);
+    if (m[1] === 'VITE_SUPABASE_URL') {
+      // вытаскиваем сам адрес, даже если рядом прилипли лишние слова («вида https://…»)
+      const hit = v.match(/https?:\/\/[a-z0-9-]+\.supabase\.(co|in)/i) || v.match(/[a-z0-9]{20}\.supabase\.(co|in)/i);
+      v = normalizeUrl(hit ? hit[0] : v);
+    } else {
+      const jwt = v.match(/eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+/);
+      const sb = v.match(/sb_(publishable|secret)_[A-Za-z0-9_-]+/);
+      if (jwt) v = jwt[0]; else if (sb) v = sb[0];
+    }
     out[m[1]] = v;
   }
   return out;

@@ -69,7 +69,13 @@ if (!url || !key || key.startsWith('eyJhbGciOi...')) {
   console.error('\nОткройте файл НАСТРОЙКИ.txt в папке проекта и вставьте адрес проекта и ключ service_role (см. инструкцию внутри файла).');
   process.exit(1);
 }
-const sb = createClient(url, key, { auth: { persistSession: false } });
+let sb;
+try {
+  sb = createClient(url, key, { auth: { persistSession: false } });
+} catch {
+  console.error(`\n✗ Неверный адрес проекта: «${url}». В файле НАСТРОЙКИ.txt строка должна выглядеть так:\n  VITE_SUPABASE_URL=https://abcd1234.supabase.co\nБез лишних слов перед https.`);
+  process.exit(1);
+}
 const pick = (o, keys) => Object.fromEntries(keys.map((k) => [k, o[k] ?? null]));
 try {
   await upsert(sb, 'sections', data.sections.map((s) => pick(s, ['id', 'title', 'subtitle', 'kind', 'instruction', 'sort'])));
