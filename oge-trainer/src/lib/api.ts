@@ -10,6 +10,6 @@ export async function createApi(): Promise<Api> {
   }
   const url = import.meta.env.VITE_SUPABASE_URL;
   const key = import.meta.env.VITE_SUPABASE_ANON_KEY;
-  if (!url || !key || url.includes('xxxxxxxx')) throw new SetupError('Не заданы VITE_SUPABASE_URL и VITE_SUPABASE_ANON_KEY.');
+  if (!url || !key || url.includes('xxxxxxxx') || !url.startsWith('https://')) throw new SetupError('В файле НАСТРОЙКИ.txt не указаны адрес проекта Supabase и ключ anon.');
   return createSupabaseApi(url, key);
 }

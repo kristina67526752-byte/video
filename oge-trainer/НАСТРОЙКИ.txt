@@ -1,0 +1,16 @@
+НАСТРОЙКИ ТРЕНАЖЁРА — вставьте сюда три значения из Supabase и сохраните файл (Cmd+S).
+
+Где взять: Supabase → Project Settings → API Keys → кнопка «View legacy API keys».
+Замените слова ВСТАВЬТЕ_... на свои значения: сразу после знака =, без пробелов и кавычек.
+Не меняйте ничего слева от знака =.
+
+1) Адрес проекта (Project URL), вида https://abcd1234.supabase.co
+   Его видно в Project Settings → Data API (или: https:// + Project ID + .supabase.co)
+VITE_SUPABASE_URL=ВСТАВЬТЕ_АДРЕС_ПРОЕКТА
+
+2) Ключ anon (public) — длинная строка, начинается с eyJ
+VITE_SUPABASE_ANON_KEY=ВСТАВЬТЕ_КЛЮЧ_ANON
+
+3) Ключ service_role (secret) — сначала нажмите Reveal; тоже начинается с eyJ
+   ВНИМАНИЕ: этот ключ никому не показывайте и не отправляйте в чат!
+SUPABASE_SERVICE_ROLE_KEY=ВСТАВЬТЕ_КЛЮЧ_SERVICE_ROLE

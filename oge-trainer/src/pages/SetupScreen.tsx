@@ -5,9 +5,9 @@ export default function SetupScreen({ message }: { message: string }) {
         <h1>Сайт ещё не подключён к базе</h1>
         <p>{message}</p>
         <ol>
-          <li>Скопируйте файл <code>.env.example</code> в <code>.env.local</code>.</li>
-          <li>Вставьте адрес проекта и anon-ключ из Supabase → Project Settings → API.</li>
-          <li>Перезапустите <code>npm run dev</code> или пересоберите сайт.</li>
+          <li>Откройте файл <code>НАСТРОЙКИ.txt</code> в папке проекта.</li>
+          <li>Вставьте адрес проекта и ключи из Supabase → Project Settings → API Keys → «View legacy API keys» и сохраните файл.</li>
+          <li>Остановите сайт (Ctrl+C в Терминале) и снова запустите <code>npm run dev</code>.</li>
         </ol>
         <p className="muted">Посмотреть сайт без базы можно командой <code>npm run demo</code>.</p>
       </div>

@@ -2,6 +2,7 @@
 // проверяет подключение и (по желанию) загружает задания.
 //   npm run setup
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { loadSettings, SETTINGS_FILE } from './settings.mjs';
 import { createInterface } from 'node:readline/promises';
 import { stdin, stdout } from 'node:process';
 import { spawnSync } from 'node:child_process';
@@ -15,13 +16,7 @@ const line = () => console.log('─'.repeat(60));
 const clean = (s) => s.trim().replace(/^['"]|['"]$/g, '').replace(/\s+/g, '');
 
 function current() {
-  const out = {};
-  if (!existsSync(envPath)) return out;
-  for (const l of readFileSync(envPath, 'utf8').split('\n')) {
-    const m = l.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)$/);
-    if (m) out[m[1]] = m[2].trim();
-  }
-  return out;
+  return loadSettings();
 }
 
 async function ask(question, check, fallback) {
@@ -65,17 +60,15 @@ const url = toUrl(await ask('1) Адрес проекта (Project URL) или P
 const anon = await ask('\n2) Ключ anon (public):', checkKey('anon'), prev.VITE_SUPABASE_ANON_KEY);
 const service = await ask('\n3) Ключ service_role (secret) — нажмите Reveal, чтобы увидеть его:', checkKey('service_role'), prev.SUPABASE_SERVICE_ROLE_KEY);
 
-writeFileSync(envPath, [
-  '# Создано командой npm run setup',
-  `VITE_SUPABASE_URL=${url}`,
-  `VITE_SUPABASE_ANON_KEY=${anon}`,
-  '',
-  '# Только для загрузки заданий. Никому не показывайте и не публикуйте этот ключ!',
-  `SUPABASE_SERVICE_ROLE_KEY=${service}`,
-  '',
-].join('\n'));
+let text = existsSync(SETTINGS_FILE) ? readFileSync(SETTINGS_FILE, 'utf8') : '';
+for (const [k, v] of [['VITE_SUPABASE_URL', url], ['VITE_SUPABASE_ANON_KEY', anon], ['SUPABASE_SERVICE_ROLE_KEY', service]]) {
+  const re = new RegExp(`^\\s*${k}\\s*=.*$`, 'm');
+  text = re.test(text) ? text.replace(re, `${k}=${v}`) : `${text.trimEnd()}\n${k}=${v}\n`;
+}
+writeFileSync(SETTINGS_FILE, text);
+if (existsSync(envPath)) writeFileSync(envPath, `VITE_SUPABASE_URL=${url}\nVITE_SUPABASE_ANON_KEY=${anon}\nSUPABASE_SERVICE_ROLE_KEY=${service}\n`);
 line();
-console.log('✓ Настройки сохранены в файл .env.local\n');
+console.log('✓ Настройки сохранены в файл НАСТРОЙКИ.txt\n');
 
 console.log('Проверяю подключение к Supabase…');
 let schemaOk = false;

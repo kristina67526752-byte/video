@@ -8,6 +8,6 @@ if ! command -v npm >/dev/null 2>&1; then
   exit 1
 fi
 if [ ! -d node_modules ]; then npm install --no-audit --no-fund || exit 1; fi
-if [ ! -f .env.local ]; then npm run setup || exit 1; fi
+if ! node --input-type=module -e "import {loadSettings} from './scripts/settings.mjs'; process.exit(loadSettings().VITE_SUPABASE_URL ? 0 : 1)"; then npm run setup || exit 1; fi
 echo "Запускаю сайт… Он откроется в браузере. Чтобы остановить — закройте это окно."
 npm run dev -- --open

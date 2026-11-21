@@ -4,20 +4,11 @@
 // Повторный запуск безопасен: существующие записи обновляются по id, попытки учеников не трогаются.
 import { readFileSync, existsSync } from 'node:fs';
 import { createClient } from '@supabase/supabase-js';
+import { applySettings } from './settings.mjs';
 
 const dryRun = process.argv.includes('--dry-run');
 const file = new URL('../data/tasks.json', import.meta.url);
 
-function loadEnv() {
-  for (const name of ['.env.local', '.env']) {
-    const path = new URL('../' + name, import.meta.url);
-    if (!existsSync(path)) continue;
-    for (const line of readFileSync(path, 'utf8').split('\n')) {
-      const m = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$/);
-      if (m && !process.env[m[1]]) process.env[m[1]] = m[2].replace(/^['"]|['"]$/g, '');
-    }
-  }
-}
 
 function validate(data) {
   const errors = [];
@@ -72,15 +63,24 @@ if (errors.length) {
 console.log('Файл заданий в порядке.');
 if (dryRun) process.exit(0);
 
-loadEnv();
+applySettings();
 const url = process.env.VITE_SUPABASE_URL; const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
 if (!url || !key || key.startsWith('eyJhbGciOi...')) {
-  console.error('\nУкажите VITE_SUPABASE_URL и SUPABASE_SERVICE_ROLE_KEY в файле .env.local (см. .env.example).');
+  console.error('\nОткройте файл НАСТРОЙКИ.txt в папке проекта и вставьте адрес проекта и ключ service_role (см. инструкцию внутри файла).');
   process.exit(1);
 }
 const sb = createClient(url, key, { auth: { persistSession: false } });
 const pick = (o, keys) => Object.fromEntries(keys.map((k) => [k, o[k] ?? null]));
-await upsert(sb, 'sections', data.sections.map((s) => pick(s, ['id', 'title', 'subtitle', 'kind', 'instruction', 'sort'])));
-await upsert(sb, 'passages', data.passages.map((p) => ({ ...pick(p, ['id', 'section_id', 'title', 'sort']), body: p.body ?? '' })));
-await upsert(sb, 'tasks', data.tasks.map((t) => ({ ...pick(t, ['id', 'section_id', 'passage_id', 'sort', 'number', 'kind', 'prompt', 'word', 'options', 'topic', 'answers']), explanation: t.explanation ?? '' })));
-console.log('Готово! Задания загружены в Supabase.');
+try {
+  await upsert(sb, 'sections', data.sections.map((s) => pick(s, ['id', 'title', 'subtitle', 'kind', 'instruction', 'sort'])));
+  await upsert(sb, 'passages', data.passages.map((p) => ({ ...pick(p, ['id', 'section_id', 'title', 'sort']), body: p.body ?? '' })));
+  await upsert(sb, 'tasks', data.tasks.map((t) => ({ ...pick(t, ['id', 'section_id', 'passage_id', 'sort', 'number', 'kind', 'prompt', 'word', 'options', 'topic', 'answers']), explanation: t.explanation ?? '' })));
+  console.log('Готово! Задания загружены в Supabase.');
+} catch (e) {
+  const m = String(e.message || e);
+  console.error('\n✗ Не удалось загрузить задания: ' + m);
+  if (/fetch failed|ENOTFOUND|getaddrinfo/i.test(m)) console.error('  Проверьте адрес проекта в НАСТРОЙКИ.txt (вида https://abcd1234.supabase.co) и интернет.');
+  else if (/Invalid API key|JWT|401|403|permission/i.test(m)) console.error('  Проверьте ключ service_role в НАСТРОЙКИ.txt: скопируйте его заново целиком (legacy-ключ, начинается с eyJ).');
+  else if (/relation|does not exist|schema cache/i.test(m)) console.error('  В базе нет таблиц: выполните файл supabase/schema.sql в Supabase → SQL Editor.');
+  process.exit(1);
+}
