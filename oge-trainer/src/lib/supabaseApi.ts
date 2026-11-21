@@ -4,13 +4,24 @@ import { loginToEmail } from './answers';
 
 const TASK_COLUMNS = 'id, section_id, passage_id, sort, number, kind, prompt, word, options, topic';
 
+// Маленькие порции: у части российских сетей крупные ответы из-за рубежа «застревают».
+const PAGE_SIZE = 50;
+
+// Запрос, который не ответил за 25 секунд, прерываем (дальше fetchAll повторит его).
+function fetchWithTimeout(input: RequestInfo | URL, init: RequestInit = {}): Promise<Response> {
+  const ctrl = new AbortController();
+  const timer = window.setTimeout(() => ctrl.abort(), 25000);
+  if (init.signal) init.signal.addEventListener('abort', () => ctrl.abort());
+  return fetch(input, { ...init, signal: ctrl.signal }).finally(() => window.clearTimeout(timer));
+}
+
 async function fetchAll<T>(make: (from: number, to: number) => PromiseLike<{ data: T[] | null; error: { message: string } | null }>): Promise<T[]> {
   const out: T[] = [];
-  const size = 1000;
+  const size = PAGE_SIZE;
   for (let from = 0; ; from += size) {
     let res = await make(from, from + size - 1);
     // при обрыве связи пробуем ещё два раза
-    for (let attempt = 1; attempt <= 2 && res.error && /fetch|network|load failed/i.test(res.error.message); attempt++) {
+    for (let attempt = 1; attempt <= 2 && res.error && /fetch|network|load failed|abort/i.test(res.error.message); attempt++) {
       await new Promise((r) => setTimeout(r, 1500 * attempt));
       res = await make(from, from + size - 1);
     }
@@ -33,7 +44,7 @@ function humanError(message: string): string {
 
 export function createSupabaseApi(url: string, key: string, opts: { proxied?: boolean } = {}): Api {
   const proxied = !!opts.proxied;
-  const sb: SupabaseClient = createClient(url, key, { auth: { persistSession: true, autoRefreshToken: true } });
+  const sb: SupabaseClient = createClient(url, key, { auth: { persistSession: true, autoRefreshToken: true }, global: { fetch: fetchWithTimeout } });
 
   async function uid(): Promise<string | null> {
     const { data } = await sb.auth.getSession();
@@ -79,6 +90,14 @@ export function createSupabaseApi(url: string, key: string, opts: { proxied?: bo
       return Boolean(data);
     },
     async loadCatalog(): Promise<Catalog> {
+      // Сначала берём список заданий (без ответов) с того же сервера, где лежит сайт, — это быстро и надёжно.
+      try {
+        const r = await fetchWithTimeout(new URL('catalog.json', document.baseURI).href, { cache: 'no-cache' });
+        if (r.ok) {
+          const c = JSON.parse(await r.text()) as Catalog;
+          if (c.tasks?.length) return c;
+        }
+      } catch { /* нет файла — загрузим из базы */ }
       const [sections, passages, tasks] = await Promise.all([
         fetchAll((a, b) => sb.from('sections').select('*').order('sort').range(a, b)),
         fetchAll((a, b) => sb.from('passages').select('*').order('section_id').order('sort').range(a, b)),
@@ -98,8 +117,8 @@ export function createSupabaseApi(url: string, key: string, opts: { proxied?: bo
     },
     async getSolutions(taskIds): Promise<Solution[]> {
       const out: Solution[] = [];
-      for (let i = 0; i < taskIds.length; i += 150) {
-        const { data, error } = await sb.rpc('get_solutions', { p_task_ids: taskIds.slice(i, i + 150) });
+      for (let i = 0; i < taskIds.length; i += 10) {
+        const { data, error } = await sb.rpc('get_solutions', { p_task_ids: taskIds.slice(i, i + 10) });
         if (error) throw new Error(error.message);
         out.push(...((data || []) as Solution[]));
       }
