@@ -10,7 +10,16 @@ applySettings();
 export default defineConfig(({ mode }) => {
   if (mode !== 'demo') printDiagnosis();
   return {
-  plugins: [react()],
+  plugins: [react(), {
+    // Файл для Netlify: прокси /sb/* → проект Supabase (чтобы сайт работал без прямого доступа к supabase.co).
+    name: 'netlify-supabase-proxy',
+    apply: 'build',
+    generateBundle() {
+      const url = process.env.VITE_SUPABASE_URL;
+      if (mode === 'demo' || !url) return;
+      this.emitFile({ type: 'asset', fileName: '_redirects', source: `/sb/*  ${url}/:splat  200!\n` });
+    },
+  }],
   base: './',
   define: { __DEMO__: JSON.stringify(mode === 'demo') },
   };

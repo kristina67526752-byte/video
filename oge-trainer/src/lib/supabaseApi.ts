@@ -31,7 +31,8 @@ function humanError(message: string): string {
   return message;
 }
 
-export function createSupabaseApi(url: string, key: string): Api {
+export function createSupabaseApi(url: string, key: string, opts: { proxied?: boolean } = {}): Api {
+  const proxied = !!opts.proxied;
   const sb: SupabaseClient = createClient(url, key, { auth: { persistSession: true, autoRefreshToken: true } });
 
   async function uid(): Promise<string | null> {
@@ -41,6 +42,7 @@ export function createSupabaseApi(url: string, key: string): Api {
 
   return {
     mode: 'supabase',
+    realtime: !proxied,
     async getProfile() {
       const id = await uid();
       if (!id) return null;
@@ -124,6 +126,18 @@ export function createSupabaseApi(url: string, key: string): Api {
       return fetchAll<Attempt>((a, b) => sb.from('attempts').select('*').eq('user_id', userId).order('created_at').order('id').range(a, b) as never);
     },
     subscribeAttempts(cb) {
+      if (proxied) {
+        // Через прокси Netlify веб-сокеты не работают — спрашиваем новые попытки каждые 15 секунд.
+        let since = new Date().toISOString();
+        let stopped = false;
+        const tick = async () => {
+          const { data } = await sb.from('attempts').select('*').gt('created_at', since).order('created_at').limit(500);
+          if (stopped || !data) return;
+          for (const a of data as Attempt[]) { cb(a); if (a.created_at > since) since = a.created_at; }
+        };
+        const t = window.setInterval(() => { void tick().catch(() => undefined); }, 15000);
+        return () => { stopped = true; window.clearInterval(t); };
+      }
       const channel = sb
         .channel('attempts-feed-' + Math.random().toString(36).slice(2))
         .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'attempts' }, (payload) => cb(payload.new as Attempt))

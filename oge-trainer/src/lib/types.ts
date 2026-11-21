@@ -35,6 +35,8 @@ export interface SignUpInput { login: string; password: string; displayName: str
 
 export interface Api {
   mode: 'supabase' | 'demo';
+  /** true — мгновенные обновления (Realtime); false — обновление опросом каждые 15 секунд */
+  realtime: boolean;
   getProfile(): Promise<Profile | null>;
   onAuthChange(cb: () => void): () => void;
   signIn(login: string, password: string): Promise<void>;

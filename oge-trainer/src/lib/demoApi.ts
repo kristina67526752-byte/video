@@ -27,6 +27,7 @@ export function createDemoApi(): Api {
 
   return {
     mode: 'demo',
+    realtime: true,
     async getProfile() { const u = me(); return u ? strip(u) : null; },
     onAuthChange(cb) { bus.addEventListener('auth', cb); return () => bus.removeEventListener('auth', cb); },
     async signIn(login, password) {

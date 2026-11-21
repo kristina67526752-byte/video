@@ -34,7 +34,7 @@ export default function TeacherPage() {
       window.clearTimeout(timer.current);
       timer.current = window.setTimeout(() => { void load(); }, 1200);
     });
-    const poll = window.setInterval(() => { void load(); }, 60000);
+    const poll = window.setInterval(() => { void load(); }, api.realtime ? 60000 : 20000);
     return () => { off(); window.clearInterval(poll); window.clearTimeout(timer.current); };
   }, [api, load]);
 
@@ -58,7 +58,7 @@ export default function TeacherPage() {
           <p className="muted">Учеников: {students.length} · активны за сутки: {today}</p>
         </div>
         <div className="live-box">
-          <span className="live-dot" key={live} /> Обновляется автоматически
+          <span className="live-dot" key={live} /> {api.realtime ? 'Обновляется автоматически' : 'Обновляется каждые 20 секунд'}
           {updated && <span className="muted small"> · {updated.toLocaleTimeString('ru-RU')}</span>}
           <button className="btn ghost small" onClick={() => { setLoading(true); void load(); }}>Обновить</button>
         </div>
