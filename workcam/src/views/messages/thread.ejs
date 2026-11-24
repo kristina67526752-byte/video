@@ -1,0 +1,31 @@
+<%- include('../partials/head') %>
+<div class="wrap narrow section thread" id="thread" data-conv="<%= c.id %>" data-last="<%= messages.length ? messages[messages.length - 1].id : 0 %>">
+  <div class="thread__head card">
+    <a href="/messages" class="muted" aria-label="<%= t('common.back') %>">←</a>
+    <%- include('../partials/avatar', { u: other, size: 44 }) %>
+    <div>
+      <b><% if (other.role === 'provider') { %><a href="/providers/<%= other.id %>"><%= other.full_name %></a><% } else { %><%= other.full_name %><% } %></b>
+      <div class="small muted"><%= other.headline || t('role.' + other.role) %><%= other.city ? ' · ' + other.city : '' %></div>
+      <% if (listing) { %><div class="small">↳ <a href="/listings/<%= listing.id %>"><%= listing.title %></a></div><% } %>
+      <% if (request) { %><div class="small">↳ <a href="/requests/<%= request.id %>"><%= request.title %></a></div><% } %>
+    </div>
+  </div>
+  <div class="msgs" id="msgs" aria-live="polite">
+    <% if (!messages.length) { %><p class="muted center small" id="nomsg"><%= t('messages.start') %></p><% } %>
+    <% messages.forEach(function (m) { %>
+      <div class="msg <%= m.sender_id === user.id ? 'msg--me' : '' %>" id="m<%= m.id %>"><p><%= m.body %></p><time datetime="<%= new Date(m.created_at).toISOString() %>"><%= new Date(m.created_at).toLocaleString(lang === 'en' ? 'en-GB' : 'fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) %></time></div>
+    <% }) %>
+  </div>
+  <% if (other.is_banned) { %>
+    <p class="notice"><%= t('messages.banned') %></p>
+  <% } else { %>
+  <form method="post" action="/messages/<%= c.id %>" class="composer" id="composer">
+    <%- include('../partials/csrf') %>
+    <label class="sr" for="body"><%= t('messages.write') %></label>
+    <textarea id="body" name="body" rows="2" maxlength="2000" required placeholder="<%= t('messages.write') %>"></textarea>
+    <button class="btn"><%= t('messages.send') %></button>
+  </form>
+  <p class="muted small">🛡️ <%= t('messages.safety') %></p>
+  <% } %>
+</div>
+<%- include('../partials/foot') %>

@@ -1,0 +1,32 @@
+<%- include('../partials/head') %>
+<div class="wrap narrow section">
+  <h1><%= listing ? t('listing.edit') : t('listing.new') %></h1>
+  <form method="post" action="<%= listing ? '/listings/' + listing.id + '/edit' : '/listings' %>" class="form card">
+    <%- include('../partials/csrf') %>
+    <div class="field"><label for="title"><%= t('listing.title') %></label>
+      <input id="title" name="title" value="<%= form.title || '' %>" required minlength="8" maxlength="100" placeholder="<%= t('listing.title_ph') %>">
+      <%- include('../partials/field_error', { name: 'title' }) %></div>
+    <div class="grid2">
+      <div class="field"><label for="category_id"><%= t('form.category') %></label>
+        <select id="category_id" name="category_id" required>
+          <option value=""><%= t('form.choose') %></option>
+          <% categories.forEach(function (c) { %><option value="<%= c.id %>" <%= Number(form.category_id) === c.id ? 'selected' : '' %>><%= c.icon %> <%= catName(c) %></option><% }) %>
+        </select><%- include('../partials/field_error', { name: 'category_id' }) %></div>
+      <div class="field"><label for="city"><%= t('form.city') %></label><%- include('../partials/city_select', { selected: form.city, required: true }) %><%- include('../partials/field_error', { name: 'city' }) %></div>
+    </div>
+    <div class="field"><label for="district"><%= t('form.district') %> <small class="muted">(<%= t('form.optional') %>)</small></label><input id="district" name="district" value="<%= form.district || '' %>" maxlength="80" placeholder="<%= t('form.district_ph') %>"></div>
+    <div class="field"><label for="description"><%= t('listing.description') %></label>
+      <textarea id="description" name="description" rows="8" required minlength="30" maxlength="4000" placeholder="<%= t('listing.description_ph') %>"><%= form.description || '' %></textarea>
+      <%- include('../partials/field_error', { name: 'description' }) %></div>
+    <fieldset class="grid3">
+      <legend><%= t('listing.price') %> <small class="muted">(FCFA, <%= t('form.optional') %>)</small></legend>
+      <div class="field"><label for="price_min"><%= t('listing.price_min') %></label><input id="price_min" name="price_min" inputmode="numeric" value="<%= form.price_min || '' %>"></div>
+      <div class="field"><label for="price_max"><%= t('listing.price_max') %></label><input id="price_max" name="price_max" inputmode="numeric" value="<%= form.price_max || '' %>"><%- include('../partials/field_error', { name: 'price_max' }) %></div>
+      <div class="field"><label for="price_unit"><%= t('listing.unit') %></label>
+        <select id="price_unit" name="price_unit"><% ['job','hour','day','month'].forEach(function (u) { %><option value="<%= u %>" <%= form.price_unit === u ? 'selected' : '' %>><%= t('unit.' + u) %></option><% }) %></select></div>
+    </fieldset>
+    <% if (!listing) { %><p class="hint">ℹ️ <%= t('listing.publish_hint') %></p><% } %>
+    <button class="btn btn--block"><%= listing ? t('common.save') : t('listing.publish') %></button>
+  </form>
+</div>
+<%- include('../partials/foot') %>

@@ -1,0 +1,29 @@
+<%- include('../partials/head') %>
+<div class="wrap section">
+  <h1><%= t('search.title') %></h1>
+  <form class="filters card" method="get" action="/services">
+    <input name="q" type="search" value="<%= filters.q %>" placeholder="<%= t('search.placeholder') %>" aria-label="<%= t('search.what') %>">
+    <select name="category" aria-label="<%= t('form.category') %>">
+      <option value=""><%= t('search.all_categories') %></option>
+      <% categories.forEach(function (c) { %><option value="<%= c.slug %>" <%= filters.category === c.slug ? 'selected' : '' %>><%= c.icon %> <%= catName(c) %></option><% }) %>
+    </select>
+    <%- include('../partials/city_select', { selected: filters.city, placeholder: t('search.all_cities'), fieldId: 'fcity' }) %>
+    <select name="sort" aria-label="<%= t('search.sort') %>">
+      <option value="recent" <%= filters.sort === 'recent' ? 'selected' : '' %>><%= t('search.sort_recent') %></option>
+      <option value="price_asc" <%= filters.sort === 'price_asc' ? 'selected' : '' %>><%= t('search.sort_price_asc') %></option>
+      <option value="price_desc" <%= filters.sort === 'price_desc' ? 'selected' : '' %>><%= t('search.sort_price_desc') %></option>
+    </select>
+    <button class="btn"><%= t('search.button') %></button>
+  </form>
+  <p class="muted"><%= t('search.results', { n: total }) %></p>
+  <% if (listings.length) { %>
+    <div class="cards"><% listings.forEach(function (l) { %><%- include('../partials/listing_card', { l: l }) %><% }) %></div>
+    <%- include('../partials/pagination') %>
+  <% } else { %>
+    <div class="empty">
+      <p><%= t('search.none') %></p>
+      <a class="btn" href="<%= user ? '/requests/new' : '/register' %>"><%= t('home.cta_request') %></a>
+    </div>
+  <% } %>
+</div>
+<%- include('../partials/foot') %>

@@ -1,0 +1,88 @@
+<%- include('../partials/head') %>
+<div class="wrap section">
+  <div class="dashhead">
+    <%- include('../partials/avatar', { u: user, size: 72 }) %>
+    <div>
+      <h1><%= t('account.hello', { name: user.full_name.split(' ')[0] }) %></h1>
+      <p class="muted"><%= t('role.' + user.role) %> · 📍 <%= user.city || '—' %> · <%= formatPhone(user.phone) %></p>
+    </div>
+    <div class="dashhead__actions">
+      <% if (user.role === 'provider') { %><a class="btn" href="/listings/new">＋ <%= t('listing.new') %></a><a class="btn btn--ghost" href="/providers/<%= user.id %>"><%= t('account.public_profile') %></a><% } %>
+      <% if (user.role === 'client') { %><a class="btn" href="/requests/new">＋ <%= t('request.new') %></a><a class="btn btn--ghost" href="/services"><%= t('account.find') %></a><% } %>
+    </div>
+  </div>
+
+  <% if (user.photo_status !== 'approved') { %>
+    <div class="notice notice--warn">
+      <% if (user.photo_status === 'pending_review' || pendingReview) { %>⏳ <%= t('account.photo_pending') %>
+      <% } else { %>📸 <%= t('account.photo_missing') %> <a class="btn btn--sm" href="/account/photo"><%= t('photo.add') %></a><% } %>
+    </div>
+  <% } %>
+
+  <% if (typeof listings !== 'undefined') { %>
+  <section class="section--tight">
+    <h2><%= t('account.my_listings') %></h2>
+    <% if (!listings.length) { %>
+      <div class="empty"><p><%= t('account.no_listings') %></p><a class="btn" href="/listings/new"><%= t('listing.new') %></a></div>
+    <% } else { %>
+    <div class="table-wrap"><table class="table">
+      <thead><tr><th><%= t('listing.title') %></th><th><%= t('common.status') %></th><th><%= t('listing.expires') %></th><th><%= t('listing.views') %></th><th></th></tr></thead>
+      <tbody>
+      <% listings.forEach(function (l) { %>
+        <tr>
+          <td><a href="/listings/<%= l.id %>"><%= l.title %></a><br><small class="muted"><%= l.icon %> <%= catName(l) %> · <%= l.city %></small></td>
+          <td><span class="status status--<%= l.status %>"><%= t('status.' + l.status) %></span><% if (l.is_free_promo) { %> <span class="pill pill--sm">🎁 <%= t('listing.free') %></span><% } %></td>
+          <td><%= l.expires_at && l.status === 'active' ? new Date(l.expires_at).toLocaleDateString(lang === 'en' ? 'en-GB' : 'fr-FR') : '—' %></td>
+          <td><%= l.views %> · 💬 <%= l.contacts %></td>
+          <td class="actions">
+            <a href="/listings/<%= l.id %>/edit" class="btn btn--ghost btn--sm"><%= t('common.edit') %></a>
+            <% if (l.status === 'pending_payment') { %><a class="btn btn--sun btn--sm" href="/listings/<%= l.id %>/pay"><%= t('pay.pay_now') %></a><% } %>
+            <% if (l.status === 'draft' || l.status === 'expired') { %><form method="post" action="/listings/<%= l.id %>/publish"><%- include('../partials/csrf') %><button class="btn btn--sm"><%= l.status === 'expired' ? t('listing.renew') : t('listing.publish') %></button></form><% } %>
+            <% if (l.status === 'active') { %><form method="post" action="/listings/<%= l.id %>/deactivate"><%- include('../partials/csrf') %><button class="btn btn--ghost btn--sm"><%= t('listing.hide') %></button></form><% } %>
+          </td>
+        </tr>
+      <% }) %>
+      </tbody>
+    </table></div>
+    <% } %>
+  </section>
+
+  <% if (responses && responses.length) { %>
+  <section class="section--tight">
+    <h2><%= t('account.my_responses') %></h2>
+    <ul class="list">
+      <% responses.forEach(function (r) { %><li><a href="/requests/<%= r.request_id %>"><%= r.title %></a> <span class="muted small">· <%= r.city %> · <%= timeAgo(r.created_at) %></span> <span class="status status--<%= r.request_status %>"><%= t('status.' + r.request_status) %></span></li><% }) %>
+    </ul>
+  </section>
+  <% } %>
+
+  <% if (payments && payments.length) { %>
+  <section class="section--tight">
+    <h2><%= t('account.my_payments') %></h2>
+    <div class="table-wrap"><table class="table">
+      <thead><tr><th>#</th><th><%= t('pay.amount') %></th><th><%= t('pay.operator') %></th><th><%= t('common.status') %></th><th><%= t('common.date') %></th></tr></thead>
+      <tbody><% payments.forEach(function (p) { %>
+        <tr><td><a href="/payments/<%= p.id %>"><%= p.id %></a></td><td><%= formatPrice(p.amount) %></td><td><%= p.operator === 'orange' ? 'Orange Money' : 'MTN MoMo' %></td><td><span class="status status--<%= p.status %>"><%= t('pstatus.' + p.status) %></span></td><td><%= new Date(p.created_at).toLocaleString(lang === 'en' ? 'en-GB' : 'fr-FR') %></td></tr>
+      <% }) %></tbody>
+    </table></div>
+  </section>
+  <% } %>
+  <% } %>
+
+  <% if (typeof requests !== 'undefined') { %>
+  <section class="section--tight">
+    <h2><%= t('account.my_requests') %></h2>
+    <% if (!requests.length) { %>
+      <div class="empty"><p><%= t('account.no_requests') %></p><a class="btn" href="/requests/new"><%= t('request.new') %></a></div>
+    <% } else { %>
+      <ul class="list">
+        <% requests.forEach(function (q) { %>
+          <li><a href="/requests/<%= q.id %>"><%= q.icon %> <%= q.title %></a> <span class="muted small">· <%= q.city %> · <%= timeAgo(q.created_at) %></span>
+            <span class="status status--<%= q.status %>"><%= t('status.' + q.status) %></span> <span class="pill pill--sm"><%= t('request.responses_n', { n: q.responses }) %></span></li>
+        <% }) %>
+      </ul>
+    <% } %>
+  </section>
+  <% } %>
+</div>
+<%- include('../partials/foot') %>

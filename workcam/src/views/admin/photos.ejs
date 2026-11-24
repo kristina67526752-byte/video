@@ -1,0 +1,26 @@
+<%- include('../partials/head') %>
+<div class="wrap section">
+  <h1><%= t('admin.photos') %></h1>
+  <%- include('_nav') %>
+  <% if (!reviews.length) { %><div class="empty"><p><%= t('admin.no_photos') %></p></div><% } %>
+  <div class="reviewgrid">
+    <% reviews.forEach(function (r) { %>
+      <div class="card review">
+        <img src="/admin/photos/<%= r.id %>/image" alt="" width="220" height="220">
+        <div>
+          <b><%= r.full_name %></b> <small class="muted">· <%= t('role.' + r.role) %> · <%= formatPhone(r.phone) %></small>
+          <p class="small"><%= t('admin.auto_reason') %> : <b><%= t('photo.reason.' + (r.auto_reason || 'invalid_image')) %></b></p>
+          <% if (r.user_note) { %><p class="small pre">“<%= r.user_note %>”</p><% } %>
+          <p class="small muted"><%= timeAgo(r.created_at) %></p>
+          <form method="post" action="/admin/photos/<%= r.id %>/approve" class="inline"><%- include('../partials/csrf') %><button class="btn btn--sm">✓ <%= t('admin.approve') %></button></form>
+          <form method="post" action="/admin/photos/<%= r.id %>/reject" class="inline"><%- include('../partials/csrf') %><input name="admin_note" placeholder="<%= t('admin.note') %>" class="input--sm"><button class="btn btn--danger btn--sm">✕ <%= t('admin.reject') %></button></form>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+  <% if (recent.length) { %>
+    <h2 class="h3"><%= t('admin.recent_decisions') %></h2>
+    <ul class="list small"><% recent.forEach(function (r) { %><li><%= r.full_name %> — <span class="status status--<%= r.status %>"><%= r.status %></span> <%= r.admin_note || '' %></li><% }) %></ul>
+  <% } %>
+</div>
+<%- include('../partials/foot') %>

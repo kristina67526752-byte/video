@@ -1,0 +1,16 @@
+<%- include('../partials/head') %>
+<div class="wrap narrow section">
+  <div class="card authcard">
+    <h1><%= t('auth.verify_title') %></h1>
+    <p><%= t('auth.verify_text', { phone: formatPhone(user.phone) }) %></p>
+    <% if (error) { %><div class="flash flash--error"><%= error %></div><% } %>
+    <form method="post" action="/verify-phone" class="form">
+      <%- include('../partials/csrf') %>
+      <div class="field"><label for="code"><%= t('form.code') %></label>
+        <input id="code" name="code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required autocomplete="one-time-code" class="otp"></div>
+      <button class="btn btn--block"><%= t('auth.verify_button') %></button>
+    </form>
+    <form method="post" action="/verify-phone/resend" class="center"><%- include('../partials/csrf') %><button class="linkbtn"><%= t('auth.resend') %></button></form>
+  </div>
+</div>
+<%- include('../partials/foot') %>

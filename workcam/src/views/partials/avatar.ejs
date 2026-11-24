@@ -1,0 +1,2 @@
+<% var sz = typeof size !== 'undefined' ? size : 48; var nm = (u && (u.full_name || u.first_name)) || '?'; %>
+<% if (u && u.photo_path) { %><img class="avatar av<%= sz %>" src="/uploads/avatars/<%= u.photo_path %>" alt="<%= nm %>" width="<%= sz %>" height="<%= sz %>" loading="lazy"><% } else { %><span class="avatar avatar--empty av<%= sz %>" aria-hidden="true"><%= nm.trim().charAt(0).toUpperCase() %></span><% } %>

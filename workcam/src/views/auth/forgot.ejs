@@ -1,0 +1,26 @@
+<%- include('../partials/head') %>
+<div class="wrap narrow section">
+  <div class="card authcard">
+    <h1><%= t('auth.forgot_title') %></h1>
+    <% if (error) { %><div class="flash flash--error"><%= error %></div><% } %>
+    <% if (step === 'phone') { %>
+      <p><%= t('auth.forgot_text') %></p>
+      <form method="post" action="/forgot" class="form">
+        <%- include('../partials/csrf') %>
+        <div class="field"><label for="phone"><%= t('form.phone') %></label>
+          <div class="phoneinput"><span>+237</span><input id="phone" name="phone" type="tel" inputmode="tel" value="<%= phone %>" required></div></div>
+        <button class="btn btn--block"><%= t('auth.send_code') %></button>
+      </form>
+    <% } else { %>
+      <p><%= t('auth.forgot_sent') %></p>
+      <form method="post" action="/reset" class="form">
+        <%- include('../partials/csrf') %>
+        <input type="hidden" name="phone" value="<%= phone %>">
+        <div class="field"><label for="code"><%= t('form.code') %></label><input id="code" name="code" inputmode="numeric" maxlength="6" required class="otp" autocomplete="one-time-code"></div>
+        <div class="field"><label for="password"><%= t('form.new_password') %></label><input id="password" name="password" type="password" minlength="8" required autocomplete="new-password"></div>
+        <button class="btn btn--block"><%= t('auth.reset_button') %></button>
+      </form>
+    <% } %>
+  </div>
+</div>
+<%- include('../partials/foot') %>

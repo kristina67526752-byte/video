@@ -1,0 +1,22 @@
+<%- include('../partials/head') %>
+<div class="wrap narrow section">
+  <h1><%= t('nav.messages') %></h1>
+  <% if (!convs.length) { %>
+    <div class="empty"><p><%= t('messages.none') %></p><a class="btn" href="/services"><%= t('account.find') %></a></div>
+  <% } else { %>
+    <ul class="inbox card">
+      <% convs.forEach(function (c) { %>
+        <li><a href="/messages/<%= c.id %>" class="<%= c.unread ? 'is-unread' : '' %>">
+          <%- include('../partials/avatar', { u: c, size: 48 }) %>
+          <div class="inbox__body">
+            <div class="inbox__top"><b><%= c.full_name %></b><small class="muted"><%= timeAgo(c.last_message_at) %></small></div>
+            <% if (c.listing_title || c.request_title) { %><small class="muted">↳ <%= c.listing_title || c.request_title %></small><% } %>
+            <p class="clamp1"><%= c.last_body %></p>
+          </div>
+          <% if (c.unread) { %><span class="badge badge--inline"><%= c.unread %></span><% } %>
+        </a></li>
+      <% }) %>
+    </ul>
+  <% } %>
+</div>
+<%- include('../partials/foot') %>

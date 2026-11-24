@@ -1,0 +1,17 @@
+<%- include('../partials/head') %>
+<div class="wrap section">
+  <h1><%= t('admin.payments') %></h1>
+  <%- include('_nav') %>
+  <nav class="tabs"><% ['', 'successful', 'pending', 'failed'].forEach(function (s) { %><a href="?status=<%= s %>" class="<%= status === s ? 'is-active' : '' %>"><%= s ? t('pstatus.' + s) : t('common.all') %></a><% }) %></nav>
+  <div class="table-wrap"><table class="table">
+    <thead><tr><th>#</th><th><%= t('common.date') %></th><th><%= t('role.provider') %></th><th><%= t('listing.title') %></th><th><%= t('pay.amount') %></th><th><%= t('pay.operator') %></th><th><%= t('common.status') %></th><th></th></tr></thead>
+    <tbody><% list.forEach(function (p) { %>
+      <tr><td>WC-<%= p.id %></td><td><%= new Date(p.created_at).toLocaleString('fr-FR') %></td><td><%= p.full_name %><br><small class="muted"><%= formatPhone(p.phone) %></small></td>
+        <td><% if (p.listing_id) { %><a href="/listings/<%= p.listing_id %>"><%= p.title %></a><% } %></td><td><%= formatPrice(p.amount) %></td>
+        <td><%= p.operator === 'orange' ? 'Orange' : 'MTN' %><br><small class="muted"><%= p.gateway %> · <%= p.gateway_reference || '' %></small></td>
+        <td><span class="status status--<%= p.status %>"><%= t('pstatus.' + p.status) %></span><% if (p.failure_reason) { %><br><small class="muted"><%= p.failure_reason %></small><% } %></td>
+        <td><% if (p.status === 'pending') { %><form method="post" action="/admin/payments/<%= p.id %>/recheck"><%- include('../partials/csrf') %><button class="btn btn--ghost btn--sm"><%= t('admin.recheck') %></button></form><% } %></td></tr>
+    <% }) %></tbody>
+  </table></div>
+</div>
+<%- include('../partials/foot') %>

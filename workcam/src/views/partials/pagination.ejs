@@ -1,0 +1,7 @@
+<% if (pages > 1) { var qs = function (p) { var o = Object.assign({}, query, { page: p }); return '?' + Object.keys(o).filter(function (k) { return o[k] !== '' && o[k] !== undefined; }).map(function (k) { return encodeURIComponent(k) + '=' + encodeURIComponent(o[k]); }).join('&'); }; %>
+<nav class="pager" aria-label="pagination">
+  <% if (page > 1) { %><a href="<%= qs(page - 1) %>">← <%= t('common.prev') %></a><% } %>
+  <span><%= page %> / <%= pages %></span>
+  <% if (page < pages) { %><a href="<%= qs(page + 1) %>"><%= t('common.next') %> →</a><% } %>
+</nav>
+<% } %>

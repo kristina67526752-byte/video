@@ -1,0 +1,4 @@
+<select name="<%= typeof fieldName !== 'undefined' ? fieldName : 'city' %>" id="<%= typeof fieldId !== 'undefined' ? fieldId : 'city' %>" <%= typeof required !== 'undefined' && required ? 'required' : '' %>>
+  <option value=""><%= typeof placeholder !== 'undefined' ? placeholder : t('form.choose_city') %></option>
+  <% config.cities.forEach(function (c) { %><option value="<%= c %>" <%= selected === c ? 'selected' : '' %>><%= c === 'Autre' ? t('form.other_city') : c %></option><% }) %>
+</select>

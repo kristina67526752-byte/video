@@ -1,0 +1,29 @@
+<%- include('../partials/head') %>
+<div class="wrap section">
+  <h1><%= t('admin.users') %></h1>
+  <%- include('_nav') %>
+  <form class="filters card" method="get">
+    <input name="q" value="<%= q %>" placeholder="<%= t('admin.search_users') %>" type="search">
+    <select name="role"><option value=""><%= t('admin.all_roles') %></option><% ['client','provider','admin'].forEach(function (r) { %><option value="<%= r %>" <%= role === r ? 'selected' : '' %>><%= t('role.' + r) %></option><% }) %></select>
+    <button class="btn"><%= t('search.filter') %></button>
+  </form>
+  <div class="table-wrap"><table class="table">
+    <thead><tr><th></th><th><%= t('form.full_name') %></th><th><%= t('form.phone') %></th><th><%= t('form.city') %></th><th><%= t('photo.title') %></th><th><%= t('admin.listings') %></th><th></th></tr></thead>
+    <tbody><% users.forEach(function (u) { %>
+      <tr class="<%= u.is_banned ? 'is-banned' : '' %>">
+        <td><%- include('../partials/avatar', { u: u, size: 36 }) %></td>
+        <td><% if (u.role === 'provider') { %><a href="/providers/<%= u.id %>"><%= u.full_name %></a><% } else { %><%= u.full_name %><% } %><br><small class="muted"><%= t('role.' + u.role) %> · <%= new Date(u.created_at).toLocaleDateString('fr-FR') %></small></td>
+        <td><%= formatPhone(u.phone) %><br><small class="muted"><%= u.email || '' %></small></td>
+        <td><%= u.city || '' %></td>
+        <td><span class="status status--<%= u.photo_status %>"><%= t('photostatus.' + u.photo_status) %></span></td>
+        <td><%= u.listings %></td>
+        <td class="actions"><% if (u.role !== 'admin') { %>
+          <form method="post" action="/admin/users/<%= u.id %>/<%= u.is_banned ? 'unban' : 'ban' %>" data-confirm="<%= t('common.confirm') %>"><%- include('../partials/csrf') %><button class="btn btn--sm <%= u.is_banned ? 'btn--ghost' : 'btn--danger' %>"><%= u.is_banned ? t('admin.unban') : t('admin.ban') %></button></form>
+          <% if (u.photo_path) { %><form method="post" action="/admin/users/<%= u.id %>/remove-photo" data-confirm="<%= t('common.confirm') %>"><%- include('../partials/csrf') %><button class="btn btn--ghost btn--sm"><%= t('admin.remove_photo') %></button></form><% } %>
+        <% } %></td>
+      </tr>
+    <% }) %></tbody>
+  </table></div>
+  <nav class="pager"><% if (page > 1) { %><a href="?q=<%= encodeURIComponent(q) %>&role=<%= role %>&page=<%= page - 1 %>">←</a><% } %><span><%= page %></span><% if (users.length === 30) { %><a href="?q=<%= encodeURIComponent(q) %>&role=<%= role %>&page=<%= page + 1 %>">→</a><% } %></nav>
+</div>
+<%- include('../partials/foot') %>

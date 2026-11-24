@@ -1,0 +1,16 @@
+<a class="card lcard" href="/listings/<%= l.id %>">
+  <div class="lcard__head">
+    <%- include('avatar', { u: l, size: 44 }) %>
+    <div>
+      <div class="lcard__name"><%= l.full_name %> <span class="verified" title="<%= t('photo.verified') %>">✓</span></div>
+      <div class="muted small"><%= l.icon %> <%= lang === 'en' ? l.name_en : l.name_fr %></div>
+    </div>
+  </div>
+  <h3 class="lcard__title"><%= l.title %></h3>
+  <div class="lcard__meta">
+    <span>📍 <%= l.city %><%= l.district ? ', ' + l.district : '' %></span>
+    <% if (l.price_min || l.price_max) { %>
+      <span class="price"><%= l.price_min && l.price_max && l.price_min !== l.price_max ? formatPrice(l.price_min).replace(' FCFA','') + ' – ' + formatPrice(l.price_max) : formatPrice(l.price_min || l.price_max) %><small>/<%= t('unit.' + l.price_unit) %></small></span>
+    <% } else { %><span class="price price--quote"><%= t('listing.on_quote') %></span><% } %>
+  </div>
+</a>

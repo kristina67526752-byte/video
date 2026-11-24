@@ -1,0 +1,27 @@
+<%- include('../partials/head') %>
+<div class="wrap section">
+  <h1><%= t('admin.listings') %></h1>
+  <%- include('_nav') %>
+  <nav class="tabs"><% ['', 'active', 'pending_payment', 'draft', 'expired', 'suspended'].forEach(function (s) { %><a href="?status=<%= s %>" class="<%= status === s ? 'is-active' : '' %>"><%= s ? t('status.' + s) : t('common.all') %></a><% }) %></nav>
+  <div class="table-wrap"><table class="table">
+    <thead><tr><th>#</th><th><%= t('listing.title') %></th><th><%= t('role.provider') %></th><th><%= t('common.status') %></th><th><%= t('common.date') %></th><th></th></tr></thead>
+    <tbody><% listings.forEach(function (l) { %>
+      <tr><td><%= l.id %></td><td><a href="/listings/<%= l.id %>"><%= l.title %></a><br><small class="muted"><%= catName(l) %> · <%= l.city %></small></td>
+        <td><%= l.full_name %><br><small class="muted"><%= formatPhone(l.phone) %></small></td>
+        <td><span class="status status--<%= l.status %>"><%= t('status.' + l.status) %></span><%= l.is_free_promo ? ' 🎁' : '' %></td>
+        <td><%= new Date(l.created_at).toLocaleDateString('fr-FR') %></td>
+        <td><% if (l.status === 'suspended') { %><form method="post" action="/admin/listings/<%= l.id %>/restore"><%- include('../partials/csrf') %><button class="btn btn--ghost btn--sm"><%= t('admin.restore') %></button></form>
+          <% } else { %><form method="post" action="/admin/listings/<%= l.id %>/suspend" data-confirm="<%= t('common.confirm') %>"><%- include('../partials/csrf') %><button class="btn btn--danger btn--sm"><%= t('admin.suspend') %></button></form><% } %></td></tr>
+    <% }) %></tbody>
+  </table></div>
+  <h2><%= t('nav.requests') %></h2>
+  <div class="table-wrap"><table class="table">
+    <thead><tr><th>#</th><th><%= t('request.title') %></th><th><%= t('role.client') %></th><th><%= t('common.status') %></th><th></th></tr></thead>
+    <tbody><% requests.forEach(function (q) { %>
+      <tr><td><%= q.id %></td><td><a href="/requests/<%= q.id %>"><%= q.title %></a></td><td><%= q.full_name %></td><td><span class="status status--<%= q.status %>"><%= t('status.' + q.status) %></span></td>
+        <td><% if (q.status === 'suspended') { %><form method="post" action="/admin/requests/<%= q.id %>/restore"><%- include('../partials/csrf') %><button class="btn btn--ghost btn--sm"><%= t('admin.restore') %></button></form>
+          <% } else { %><form method="post" action="/admin/requests/<%= q.id %>/suspend" data-confirm="<%= t('common.confirm') %>"><%- include('../partials/csrf') %><button class="btn btn--danger btn--sm"><%= t('admin.suspend') %></button></form><% } %></td></tr>
+    <% }) %></tbody>
+  </table></div>
+</div>
+<%- include('../partials/foot') %>

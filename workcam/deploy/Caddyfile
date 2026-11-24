@@ -1,0 +1,11 @@
+# Caddy obtient et renouvelle automatiquement le certificat HTTPS (Let's Encrypt).
+{$DOMAIN}, www.{$DOMAIN} {
+	@www host www.{$DOMAIN}
+	redir @www https://{$DOMAIN}{uri} permanent
+
+	encode zstd gzip
+	request_body {
+		max_size 10MB
+	}
+	reverse_proxy app:3000
+}

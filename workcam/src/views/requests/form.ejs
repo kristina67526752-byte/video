@@ -1,0 +1,23 @@
+<%- include('../partials/head') %>
+<div class="wrap narrow section">
+  <h1><%= t('request.new') %></h1>
+  <p class="muted"><%= t('request.new_intro') %></p>
+  <form method="post" action="/requests" class="form card">
+    <%- include('../partials/csrf') %>
+    <div class="field"><label for="title"><%= t('request.title') %></label><input id="title" name="title" value="<%= form.title || '' %>" required minlength="8" maxlength="100" placeholder="<%= t('request.title_ph') %>"><%- include('../partials/field_error', { name: 'title' }) %></div>
+    <div class="grid2">
+      <div class="field"><label for="category_id"><%= t('form.category') %></label>
+        <select id="category_id" name="category_id" required><option value=""><%= t('form.choose') %></option>
+          <% categories.forEach(function (c) { %><option value="<%= c.id %>" <%= Number(form.category_id) === c.id ? 'selected' : '' %>><%= c.icon %> <%= catName(c) %></option><% }) %></select>
+        <%- include('../partials/field_error', { name: 'category_id' }) %></div>
+      <div class="field"><label for="city"><%= t('form.city') %></label><%- include('../partials/city_select', { selected: form.city, required: true }) %><%- include('../partials/field_error', { name: 'city' }) %></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label for="district"><%= t('form.district') %></label><input id="district" name="district" value="<%= form.district || '' %>" maxlength="80"></div>
+      <div class="field"><label for="budget"><%= t('request.budget') %> (FCFA)</label><input id="budget" name="budget" inputmode="numeric" value="<%= form.budget || '' %>"></div>
+    </div>
+    <div class="field"><label for="description"><%= t('request.description') %></label><textarea id="description" name="description" rows="6" required minlength="20" maxlength="3000" placeholder="<%= t('request.description_ph') %>"><%= form.description || '' %></textarea><%- include('../partials/field_error', { name: 'description' }) %></div>
+    <button class="btn btn--block"><%= t('request.post') %></button>
+  </form>
+</div>
+<%- include('../partials/foot') %>

@@ -1,0 +1,62 @@
+<%- include('../partials/head') %>
+<div class="wrap section">
+  <nav class="crumbs small"><a href="/services"><%= t('nav.services') %></a> › <a href="/services?category=<%= l.category_slug %>"><%= l.icon %> <%= catName(l) %></a></nav>
+  <% if (isOwner && l.status !== 'active') { %>
+    <div class="notice notice--warn"><%= t('listing.status_notice') %> <b><%= t('status.' + l.status) %></b>.
+      <% if (l.status === 'pending_payment') { %><a class="btn btn--sun btn--sm" href="/listings/<%= l.id %>/pay"><%= t('pay.pay_now') %></a><% } %>
+      <% if (l.status === 'draft' || l.status === 'expired') { %><form method="post" action="/listings/<%= l.id %>/publish" class="inline"><%- include('../partials/csrf') %><button class="btn btn--sm"><%= t('listing.publish') %></button></form><% } %>
+    </div>
+  <% } %>
+  <div class="twocol twocol--wide">
+    <article class="card">
+      <h1><%= l.title %></h1>
+      <p class="meta">📍 <%= l.city %><%= l.district ? ', ' + l.district : '' %> · <%= l.published_at ? timeAgo(l.published_at) : '' %> · 👁 <%= l.views %></p>
+      <p class="pricebig">
+        <% if (l.price_min || l.price_max) { %>
+          <%= l.price_min && l.price_max && l.price_min !== l.price_max ? formatPrice(l.price_min).replace(' FCFA','') + ' – ' + formatPrice(l.price_max) : formatPrice(l.price_min || l.price_max) %> <small>/ <%= t('unit.' + l.price_unit) %></small>
+        <% } else { %><%= t('listing.on_quote') %><% } %>
+      </p>
+      <div class="pre"><%= l.description %></div>
+      <% if (isOwner) { %>
+        <div class="actions actions--row">
+          <a class="btn btn--ghost" href="/listings/<%= l.id %>/edit"><%= t('common.edit') %></a>
+          <form method="post" action="/listings/<%= l.id %>/delete" data-confirm="<%= t('common.confirm_delete') %>"><%- include('../partials/csrf') %><button class="btn btn--danger"><%= t('common.delete') %></button></form>
+        </div>
+      <% } %>
+    </article>
+    <aside class="stack">
+      <div class="card providercard">
+        <%- include('../partials/avatar', { u: l, size: 84 }) %>
+        <h2 class="h3"><a href="/providers/<%= l.provider_id %>"><%= l.full_name %></a> <span class="verified" title="<%= t('photo.verified') %>">✓</span></h2>
+        <% if (l.headline) { %><p class="muted"><%= l.headline %></p><% } %>
+        <% if (l.availability) { %><p class="small">🕒 <%= l.availability %></p><% } %>
+        <p class="small muted"><%= t('profile.member_since', { date: new Date(l.member_since).toLocaleDateString(lang === 'en' ? 'en-GB' : 'fr-FR', { month: 'long', year: 'numeric' }) }) %></p>
+        <% if (!isOwner) { %>
+          <% if (user) { %>
+            <form method="post" action="/listings/<%= l.id %>/contact"><%- include('../partials/csrf') %><button class="btn btn--block">💬 <%= t('listing.contact') %></button></form>
+          <% } else { %>
+            <a class="btn btn--block" href="/login"><%= t('listing.login_to_contact') %></a>
+          <% } %>
+        <% } %>
+      </div>
+      <div class="card card--soft small">
+        <b>🛡️ <%= t('listing.safety_t') %></b>
+        <p><%= t('listing.safety_s') %></p>
+        <% if (user && !isOwner) { %>
+          <details><summary><%= t('report.listing') %></summary>
+            <form method="post" action="/report" class="stack">
+              <%- include('../partials/csrf') %><input type="hidden" name="target_type" value="listing"><input type="hidden" name="target_id" value="<%= l.id %>"><input type="hidden" name="back" value="/listings/<%= l.id %>">
+              <textarea name="reason" rows="3" required minlength="5" placeholder="<%= t('report.reason') %>"></textarea>
+              <button class="btn btn--ghost btn--sm"><%= t('report.send') %></button>
+            </form>
+          </details>
+        <% } %>
+      </div>
+    </aside>
+  </div>
+  <% if (similar.length) { %>
+    <section class="section--tight"><h2><%= t('listing.similar') %></h2>
+      <div class="cards"><% similar.forEach(function (s) { %><%- include('../partials/listing_card', { l: s }) %><% }) %></div></section>
+  <% } %>
+</div>
+<%- include('../partials/foot') %>

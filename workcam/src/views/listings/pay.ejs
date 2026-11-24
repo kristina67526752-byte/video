@@ -1,0 +1,22 @@
+<%- include('../partials/head') %>
+<div class="wrap narrow section">
+  <h1><%= t('pay.title') %></h1>
+  <div class="card">
+    <p><%= t('pay.for_listing') %> <b><%= l.title %></b></p>
+    <p class="pricebig"><%= formatPrice(amount) %> <small>· <%= t('pay.duration', { days: days }) %></small></p>
+    <% if (error) { %><div class="flash flash--error"><%= error %></div><% } %>
+    <form method="post" action="/listings/<%= l.id %>/pay" class="form">
+      <%- include('../partials/csrf') %>
+      <fieldset class="operators">
+        <legend><%= t('pay.choose_operator') %></legend>
+        <label class="op op--mtn"><input type="radio" name="operator" value="mtn" <%= form.operator !== 'orange' ? 'checked' : '' %>><span>MTN Mobile Money</span></label>
+        <label class="op op--orange"><input type="radio" name="operator" value="orange" <%= form.operator === 'orange' ? 'checked' : '' %>><span>Orange Money</span></label>
+      </fieldset>
+      <div class="field"><label for="phone"><%= t('pay.phone') %></label>
+        <div class="phoneinput"><span>+237</span><input id="phone" name="phone" type="tel" inputmode="tel" value="<%= form.phone %>" required></div></div>
+      <p class="hint"><%= t('pay.how') %></p>
+      <button class="btn btn--sun btn--block" data-loading="<%= t('pay.sending') %>"><%= t('pay.button', { amount: formatPrice(amount) }) %></button>
+    </form>
+  </div>
+</div>
+<%- include('../partials/foot') %>

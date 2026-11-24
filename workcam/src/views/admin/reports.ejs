@@ -1,0 +1,15 @@
+<%- include('../partials/head') %>
+<div class="wrap section">
+  <h1><%= t('admin.reports') %></h1>
+  <%- include('_nav') %>
+  <% if (!reports.length) { %><div class="empty"><p><%= t('admin.no_reports') %></p></div><% } %>
+  <div class="table-wrap"><table class="table">
+    <tbody><% reports.forEach(function (r) { var link = r.target_type === 'listing' ? '/listings/' + r.target_id : r.target_type === 'request' ? '/requests/' + r.target_id : '/admin/users?q=' ; %>
+      <tr class="<%= r.status === 'closed' ? 'is-muted' : '' %>"><td><%= new Date(r.created_at).toLocaleString('fr-FR') %></td>
+        <td><a href="<%= r.target_type === 'user' ? '/providers/' + r.target_id : link %>"><%= r.target_type %> #<%= r.target_id %></a></td>
+        <td class="pre"><%= r.reason %></td><td><small class="muted"><%= r.reporter || '' %></small></td>
+        <td><% if (r.status === 'open') { %><form method="post" action="/admin/reports/<%= r.id %>/close"><%- include('../partials/csrf') %><button class="btn btn--ghost btn--sm"><%= t('admin.close_report') %></button></form><% } else { %>✓<% } %></td></tr>
+    <% }) %></tbody>
+  </table></div>
+</div>
+<%- include('../partials/foot') %>

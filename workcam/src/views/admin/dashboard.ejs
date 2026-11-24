@@ -1,0 +1,31 @@
+<%- include('../partials/head') %>
+<div class="wrap section">
+  <h1><%= t('admin.dashboard') %></h1>
+  <%- include('_nav') %>
+  <div class="kpis">
+    <div class="kpi"><small><%= t('admin.k_revenue_month') %></small><b><%= formatPrice(stats.revenue_month) %></b></div>
+    <div class="kpi"><small><%= t('admin.k_revenue_total') %></small><b><%= formatPrice(stats.revenue_total) %></b></div>
+    <div class="kpi"><small><%= t('admin.k_providers') %></small><b><%= stats.providers %></b></div>
+    <div class="kpi"><small><%= t('admin.k_clients') %></small><b><%= stats.clients %></b></div>
+    <div class="kpi"><small><%= t('admin.k_new_users') %></small><b><%= stats.new_users_7d %></b></div>
+    <div class="kpi"><small><%= t('admin.k_active_listings') %></small><b><%= stats.active_listings %></b></div>
+    <div class="kpi"><small><%= t('admin.k_pending_listings') %></small><b><%= stats.pending_listings %></b></div>
+    <div class="kpi"><small><%= t('admin.k_open_requests') %></small><b><%= stats.open_requests %></b></div>
+    <div class="kpi"><small><%= t('admin.k_messages') %></small><b><%= stats.messages_7d %></b></div>
+  </div>
+  <div class="twocol">
+    <div class="card">
+      <h2 class="h3"><%= t('admin.todo') %></h2>
+      <p><a href="/admin/photos">📸 <%= t('admin.photos') %> : <b><%= stats.photo_reviews %></b></a></p>
+      <p><a href="/admin/reports">🚩 <%= t('admin.reports') %> : <b><%= stats.reports %></b></a></p>
+    </div>
+    <div class="card">
+      <h2 class="h3"><%= t('admin.pricing') %></h2>
+      <p><%= t('admin.fee_current') %> : <b><%= formatPrice(s.listing_fee) %></b> / <%= s.listing_duration_days %> <%= t('admin.days') %></p>
+      <p><%= t('admin.promo') %> : <span class="status status--<%= promoActive ? 'active' : 'expired' %>"><%= promoActive ? t('admin.promo_on') : t('admin.promo_off') %></span>
+        <br><small class="muted"><%= t('admin.promo_used', { used: s.promo_used, quota: s.promo_quota === null ? '∞' : s.promo_quota }) %><%= s.promo_end_date ? ' · ' + t('admin.until', { date: s.promo_end_date }) : '' %></small></p>
+      <a class="btn btn--sm" href="/admin/settings"><%= t('common.edit') %></a>
+    </div>
+  </div>
+</div>
+<%- include('../partials/foot') %>

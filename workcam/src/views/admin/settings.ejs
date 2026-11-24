@@ -1,0 +1,54 @@
+<%- include('../partials/head') %>
+<div class="wrap section">
+  <h1><%= t('admin.settings') %></h1>
+  <%- include('_nav') %>
+  <form method="post" action="/admin/settings" class="form">
+    <%- include('../partials/csrf') %>
+    <div class="twocol">
+      <div class="card">
+        <h2 class="h3">💰 <%= t('admin.pricing') %></h2>
+        <div class="field"><label for="listing_fee"><%= t('admin.fee_default') %> (FCFA)</label><input id="listing_fee" name="listing_fee" inputmode="numeric" value="<%= s.listing_fee %>"></div>
+        <div class="field"><label for="listing_duration_days"><%= t('admin.duration') %></label><input id="listing_duration_days" name="listing_duration_days" inputmode="numeric" value="<%= s.listing_duration_days %>"></div>
+        <p class="hint"><%= t('admin.fee_hint') %></p>
+      </div>
+      <div class="card">
+        <h2 class="h3">🎁 <%= t('admin.promo') %> <span class="status status--<%= promoActive ? 'active' : 'expired' %>"><%= promoActive ? t('admin.promo_on') : t('admin.promo_off') %></span></h2>
+        <label class="check"><input type="checkbox" name="promo_enabled" <%= s.promo_enabled ? 'checked' : '' %>> <span><%= t('admin.promo_enable') %></span></label>
+        <div class="field"><label for="promo_end_date"><%= t('admin.promo_end') %></label><input id="promo_end_date" name="promo_end_date" type="date" value="<%= s.promo_end_date || '' %>"></div>
+        <div class="grid2">
+          <div class="field"><label for="promo_quota"><%= t('admin.promo_quota') %></label><input id="promo_quota" name="promo_quota" inputmode="numeric" value="<%= s.promo_quota === null ? '' : s.promo_quota %>" placeholder="∞"></div>
+          <div class="field"><label for="promo_per_provider"><%= t('admin.promo_per_provider') %></label><input id="promo_per_provider" name="promo_per_provider" inputmode="numeric" value="<%= s.promo_per_provider === null ? '' : s.promo_per_provider %>" placeholder="∞"></div>
+        </div>
+        <p class="small"><%= t('admin.promo_used', { used: s.promo_used, quota: s.promo_quota === null ? '∞' : s.promo_quota }) %></p>
+        <label class="check"><input type="checkbox" name="reset_promo_used"> <span><%= t('admin.promo_reset') %></span></label>
+        <p class="hint"><%= t('admin.promo_hint') %></p>
+      </div>
+    </div>
+    <div class="card">
+      <h2 class="h3">🗂️ <%= t('admin.categories') %></h2>
+      <p class="hint"><%= t('admin.cat_fee_hint') %></p>
+      <input type="hidden" name="categories_form" value="1">
+      <div class="table-wrap"><table class="table">
+        <thead><tr><th><%= t('form.category') %></th><th><%= t('admin.cat_fee') %></th><th><%= t('admin.active') %></th></tr></thead>
+        <tbody><% categories.forEach(function (c) { %>
+          <tr><td><%= c.icon %> <%= c.name_fr %> / <%= c.name_en %></td>
+            <td><input name="fee_<%= c.id %>" inputmode="numeric" value="<%= c.listing_fee === null ? '' : c.listing_fee %>" placeholder="<%= s.listing_fee %>" class="input--sm" aria-label="<%= t('admin.cat_fee') %> <%= c.name_fr %>"></td>
+            <td><input type="checkbox" name="active_<%= c.id %>" <%= c.is_active ? 'checked' : '' %> aria-label="<%= t('admin.active') %>"></td></tr>
+        <% }) %></tbody>
+      </table></div>
+    </div>
+    <button class="btn"><%= t('common.save') %></button>
+  </form>
+  <form method="post" action="/admin/categories" class="form card">
+    <%- include('../partials/csrf') %>
+    <h2 class="h3">＋ <%= t('admin.add_category') %></h2>
+    <div class="grid4">
+      <div class="field"><label for="slug">Slug</label><input id="slug" name="slug" required pattern="[a-z0-9-]+" placeholder="ex. vitrerie"></div>
+      <div class="field"><label for="name_fr">Nom FR</label><input id="name_fr" name="name_fr" required></div>
+      <div class="field"><label for="name_en">Name EN</label><input id="name_en" name="name_en" required></div>
+      <div class="field"><label for="icon">Icône</label><input id="icon" name="icon" value="🛠️"></div>
+    </div>
+    <button class="btn btn--ghost"><%= t('common.add') %></button>
+  </form>
+</div>
+<%- include('../partials/foot') %>

@@ -1,0 +1,34 @@
+<%- include('../partials/head') %>
+<div class="wrap section">
+  <div class="profile card">
+    <%- include('../partials/avatar', { u: p, size: 112 }) %>
+    <div class="profile__body">
+      <h1><%= p.full_name %> <% if (p.photo_status === 'approved') { %><span class="verified verified--lg" title="<%= t('photo.verified') %>">✓</span><% } %></h1>
+      <% if (p.headline) { %><p class="lead"><%= p.headline %></p><% } %>
+      <p class="muted">📍 <%= p.city %> · <%= t('profile.member_since', { date: new Date(p.created_at).toLocaleDateString(lang === 'en' ? 'en-GB' : 'fr-FR', { month: 'long', year: 'numeric' }) }) %></p>
+    </div>
+  </div>
+  <div class="twocol twocol--wide">
+    <div>
+      <% if (p.bio) { %><h2><%= t('profile.about') %></h2><p class="pre"><%= p.bio %></p><% } %>
+      <% if (p.experience) { %><h2><%= t('profile.experience') %></h2><p class="pre"><%= p.experience %></p><% } %>
+      <h2><%= t('profile.listings') %></h2>
+      <% if (listings.length) { %><div class="cards cards--2"><% listings.forEach(function (l) { %><%- include('../partials/listing_card', { l: l }) %><% }) %></div>
+      <% } else { %><p class="muted"><%= t('profile.no_listings') %></p><% } %>
+    </div>
+    <aside class="card stack">
+      <% if (p.availability) { %><div><h3><%= t('profile.availability') %></h3><p><%= p.availability %></p></div><% } %>
+      <% if (p.price_note) { %><div><h3><%= t('profile.prices') %></h3><p><%= p.price_note %></p></div><% } %>
+      <% if (user && user.id !== p.id) { %>
+        <details><summary class="muted small"><%= t('report.user') %></summary>
+          <form method="post" action="/report" class="stack">
+            <%- include('../partials/csrf') %><input type="hidden" name="target_type" value="user"><input type="hidden" name="target_id" value="<%= p.id %>"><input type="hidden" name="back" value="/providers/<%= p.id %>">
+            <textarea name="reason" rows="3" required minlength="5" placeholder="<%= t('report.reason') %>"></textarea>
+            <button class="btn btn--ghost btn--sm"><%= t('report.send') %></button>
+          </form>
+        </details>
+      <% } %>
+    </aside>
+  </div>
+</div>
+<%- include('../partials/foot') %>

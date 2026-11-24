@@ -1,0 +1,67 @@
+<%- include('../partials/head') %>
+<section class="hero">
+  <div class="wrap hero__grid">
+    <div>
+      <% if (promo) { %><p class="pill pill--sun">🎉 <%= t('home.promo') %></p><% } %>
+      <h1><%= t('home.title') %></h1>
+      <p class="lead"><%= t('home.subtitle') %></p>
+      <form class="searchbar" action="/services" method="get" role="search">
+        <label class="sr" for="q"><%= t('search.what') %></label>
+        <input id="q" name="q" type="search" placeholder="<%= t('search.placeholder') %>" autocomplete="off">
+        <label class="sr" for="hcity"><%= t('search.where') %></label>
+        <%- include('../partials/city_select', { selected: user ? user.city : '', fieldId: 'hcity', placeholder: t('search.all_cities') }) %>
+        <button class="btn btn--sun"><%= t('search.button') %></button>
+      </form>
+      <p class="hero__stats"><b><%= stats.providers %></b> <%= t('home.stat_providers') %> · <b><%= stats.listings %></b> <%= t('home.stat_listings') %> · <b><%= stats.requests %></b> <%= t('home.stat_requests') %></p>
+    </div>
+    <div class="hero__cards" aria-hidden="true">
+      <div class="hcard"><span>🔧</span><div><b><%= t('home.hcard1_t') %></b><small><%= t('home.hcard1_s') %></small></div></div>
+      <div class="hcard hcard--b"><span>✅</span><div><b><%= t('home.hcard2_t') %></b><small><%= t('home.hcard2_s') %></small></div></div>
+      <div class="hcard"><span>📲</span><div><b><%= t('home.hcard3_t') %></b><small><%= t('home.hcard3_s') %></small></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap section">
+  <div class="section__head"><h2><%= t('home.categories') %></h2><a href="/services"><%= t('common.see_all') %> →</a></div>
+  <div class="catgrid">
+    <% categories.forEach(function (c) { %>
+      <a class="cat" href="/services?category=<%= c.slug %>"><span class="cat__icon"><%= c.icon %></span><span class="cat__name"><%= catName(c) %></span><small><%= c.n %></small></a>
+    <% }) %>
+  </div>
+</section>
+
+<section class="wrap section">
+  <div class="section__head"><h2><%= t('home.latest') %></h2><a href="/services"><%= t('common.see_all') %> →</a></div>
+  <% if (latest.length) { %>
+    <div class="cards"><% latest.forEach(function (l) { %><%- include('../partials/listing_card', { l: l }) %><% }) %></div>
+  <% } else { %>
+    <div class="empty"><p><%= t('home.no_listings') %></p><a class="btn" href="/register?role=provider"><%= t('home.cta_provider') %></a></div>
+  <% } %>
+</section>
+
+<section class="band">
+  <div class="wrap twocol">
+    <div class="panel">
+      <h2><%= t('home.need_title') %></h2>
+      <p><%= t('home.need_text') %></p>
+      <a class="btn" href="<%= user ? '/requests/new' : '/register' %>"><%= t('home.cta_request') %></a>
+    </div>
+    <div class="panel panel--dark">
+      <h2><%= t('home.offer_title') %></h2>
+      <p><%= t('home.offer_text') %></p>
+      <a class="btn btn--sun" href="<%= user ? '/listings/new' : '/register?role=provider' %>"><%= t('home.cta_provider') %></a>
+    </div>
+  </div>
+</section>
+
+<section class="wrap section">
+  <h2><%= t('home.trust_title') %></h2>
+  <div class="features">
+    <div><span>🙂</span><h3><%= t('home.trust1_t') %></h3><p><%= t('home.trust1_s') %></p></div>
+    <div><span>💬</span><h3><%= t('home.trust2_t') %></h3><p><%= t('home.trust2_s') %></p></div>
+    <div><span>📱</span><h3><%= t('home.trust3_t') %></h3><p><%= t('home.trust3_s') %></p></div>
+    <div><span>🚩</span><h3><%= t('home.trust4_t') %></h3><p><%= t('home.trust4_s') %></p></div>
+  </div>
+</section>
+<%- include('../partials/foot') %>

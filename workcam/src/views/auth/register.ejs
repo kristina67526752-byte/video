@@ -1,0 +1,40 @@
+<%- include('../partials/head') %>
+<div class="wrap narrow section">
+  <div class="card authcard">
+    <h1><%= t('auth.register_title') %></h1>
+    <form method="post" action="/register" class="form" novalidate>
+      <%- include('../partials/csrf') %>
+      <fieldset class="rolepick">
+        <legend><%= t('auth.i_am') %></legend>
+        <label class="rolepick__opt"><input type="radio" name="role" value="client" <%= form.role !== 'provider' ? 'checked' : '' %>><span><b>🙋 <%= t('role.client') %></b><small><%= t('auth.role_client_desc') %></small></span></label>
+        <label class="rolepick__opt"><input type="radio" name="role" value="provider" <%= form.role === 'provider' ? 'checked' : '' %>><span><b>🧰 <%= t('role.provider') %></b><small><%= t('auth.role_provider_desc') %></small></span></label>
+      </fieldset>
+      <div class="field"><label for="full_name"><%= t('form.full_name') %></label>
+        <input id="full_name" name="full_name" value="<%= form.full_name || '' %>" required autocomplete="name" maxlength="80">
+        <%- include('../partials/field_error', { name: 'full_name' }) %></div>
+      <div class="field"><label for="phone"><%= t('form.phone') %></label>
+        <div class="phoneinput"><span>+237</span><input id="phone" name="phone" type="tel" inputmode="tel" value="<%= form.phone || '' %>" placeholder="6XX XX XX XX" required autocomplete="tel-national"></div>
+        <%- include('../partials/field_error', { name: 'phone' }) %></div>
+      <div class="field"><label for="email"><%= t('form.email') %> <small class="muted">(<%= t('form.optional') %>)</small></label>
+        <input id="email" name="email" type="email" value="<%= form.email || '' %>" autocomplete="email">
+        <%- include('../partials/field_error', { name: 'email' }) %></div>
+      <div class="field"><label for="city"><%= t('form.city') %></label>
+        <%- include('../partials/city_select', { selected: form.city, required: true }) %>
+        <%- include('../partials/field_error', { name: 'city' }) %></div>
+      <div class="grid2">
+        <div class="field"><label for="password"><%= t('form.password') %></label>
+          <input id="password" name="password" type="password" minlength="8" required autocomplete="new-password">
+          <%- include('../partials/field_error', { name: 'password' }) %></div>
+        <div class="field"><label for="password2"><%= t('form.password2') %></label>
+          <input id="password2" name="password2" type="password" minlength="8" required autocomplete="new-password">
+          <%- include('../partials/field_error', { name: 'password2' }) %></div>
+      </div>
+      <label class="check"><input type="checkbox" name="accept" required> <span><%= t('auth.accept_pre') %> <a href="/terms" target="_blank"><%= t('footer.terms') %></a> <%= t('common.and') %> <a href="/privacy" target="_blank"><%= t('footer.privacy') %></a>.</span></label>
+      <%- include('../partials/field_error', { name: 'accept' }) %>
+      <p class="hint">📸 <%= t('auth.photo_next') %></p>
+      <button class="btn btn--block"><%= t('auth.register_button') %></button>
+    </form>
+    <p class="center small"><%= t('auth.have_account') %> <a href="/login"><%= t('nav.login') %></a></p>
+  </div>
+</div>
+<%- include('../partials/foot') %>

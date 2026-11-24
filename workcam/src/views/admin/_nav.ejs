@@ -1,0 +1,9 @@
+<nav class="adminnav">
+  <a href="/admin" class="<%= path === '/admin' ? 'is-active' : '' %>"><%= t('admin.dashboard') %></a>
+  <a href="/admin/settings" class="<%= path === '/admin/settings' ? 'is-active' : '' %>"><%= t('admin.settings') %></a>
+  <a href="/admin/photos" class="<%= path === '/admin/photos' ? 'is-active' : '' %>"><%= t('admin.photos') %></a>
+  <a href="/admin/users" class="<%= path === '/admin/users' ? 'is-active' : '' %>"><%= t('admin.users') %></a>
+  <a href="/admin/listings" class="<%= path === '/admin/listings' ? 'is-active' : '' %>"><%= t('admin.listings') %></a>
+  <a href="/admin/payments" class="<%= path === '/admin/payments' ? 'is-active' : '' %>"><%= t('admin.payments') %></a>
+  <a href="/admin/reports" class="<%= path === '/admin/reports' ? 'is-active' : '' %>"><%= t('admin.reports') %></a>
+</nav>

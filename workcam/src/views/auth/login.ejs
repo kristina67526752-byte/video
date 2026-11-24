@@ -1,0 +1,18 @@
+<%- include('../partials/head') %>
+<div class="wrap narrow section">
+  <div class="card authcard">
+    <h1><%= t('auth.login_title') %></h1>
+    <% if (error) { %><div class="flash flash--error"><%= error %></div><% } %>
+    <form method="post" action="/login" class="form">
+      <%- include('../partials/csrf') %>
+      <div class="field"><label for="phone"><%= t('form.phone') %></label>
+        <div class="phoneinput"><span>+237</span><input id="phone" name="phone" type="tel" inputmode="tel" value="<%= phone %>" placeholder="6XX XX XX XX" required autocomplete="tel-national"></div></div>
+      <div class="field"><label for="password"><%= t('form.password') %></label>
+        <input id="password" name="password" type="password" required autocomplete="current-password"></div>
+      <button class="btn btn--block"><%= t('nav.login') %></button>
+    </form>
+    <p class="center small"><a href="/forgot"><%= t('auth.forgot_link') %></a></p>
+    <p class="center small"><%= t('auth.no_account') %> <a href="/register"><%= t('nav.register') %></a></p>
+  </div>
+</div>
+<%- include('../partials/foot') %>

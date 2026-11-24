@@ -1,0 +1,24 @@
+<%- include('../partials/head') %>
+<div class="wrap narrow section">
+  <div class="card center paystatus" id="paystatus" data-id="<%= p.id %>" data-status="<%= p.status %>" data-listing="<%= p.listing_id %>">
+    <% if (p.status === 'pending') { %>
+      <div class="spinner" aria-hidden="true"></div>
+      <h1><%= t('pay.waiting_title') %></h1>
+      <p><%= t('pay.waiting_text', { phone: formatPhone(p.phone) }) %></p>
+      <% if (p.ussd_code) { %><p class="ussd"><%= t('pay.ussd', { code: p.ussd_code }) %></p><% } %>
+      <p class="muted small"><%= t('pay.waiting_hint') %></p>
+    <% } else if (p.status === 'successful') { %>
+      <p class="bigicon">✅</p>
+      <h1><%= t('pay.success_title') %></h1>
+      <p><%= t('pay.success_text') %></p>
+      <a class="btn" href="/listings/<%= p.listing_id %>"><%= t('pay.see_listing') %></a>
+    <% } else { %>
+      <p class="bigicon">⚠️</p>
+      <h1><%= t('pay.failed_title') %></h1>
+      <p><%= t('pay.failed_text') %></p>
+      <% if (p.listing_id) { %><a class="btn" href="/listings/<%= p.listing_id %>/pay"><%= t('pay.retry') %></a><% } %>
+    <% } %>
+    <p class="muted small"><%= t('pay.ref') %> : WC-<%= p.id %> · <%= formatPrice(p.amount) %> · <%= p.operator === 'orange' ? 'Orange Money' : 'MTN MoMo' %></p>
+  </div>
+</div>
+<%- include('../partials/foot') %>

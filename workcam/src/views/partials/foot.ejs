@@ -1,0 +1,26 @@
+</main>
+<footer class="footer">
+  <div class="wrap footer__grid">
+    <div>
+      <a href="/" class="brand brand--light"><img src="/static/img/logo.svg" alt="" width="30" height="30"><span>Work<b>.cam</b></span></a>
+      <p><%= t('footer.about') %></p>
+    </div>
+    <div>
+      <h4><%= t('footer.platform') %></h4>
+      <a href="/services"><%= t('nav.services') %></a>
+      <a href="/requests"><%= t('nav.requests') %></a>
+      <a href="/how-it-works"><%= t('nav.how') %></a>
+      <a href="/register?role=provider"><%= t('home.cta_provider') %></a>
+    </div>
+    <div>
+      <h4><%= t('footer.legal') %></h4>
+      <a href="/terms"><%= t('footer.terms') %></a>
+      <a href="/privacy"><%= t('footer.privacy') %></a>
+      <% if (config.supportPhone) { %><span><%= t('footer.support') %> : <%= config.supportPhone %></span><% } %>
+      <% if (config.supportEmail) { %><a href="mailto:<%= config.supportEmail %>"><%= config.supportEmail %></a><% } %>
+    </div>
+  </div>
+  <div class="wrap footer__bottom">© <%= new Date().getFullYear() %> Work.cam · <%= t('footer.made') %></div>
+</footer>
+</body>
+</html>

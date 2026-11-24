@@ -1,0 +1,28 @@
+<%- include('../partials/head') %>
+<div class="wrap section">
+  <div class="section__head"><h1><%= t('request.list_title') %></h1>
+    <% if (!user || user.role === 'client') { %><a class="btn" href="/requests/new">＋ <%= t('request.new') %></a><% } %></div>
+  <p class="muted"><%= t('request.list_intro') %></p>
+  <form class="filters card" method="get" action="/requests">
+    <select name="category" aria-label="<%= t('form.category') %>">
+      <option value=""><%= t('search.all_categories') %></option>
+      <% categories.forEach(function (c) { %><option value="<%= c.slug %>" <%= filters.category === c.slug ? 'selected' : '' %>><%= c.icon %> <%= catName(c) %></option><% }) %>
+    </select>
+    <%- include('../partials/city_select', { selected: filters.city, placeholder: t('search.all_cities'), fieldId: 'rcity' }) %>
+    <button class="btn"><%= t('search.filter') %></button>
+  </form>
+  <% if (requests.length) { %>
+    <div class="rlist">
+      <% requests.forEach(function (q) { %>
+        <a class="card rcard" href="/requests/<%= q.id %>">
+          <div class="rcard__top"><span class="pill pill--sm"><%= q.icon %> <%= catName(q) %></span><span class="muted small"><%= timeAgo(q.created_at) %></span></div>
+          <h3><%= q.title %></h3>
+          <p class="muted clamp"><%= q.description %></p>
+          <div class="rcard__meta"><span>📍 <%= q.city %><%= q.district ? ', ' + q.district : '' %></span><% if (q.budget) { %><span class="price"><%= t('request.budget') %> : <%= formatPrice(q.budget) %></span><% } %><span>💬 <%= q.responses %></span></div>
+        </a>
+      <% }) %>
+    </div>
+    <%- include('../partials/pagination') %>
+  <% } else { %><div class="empty"><p><%= t('request.none') %></p></div><% } %>
+</div>
+<%- include('../partials/foot') %>

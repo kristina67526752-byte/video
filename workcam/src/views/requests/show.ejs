@@ -1,0 +1,57 @@
+<%- include('../partials/head') %>
+<div class="wrap section">
+  <nav class="crumbs small"><a href="/requests"><%= t('nav.requests') %></a> › <%= q.icon %> <%= catName(q) %></nav>
+  <div class="twocol twocol--wide">
+    <article class="card">
+      <div class="rcard__top"><span class="status status--<%= q.status %>"><%= t('status.' + q.status) %></span><span class="muted small"><%= timeAgo(q.created_at) %></span></div>
+      <h1><%= q.title %></h1>
+      <p class="meta">📍 <%= q.city %><%= q.district ? ', ' + q.district : '' %><% if (q.budget) { %> · <%= t('request.budget') %> : <b><%= formatPrice(q.budget) %></b><% } %></p>
+      <div class="pre"><%= q.description %></div>
+      <div class="authorline"><%- include('../partials/avatar', { u: q, size: 36 }) %> <span><%= q.first_name %></span></div>
+      <% if (isOwner) { %>
+        <form method="post" action="/requests/<%= q.id %>/close" class="actions--row"><%- include('../partials/csrf') %>
+          <button class="btn btn--ghost btn--sm"><%= q.status === 'open' ? t('request.close') : t('request.reopen') %></button></form>
+      <% } %>
+    </article>
+    <aside class="stack">
+      <% if (isOwner) { %>
+        <div class="card"><h2 class="h3"><%= t('request.responses_n', { n: responses.length }) %></h2>
+          <% if (!responses.length) { %><p class="muted"><%= t('request.no_responses') %></p><% } %>
+          <% responses.forEach(function (r) { %>
+            <div class="response">
+              <div class="authorline"><%- include('../partials/avatar', { u: r, size: 40 }) %><div><a href="/providers/<%= r.provider_id %>"><b><%= r.full_name %></b></a><br><small class="muted"><%= r.headline || '' %></small></div></div>
+              <p class="pre small"><%= r.message %></p>
+              <% if (r.price) { %><p class="price"><%= formatPrice(r.price) %></p><% } %>
+              <% if (r.conversation_id) { %><a class="btn btn--sm" href="/messages/<%= r.conversation_id %>">💬 <%= t('request.discuss') %></a><% } %>
+            </div>
+          <% }) %>
+        </div>
+      <% } else if (user && user.role === 'provider' && q.status === 'open') { %>
+        <div class="card">
+          <% if (myResponse) { %><p>✅ <%= t('request.already_responded') %></p>
+          <% } else { %>
+            <h2 class="h3"><%= t('request.respond_title') %></h2>
+            <form method="post" action="/requests/<%= q.id %>/respond" class="form">
+              <%- include('../partials/csrf') %>
+              <div class="field"><label for="message"><%= t('request.your_message') %></label><textarea id="message" name="message" rows="5" required minlength="10" maxlength="2000"></textarea></div>
+              <div class="field"><label for="price"><%= t('request.your_price') %> (FCFA)</label><input id="price" name="price" inputmode="numeric"></div>
+              <button class="btn btn--block"><%= t('request.respond') %></button>
+            </form>
+          <% } %>
+        </div>
+      <% } else if (!user) { %>
+        <div class="card"><p><%= t('request.login_to_respond') %></p><a class="btn btn--block" href="/register?role=provider"><%= t('home.cta_provider') %></a></div>
+      <% } %>
+      <% if (user && !isOwner) { %>
+        <details class="card card--soft small"><summary><%= t('report.request') %></summary>
+          <form method="post" action="/report" class="stack">
+            <%- include('../partials/csrf') %><input type="hidden" name="target_type" value="request"><input type="hidden" name="target_id" value="<%= q.id %>"><input type="hidden" name="back" value="/requests/<%= q.id %>">
+            <textarea name="reason" rows="3" required minlength="5" placeholder="<%= t('report.reason') %>"></textarea>
+            <button class="btn btn--ghost btn--sm"><%= t('report.send') %></button>
+          </form>
+        </details>
+      <% } %>
+    </aside>
+  </div>
+</div>
+<%- include('../partials/foot') %>

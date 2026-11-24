@@ -1,0 +1,49 @@
+<%- include('../partials/head') %>
+<div class="wrap narrow section">
+  <h1><%= t('photo.title') %></h1>
+  <div class="photobox card">
+    <div class="photobox__current">
+      <%- include('../partials/avatar', { u: user, size: 140 }) %>
+      <p class="small"><span class="status status--<%= user.photo_status %>"><%= t('photostatus.' + user.photo_status) %></span></p>
+    </div>
+    <div>
+      <p><%= t('photo.intro') %></p>
+      <ul class="checklist">
+        <li>✅ <%= t('photo.rule1') %></li><li>✅ <%= t('photo.rule2') %></li><li>✅ <%= t('photo.rule3') %></li>
+        <li>❌ <%= t('photo.rule4') %></li>
+      </ul>
+    </div>
+  </div>
+
+  <% if (result && !result.ok) { %>
+    <div class="flash flash--error" role="alert"><b><%= t('photo.rejected') %></b> <%= t('photo.reason.' + (result.reason || 'invalid_image')) %></div>
+  <% } %>
+
+  <% if (pending) { %>
+    <div class="notice">⏳ <%= t('photo.review_pending') %></div>
+  <% } %>
+
+  <form method="post" action="/account/photo" enctype="multipart/form-data" class="form card" id="photoform">
+    <%- include('../partials/csrf') %>
+    <label class="dropzone" for="photo">
+      <img id="photopreview" alt="" hidden>
+      <span id="photohint">📷 <%= t('photo.choose') %><br><small class="muted"><%= t('photo.formats') %></small></span>
+      <input id="photo" name="photo" type="file" accept="image/jpeg,image/png,image/webp" capture="user" required>
+    </label>
+    <button class="btn btn--block" data-loading="<%= t('photo.checking') %>"><%= t('photo.submit') %></button>
+  </form>
+
+  <% if (canRequestReview) { %>
+    <form method="post" action="/account/photo/review" class="form card card--soft">
+      <%- include('../partials/csrf') %>
+      <h2 class="h3"><%= t('photo.manual_title') %></h2>
+      <p><%= t('photo.manual_text') %></p>
+      <div class="field"><label for="note"><%= t('photo.manual_note') %></label><textarea id="note" name="note" rows="2" maxlength="500"></textarea></div>
+      <button class="btn btn--ghost"><%= t('photo.manual_button') %></button>
+    </form>
+  <% } else if (lastRejected && !pending) { %>
+    <p class="muted small"><%= t('photo.manual_after', { n: config.photoMaxFailuresBeforeManual }) %></p>
+  <% } %>
+  <p class="muted small">🔒 <%= t('photo.privacy') %></p>
+</div>
+<%- include('../partials/foot') %>

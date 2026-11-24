@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="<%= lang %>">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title ? title + ' · Work.cam' : 'Work.cam — ' + t('brand.tagline') %></title>
+  <meta name="description" content="<%= t('brand.description') %>">
+  <meta name="theme-color" content="#0e4d3a">
+  <link rel="icon" href="/static/img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/css/style.css?v=1">
+  <script src="/static/js/app.js?v=1" defer></script>
+</head>
+<body>
+<a class="skip" href="#main"><%= t('nav.skip') %></a>
+<header class="topbar">
+  <div class="wrap topbar__inner">
+    <a href="/" class="brand" aria-label="Work.cam">
+      <img src="/static/img/logo.svg" alt="" width="34" height="34">
+      <span>Work<b>.cam</b></span>
+    </a>
+    <nav class="mainnav" aria-label="<%= t('nav.main') %>">
+      <a href="/services" class="<%= path.startsWith('/services') ? 'is-active' : '' %>"><%= t('nav.services') %></a>
+      <a href="/requests" class="<%= path.startsWith('/requests') ? 'is-active' : '' %>"><%= t('nav.requests') %></a>
+      <a href="/how-it-works" class="hide-sm <%= path === '/how-it-works' ? 'is-active' : '' %>"><%= t('nav.how') %></a>
+    </nav>
+    <div class="topbar__right">
+      <div class="lang" role="group" aria-label="<%= t('nav.language') %>">
+        <a href="/lang/fr" class="<%= lang === 'fr' ? 'is-on' : '' %>" hreflang="fr">FR</a><a href="/lang/en" class="<%= lang === 'en' ? 'is-on' : '' %>" hreflang="en">EN</a>
+      </div>
+      <% if (user) { %>
+        <a href="/messages" class="iconlink" aria-label="<%= t('nav.messages') %>">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <% if (unread) { %><span class="badge"><%= unread %></span><% } %>
+        </a>
+        <details class="usermenu">
+          <summary><%- include('avatar', { u: user, size: 34 }) %></summary>
+          <div class="usermenu__panel">
+            <strong><%= user.full_name %></strong>
+            <small><%= t('role.' + user.role) %></small>
+            <a href="/account"><%= t('nav.account') %></a>
+            <a href="/account/edit"><%= t('account.edit') %></a>
+            <a href="/account/photo"><%= t('photo.title') %></a>
+            <% if (user.role === 'admin') { %><a href="/admin"><%= t('nav.admin') %><% if (pendingAdmin) { %> <span class="badge badge--inline"><%= pendingAdmin %></span><% } %></a><% } %>
+            <form method="post" action="/logout"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="linkbtn"><%= t('nav.logout') %></button></form>
+          </div>
+        </details>
+      <% } else { %>
+        <a href="/login" class="btn btn--ghost btn--sm"><%= t('nav.login') %></a>
+        <a href="/register" class="btn btn--sm hide-xs"><%= t('nav.register') %></a>
+      <% } %>
+    </div>
+  </div>
+</header>
+<main id="main">
+<% if (flashes && flashes.length) { %>
+  <div class="wrap flashes">
+    <% flashes.forEach(function (f) { %><div class="flash flash--<%= f.type %>" role="status"><%= t(f.key, f.vars) %></div><% }) %>
+  </div>
+<% } %>

@@ -1,0 +1,36 @@
+<%- include('../partials/head') %>
+<div class="wrap narrow section">
+  <h1><%= t('account.edit') %></h1>
+  <form method="post" action="/account/edit" class="form card">
+    <%- include('../partials/csrf') %>
+    <div class="field"><label for="full_name"><%= t('form.full_name') %></label><input id="full_name" name="full_name" value="<%= form.full_name %>" required maxlength="80"><%- include('../partials/field_error', { name: 'full_name' }) %></div>
+    <div class="grid2">
+      <div class="field"><label for="email"><%= t('form.email') %></label><input id="email" name="email" type="email" value="<%= form.email || '' %>"><%- include('../partials/field_error', { name: 'email' }) %></div>
+      <div class="field"><label for="city"><%= t('form.city') %></label><%- include('../partials/city_select', { selected: form.city, required: true }) %><%- include('../partials/field_error', { name: 'city' }) %></div>
+    </div>
+    <div class="field"><label for="lang"><%= t('form.language') %></label>
+      <select id="lang" name="lang"><option value="fr" <%= form.lang === 'fr' ? 'selected' : '' %>>Français</option><option value="en" <%= form.lang === 'en' ? 'selected' : '' %>>English</option></select></div>
+    <% if (user.role !== 'client') { %>
+      <h2 class="h3"><%= t('account.provider_section') %></h2>
+      <div class="field"><label for="headline"><%= t('form.headline') %></label><input id="headline" name="headline" value="<%= form.headline || '' %>" maxlength="100" placeholder="<%= t('form.headline_ph') %>"></div>
+      <div class="field"><label for="bio"><%= t('form.bio') %></label><textarea id="bio" name="bio" rows="5" maxlength="2000"><%= form.bio || '' %></textarea></div>
+      <div class="field"><label for="experience"><%= t('form.experience') %></label><textarea id="experience" name="experience" rows="4" maxlength="2000" placeholder="<%= t('form.experience_ph') %>"><%= form.experience || '' %></textarea></div>
+      <div class="grid2">
+        <div class="field"><label for="availability"><%= t('form.availability') %></label><input id="availability" name="availability" value="<%= form.availability || '' %>" maxlength="300" placeholder="<%= t('form.availability_ph') %>"></div>
+        <div class="field"><label for="price_note"><%= t('form.price_note') %></label><input id="price_note" name="price_note" value="<%= form.price_note || '' %>" maxlength="300" placeholder="<%= t('form.price_note_ph') %>"></div>
+      </div>
+    <% } %>
+    <button class="btn"><%= t('common.save') %></button>
+  </form>
+
+  <h2><%= t('account.change_password') %></h2>
+  <form method="post" action="/account/password" class="form card">
+    <%- include('../partials/csrf') %>
+    <div class="grid2">
+      <div class="field"><label for="current"><%= t('form.current_password') %></label><input id="current" name="current" type="password" required autocomplete="current-password"></div>
+      <div class="field"><label for="npw"><%= t('form.new_password') %></label><input id="npw" name="password" type="password" minlength="8" required autocomplete="new-password"></div>
+    </div>
+    <button class="btn btn--ghost"><%= t('common.save') %></button>
+  </form>
+</div>
+<%- include('../partials/foot') %>
