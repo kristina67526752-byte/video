@@ -25,11 +25,14 @@ plt.rcParams.update({"font.family": "serif",
                      "font.size": 8, "axes.linewidth": 0.6, "pdf.fonttype": 42,
                      "savefig.dpi": 600})
 CM = 1 / 2.54
-GREYS = {"B1": "0.80", "B2": "0.80", "B3": "0.55", "P": "0.15"}
-HATCH = {"B1": "///", "B2": "///", "B3": "..", "P": ""}
-LABEL = {"B1": "Б1 — поля / B1 — fields", "B2": "Б2 — поля и время / B2 — fields and time",
-         "B3": "Б3 — монитор ограничений / B3 — constraint monitor",
-         "P": "П — предложенный / P — proposed"}
+# Обозначения статьи с версии 3.7: Б — проверка полей и времени (в коде B2), М — монитор
+# декларативных ограничений (B3), М с допусками П (B3-Ptol), П — предложенные правила (P).
+GREYS = {"B2": "0.85", "B3": "0.6", "B3-Ptol": "0.4", "P": "0.1"}
+HATCH = {"B2": "///", "B3": "..", "B3-Ptol": "xx", "P": ""}
+LABEL = {"B2": "Б — поля и время / B — fields and time",
+         "B3": "М — монитор ограничений / M — constraint monitor",
+         "B3-Ptol": "М с допусками П / M with P tolerances",
+         "P": "П — правила / P — rules"}
 
 
 def _save(fig, out: Path, name: str) -> None:
@@ -100,8 +103,8 @@ def _reduced_edges() -> set:
 
 
 def fig_process(out: Path) -> None:
-    fig, ax = plt.subplots(figsize=(17 * CM, 7.6 * CM))
-    w, h, dx, dy = 1.72, 0.92, 2.0, 1.2
+    fig, ax = plt.subplots(figsize=(17 * CM, 8.4 * CM))
+    w, h, dx, dy = 1.8, 0.92, 2.0, 1.2
     pos = {k: (c * dx, -r * dy) for k, (c, r, _) in NODES.items()}
     for k, (x, y) in pos.items():
         ax.add_patch(FancyBboxPatch((x - w / 2, y - h / 2), w, h, boxstyle="round,pad=0.02",
@@ -111,8 +114,8 @@ def fig_process(out: Path) -> None:
                                         h - 0.14, boxstyle="round,pad=0.02", fc="none",
                                         ec="black", lw=0.4))
         code, *rest = NODES[k][2].split("\n")
-        ax.text(x, y + 0.2, code, ha="center", va="center", fontsize=6, fontweight="bold")
-        ax.text(x, y - 0.12, "\n".join(rest), ha="center", va="center", fontsize=5.4,
+        ax.text(x, y + 0.22, code, ha="center", va="center", fontsize=7, fontweight="bold")
+        ax.text(x, y - 0.12, "\n".join(rest), ha="center", va="center", fontsize=6.1,
                 linespacing=1.0)
     for a, b, waived in sorted(_reduced_edges(), key=lambda e: (e[0], e[1], str(e[2]))):
         (x1, y1), (x2, y2) = pos[a], pos[b]
@@ -133,7 +136,7 @@ def fig_process(out: Path) -> None:
                     arrowprops=dict(arrowstyle="-|>", lw=0.5, color="0.2", shrinkA=0, shrinkB=0,
                                     mutation_scale=6, linestyle=ls, connectionstyle=style))
     ax.set_xlim(-0.95, 8 * dx + 0.95)
-    ax.set_ylim(-4 * dy - 1.45, 0.6)
+    ax.set_ylim(-4 * dy - 1.75, 0.62)
     ax.axis("off")
     ax.text(-0.9, -4 * dy - 0.65,
             "Двойная рамка — событие подтверждается автоматическим источником (при оснащении "
@@ -144,7 +147,7 @@ def fig_process(out: Path) -> None:
             "dashed arrow — dependency waived for refuelling\nwith passengers on board only after "
             "safety measures are confirmed (SAF) from a separate workstation (dotted); direct\n"
             "dependencies shown, transitive ones omitted.",
-            fontsize=5.6, va="top", linespacing=1.15)
+            fontsize=6.6, va="top", linespacing=1.15)
     _save(fig, out, "ris1_process_model")
 
 
@@ -163,8 +166,12 @@ def fig_by_subtype(res: Path, out: Path) -> None:
     """Доля выявленных нарушений по подвидам, сгруппированным как в табл. 4 (V5a — нарушение
     технологии при правдивых данных — не входит)."""
     rows = _read(res / "by_subtype.csv")
-    fig, ax = plt.subplots(figsize=(17 * CM, 6.2 * CM))
-    bw, gap = 0.26, 0.8
+    if (res / "rev_by_subtype.csv").exists():          # М с допусками П (версия 3.7)
+        have = {(r["method"], r["subtype"]) for r in rows}
+        rows += [r for r in _read(res / "rev_by_subtype.csv")
+                 if (r["method"], r["subtype"]) not in have]
+    fig, ax = plt.subplots(figsize=(17 * CM, 6.8 * CM))
+    bw, gap = 0.2, 0.8
     xs_all, labels, x = [], [], 0.0
     spans = []
     for gname, subs in GROUPS_FIG:
@@ -175,7 +182,8 @@ def fig_by_subtype(res: Path, out: Path) -> None:
             x += 1
         spans.append((x0, x - 1, gname))
         x += gap
-    for i, m in enumerate(["B2", "B3", "P"]):
+    meths = ["B2", "B3", "B3-Ptol", "P"]
+    for i, m in enumerate(meths):
         vals, lo, hi = [], [], []
         for _, subs in GROUPS_FIG:
             for st in subs:
@@ -184,15 +192,15 @@ def fig_by_subtype(res: Path, out: Path) -> None:
                 vals.append(v)
                 lo.append(v - float(r["ci_lo"]))
                 hi.append(float(r["ci_hi"]) - v)
-        ax.bar([xx + (i - 1) * bw for xx in xs_all], vals, bw, color=GREYS[m], hatch=HATCH[m],
+        ax.bar([xx + (i - 1.5) * bw for xx in xs_all], vals, bw, color=GREYS[m], hatch=HATCH[m],
                edgecolor="black", lw=0.5, label=LABEL[m], yerr=[lo, hi],
                error_kw=dict(lw=0.6, capsize=1.2))
     ax.set_xticks(xs_all)
-    ax.set_xticklabels(labels, fontsize=6.5)
+    ax.set_xticklabels(labels, fontsize=7)
     for a, b, gname in spans:
         ax.annotate(gname, xy=((a + b) / 2, 0), xycoords=("data", "axes fraction"),
                     xytext=(0, -20), textcoords="offset points", ha="center", va="top",
-                    fontsize=6.5)
+                    fontsize=7)
         ax.annotate("", xy=(a - 0.4, -0.115), xytext=(b + 0.4, -0.115),
                     xycoords=("data", "axes fraction"), textcoords=("data", "axes fraction"),
                     arrowprops=dict(arrowstyle="-", lw=0.5))
@@ -201,7 +209,7 @@ def fig_by_subtype(res: Path, out: Path) -> None:
     ax.set_xlim(-0.6, xs_all[-1] + 0.6)
     from matplotlib.ticker import FuncFormatter
     ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:.1f}".replace(".", ",")))
-    ax.legend(fontsize=6.5, frameon=False, loc="upper center", ncol=3, bbox_to_anchor=(0.5, 1.13))
+    ax.legend(fontsize=7, frameon=False, loc="upper center", ncol=2, bbox_to_anchor=(0.5, 1.22))
     ax.spines[["top", "right"]].set_visible(False)
     _save(fig, out, "ris2_detection_by_subtype")
 

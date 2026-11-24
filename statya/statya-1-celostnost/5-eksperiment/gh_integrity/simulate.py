@@ -8,8 +8,8 @@
 
 Поля с префиксом ``gt_`` — разметка эксперимента; методы контроля их не читают.
 
-Версия 3: типовые длительности операций взяты по модельному сценарию [Головченко,
-Асмоловская] как моды распределений; добавлены подтверждение мер безопасности (SAF),
+Версия 3: типовые длительности операций взяты по модельному сценарию [3] (номер в списке
+литературы статьи) как моды распределений; добавлены подтверждение мер безопасности (SAF),
 справочные значения рейса (пассажиры по ведомостям, заказ топлива), вид нарушения V7 —
 подмена поля, ослабляющего контроль, и генератор по альтернативному графу операций.
 """
@@ -24,7 +24,7 @@ from .model import (AUTO, END, INTERVAL_OPS, MANUAL, OPERATIONS, SERVICE_OPS, ST
                     Params, min_duration, precedence)
 
 # Треугольные распределения (min, мода, max), мин. Моды CLN 15, CAT 12, WAT 8, LOD 18 — по
-# модельному сценарию [Головченко, Асмоловская]; выгрузки в нём нет (UNL — допущение).
+# модельному сценарию [3]; выгрузки в нём нет (UNL — допущение).
 TRI = {"UNL": (7, 10, 15), "CLN": (10, 15, 22), "CAT": (8, 12, 18), "WAT": (5, 8, 12),
        "LOD": (12, 18, 26)}
 
@@ -129,12 +129,12 @@ def schedule(rng: np.random.Generator, pax_in: int, pax_out: int, fuel_kg: float
     T[("PBB", START)] = float(rng.uniform(0.5, 2.5))
     place("DEB", T[("PBB", START)] + rng.uniform(0.3, 1.5))
     place("UNL", rng.uniform(1, 4))
-    if alt and not mods.get("variant"):           # граф [Головченко]: вода после высадки
+    if alt and not mods.get("variant"):           # граф [3]: вода после высадки
         place("WAT", T[("DEB", END)] + rng.uniform(0.5, 3))
     else:                                         # в графе — неучтённый вариант: вода раньше
         place("WAT", rng.uniform(3, 15))
     if alt or mods.get("variant"):
-        # граф [Головченко]: уборка после установки трапа, т. е. может идти во время высадки;
+        # граф [3]: уборка после установки трапа, т. е. может идти во время высадки;
         # в основной модели это допустимый, но не отражённый в ней вариант
         T[("CLN", START)] = float(T[("DEB", START)] + rng.uniform(2, 5))
         T[("CLN", END)] = T[("CLN", START)] + dur("CLN")
@@ -156,7 +156,7 @@ def schedule(rng: np.random.Generator, pax_in: int, pax_out: int, fuel_kg: float
     lod_base = T[("UNL", END)] if not alt else max(T[("UNL", END)], T[("DEB", END)])
     place("LOD", lod_base + rng.uniform(0.5, 3))
     brd_base = max(T[("CLN", END)], T[("CAT", END)])
-    if alt:                                       # граф [Головченко]: посадка после воды и багажа
+    if alt:                                       # граф [3]: посадка после воды и багажа
         brd_base = max(brd_base, T[("WAT", END)], T[("LOD", END)])
     if not safety:                                # посадка при заправке — только с мерами
         brd_base = max(brd_base, T[("FUEL", END)])  # безопасности (в графе не рассматривается)
@@ -186,13 +186,18 @@ def _fields(op: str, status: str, kind: str, case: Case) -> dict:
 def emit_messages(rng: np.random.Generator, case: Case, p: Params, ids: _Ids,
                   terminals: dict[str, str]) -> list[dict]:
     msgs = []
+    # версия 3.7: постоянное смещение часов терминала в обороте (по умолчанию нет; случайные
+    # числа тянутся только при clock_offset_max > 0, поэтому основной расчёт не меняется)
+    offset = ({r: float(rng.uniform(-p.clock_offset_max, p.clock_offset_max))
+               for r in sorted(terminals)} if p.clock_offset_max > 0 else {})
     for (op, status), t in sorted(case.truth.items(), key=lambda kv: kv[1]):
         o = OPERATIONS[op]
         if o.manual_role:
             press = t + _late_mark(rng, p)
             msgs.append({"msg_id": ids(), "op": op, "status": status, "kind": MANUAL,
                          "source": terminals[o.manual_role],
-                         "event_time": press + float(rng.normal(0, p.clock_skew_sd)),
+                         "event_time": press + offset.get(o.manual_role, 0.0)
+                         + float(rng.normal(0, p.clock_skew_sd)),
                          "recv_time": press + _net_delay(rng, p), "corr_of": None,
                          **_fields(op, status, MANUAL, case),
                          "gt_injected": False, "gt_true_time": t, "gt_note": ""})

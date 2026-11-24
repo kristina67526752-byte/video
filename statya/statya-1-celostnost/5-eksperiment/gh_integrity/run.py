@@ -12,7 +12,7 @@
 3) последствия: исходы решений, задержки с учётом ручных проверок, нагрузка на смену,
    момент выявления относительно решений, условные категории тяжести;
 4) сравнение при разных бюджетах ложных тревог; анализ чувствительности; проверка на данных
-   альтернативной модели процесса (граф [Головченко, Асмоловская]);
+   альтернативной модели процесса (граф [3]);
 5) сутки работы аэропорта: атаки и неисправности, правило K за окно и CUSUM, блокировка;
 6) абляция П и Б3 при одинаковых допусках и парные сравнения (версия 3.5); доверительные
    интервалы ключевых показателей, нарушитель, знающий допуски, и устойчивость выводов к
@@ -38,7 +38,7 @@ from .evaluate import (SEVERITY, calibrate, run_methods, summarize, true_readine
 from .model import END, MANUAL, START, Params, precedence
 from .simulate import VIOLATION_NAMES, VIOLATION_TYPES, generate_dataset
 
-VERSION = "3.6"
+VERSION = "3.7"
 ROOT = Path(__file__).resolve().parents[1]
 RES, FIG, DATA = ROOT / "results", ROOT.parent / "2-risunki", ROOT / "data"
 FPR_MAX = 0.05
@@ -372,7 +372,7 @@ def main(argv: list[str] | None = None) -> None:
     summary["by_type"] = by_type
 
     sub = []
-    for m in ["B2", "B3", "P_v2", "P"]:
+    for m in ["B2", "B3", "P_v2", "P", "B3-Ptol"]:      # B3-Ptol — с версии 3.7 (рис. 2)
         for st in sorted({x["subtype"] for x in rows if x["subtype"]}):
             r = [x for x in rows if x["method"] == m and x["subtype"] == st]
             det = sum(x["detect_time"] is not None for x in r)
@@ -687,7 +687,7 @@ def main(argv: list[str] | None = None) -> None:
     summary["sensitivity"] = sens
     print("sensitivity done", f"{time.time() - t0:.0f}s")
 
-    # 4а. согласованность модели процесса: генератор × правила (основная модель / граф [Г])
+    # 4а. согласованность модели процесса: генератор × правила (основная модель / граф [3])
     cross = []
     for gm in ("base", "alt"):
         cs = [c for s in range(1, 4) for c in generate_dataset(200 + s, n_norm, n_type,
@@ -712,7 +712,7 @@ def main(argv: list[str] | None = None) -> None:
     _write_csv(RES / "cross_model.csv", cross)
     summary["cross_model"] = cross
 
-    # 4б. обход через признак safety (контрольный опыт рецензии) и его исправление
+    # 4б. обход через признак safety (контрольный опыт) и его исправление
     quiet = replace(base, late_mark_share=0, p_offline=0, p_correction=0, retry_share=0,
                     p_operational_delay=0, p_unmodeled_variant=0, p_safety_fuelling=0)
     c = bypass_case(quiet)

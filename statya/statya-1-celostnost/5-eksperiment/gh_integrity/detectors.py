@@ -29,6 +29,10 @@ Declare/MP-Declare): те же ограничения R1–R4, проверки 
 
 Абляция (версия 3.5): «B3-Ptol» — монитор Б3 с допусками П; «P-nohold» — П, в котором
 ожидаемые обязательства, как в Б3, не удерживают решение (окна W и H сохраняются).
+
+Версия 3.7: Params.time_rule="auto_first" — время события берётся по оборудованию, если его
+сообщение получено (вариант формулы (2)); допуски часов δf и δo можно оценить без разметки
+по штатному журналу (evaluate.estimate_clock_tol).
 """
 from __future__ import annotations
 
@@ -88,6 +92,11 @@ def _inconsistencies(meta: dict, msgs: dict, eff: dict, bad_corr: set, p: Params
             keys.add(("T", "stale", mid))
         ev[(m["op"], m["status"])].append((t, m["kind"], m))
     first = {e: min(x[0] for x in lst) for e, lst in ev.items()}
+    if p.time_rule == "auto_first":       # версия 3.7: приоритет оборудования в формуле (2)
+        for e, lst in ev.items():
+            aut = [x[0] for x in lst if x[1] != MANUAL]
+            if aut:
+                first[e] = min(aut)
     claimed = any(m["safety"] for _, k, m in ev.get(("FUEL", START), []) if k == MANUAL)
     confirmed = ("SAF", END) in first
     if p.safety_trust == "confirmed":

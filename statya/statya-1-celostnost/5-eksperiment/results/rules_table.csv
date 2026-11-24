@@ -1,0 +1,39 @@
+n,pred,succ,waiver,basis
+1,ONB.END,GPU.START,,физ.
+2,ONB.END,PBB.START,,физ.
+3,ONB.END,UNL.START,,физ.
+4,DEB.END,WAT.START,,[3]
+5,ONB.END,FUEL.START,,физ.
+6,PBB.START,DEB.START,,физ. (высадка через телетрап)
+7,PBB.START,CLN.START,,[3]
+8,PBB.START,CAT.START,,[3]
+9,DEB.END,FUEL.START,safety,ФАП-128 (снимается при SAF)
+10,UNL.END,LOD.START,,физ. (загрузка после выгрузки)
+11,CLN.END,BRD.START,,[3]
+12,CAT.END,BRD.START,,[3]
+13,FUEL.END,BRD.START,safety,ФАП-128 (снимается при SAF)
+14,LOD.END,LDS.END,,доп. (ведомость по факту загрузки)
+15,BRD.END,LDS.END,,доп. (ведомость по факту посадки)
+16,CLN.END,DRC.END,,физ. (двери после окончания работ)
+17,CAT.END,DRC.END,,физ. (двери после окончания работ)
+18,FUEL.END,DRC.END,,физ. (двери после окончания работ)
+19,WAT.END,DRC.END,,физ. (двери после окончания работ)
+20,LOD.END,DRC.END,,физ. (двери после окончания работ)
+21,BRD.END,DRC.END,,физ. (двери после окончания работ)
+22,LDS.END,DRC.END,,доп. (двери после ведомости)
+23,DRC.END,PBB.END,,завершение
+24,DRC.END,GPU.END,,завершение
+25,PBB.END,OFB.END,,завершение
+26,GPU.END,OFB.END,,завершение
+27,DRC.END,OFB.END,,завершение
+28,WAT.END,BRD.START,,[3]
+29,LOD.END,BRD.START,,[3]
+,DEB: норма R2,n/25 мин (25 пасс./мин),,доп.
+,BRD: норма R2,n/18 мин (18 пасс./мин),,доп.
+,FUEL: норма R2,1 + q/1000 мин (1000 кг/мин),,доп.
+,UNL: норма R2,"0,5 × 10 мин",,доп.
+,CLN: норма R2,"0,5 × 15 мин",,α × типовая длительность [3]
+,CAT: норма R2,"0,5 × 12 мин",,α × типовая длительность [3]
+,WAT: норма R2,"0,5 × 8 мин",,α × типовая длительность [3]
+,LOD: норма R2,"0,5 × 18 мин",,α × типовая длительность [3]
+,R4: события двух источников,"ONB.END, GPU.START, GPU.END, PBB.START, PBB.END, FUEL.START, FUEL.END, OFB.END",,оснащение стоянки (доп.)

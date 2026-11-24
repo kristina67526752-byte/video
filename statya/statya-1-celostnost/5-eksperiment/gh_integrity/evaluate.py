@@ -150,3 +150,26 @@ def calibrate(cases: list[Case], base: Params, grid: dict, methods: dict, fpr_ma
                 out.append({**dict(zip(step_keys, combo)), **dict(zip(derive_keys, dcombo)),
                             **s, "feasible": s["fpr"] <= fpr_max})
     return out
+
+
+def estimate_clock_tol(cases_or_msgs, k: float = 5.0, floor: float = 0.5) -> float:
+    """Допуск на расхождение часов δf (и δo) без разметки нарушений (версия 3.7).
+
+    По ручным отметкам штатного журнала берётся разность τ − t (время события по часам
+    источника минус время получения сервером) и устойчивая оценка её верхней границы:
+    медиана + k · 1,4826 · MAD (k = 5), но не меньше floor. Медиана и MAD не чувствительны
+    к редким ошибкам ввода на 5–30 мин и к единичным нарушениям, поэтому разметка не нужна;
+    обычный верхний квантиль такими выбросами завышается (на синтетическом журнале квантиль
+    0,999 даёт ≈ 23 мин)."""
+    from .model import MANUAL
+    d = []
+    for c in cases_or_msgs:
+        msgs = c.messages if hasattr(c, "messages") else [c]
+        d += [m["event_time"] - m["recv_time"] for m in msgs
+              if m["kind"] == MANUAL and m.get("corr_of") is None]
+    if not d:
+        return floor
+    d = np.asarray(d, dtype=float)
+    med = float(np.median(d))
+    mad = float(np.median(np.abs(d - med)))
+    return max(floor, med + k * 1.4826 * mad)

@@ -105,7 +105,7 @@ def test_compromised_terminal_campaign_runs_and_attributes_alarms():
 
 
 def _bypass_case():
-    """Контрольный опыт рецензии 08.11.2026: оборот без штатных отклонений, мер безопасности
+    """Контрольный опыт: оборот без штатных отклонений, мер безопасности
     нет, в отметке начала заправки изменён только признак safety; счётчик не подменён."""
     from gh_integrity.model import MANUAL, START
     from gh_integrity.run import bypass_case
