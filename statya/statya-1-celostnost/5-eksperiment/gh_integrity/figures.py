@@ -45,24 +45,24 @@ def _save(fig, out: Path, name: str) -> None:
     plt.close(fig)
 
 
-NODES = {  # узел: (столбец, строка, подпись)
-    "ONB": (0, 2, "ONB\nПостановка\nIn-block"),
-    "GPU+": (1, 0, "GPU+\nАИЭП подкл.\nGPU on"),
-    "PBB+": (1, 1, "PBB+\nТрап подан\nBridge on"),
-    "UNL": (1, 3, "UNL\nВыгрузка\nUnloading"),
-    "WAT": (1, 4, "WAT\nВода, санузлы\nWater, toilets"),
-    "SAF": (2, 0, "SAF\nПодтв. мер\nбезоп. / Safety"),
-    "DEB": (2, 1, "DEB\nВысадка\nDeboarding"),
-    "CLN": (3, 0, "CLN\nУборка\nCleaning"),
-    "CAT": (3, 1, "CAT\nБортпитание\nCatering"),
-    "FUEL": (3, 2, "FUEL\nЗаправка\nRefuelling"),
-    "LOD": (3, 3, "LOD\nЗагрузка\nLoading"),
-    "BRD": (4, 1, "BRD\nПосадка\nBoarding"),
-    "LDS": (5, 2, "LDS\nВедомость\nLoadsheet"),
-    "DRC": (6, 2, "DRC\nДвери закр.\nDoors closed"),
-    "PBB-": (7, 1, "PBB−\nТрап убран\nBridge off"),
-    "GPU-": (7, 3, "GPU−\nАИЭП откл.\nGPU off"),
-    "OFB": (8, 2, "OFB\nБуксировка\nPushback"),
+NODES = {  # узел: (столбец, строка, подпись); английские названия — в подписи к рисунку
+    "ONB": (0, 2, "ONB\nПостановка"),
+    "GPU+": (1, 0, "GPU+\nАИЭП\nподключён"),
+    "PBB+": (1, 1, "PBB+\nТрап подан"),
+    "UNL": (1, 3, "UNL\nВыгрузка"),
+    "WAT": (1, 4, "WAT\nВода,\nсанузлы"),
+    "SAF": (2, 0, "SAF\nМеры\nбезопасности"),
+    "DEB": (2, 1, "DEB\nВысадка"),
+    "CLN": (3, 0, "CLN\nУборка"),
+    "CAT": (3, 1, "CAT\nБортпитание"),
+    "FUEL": (3, 2, "FUEL\nЗаправка"),
+    "LOD": (3, 3, "LOD\nПогрузка"),
+    "BRD": (4, 1, "BRD\nПосадка"),
+    "LDS": (5, 2, "LDS\nВедомость"),
+    "DRC": (6, 2, "DRC\nДвери\nзакрыты"),
+    "PBB-": (7, 1, "PBB−\nТрап убран"),
+    "GPU-": (7, 3, "GPU−\nАИЭП\nотключён"),
+    "OFB": (8, 2, "OFB\nБуксировка"),
 }
 AUTO_NODES = {"ONB", "GPU+", "GPU-", "PBB+", "PBB-", "FUEL", "LDS", "OFB"}
 ROUTES = {("FUEL", "DRC"): [(3.3, 2.383), (3.3, 2.5), (5.8, 2.5), (5.8, 2.383)],   # под LDS
@@ -114,8 +114,8 @@ def fig_process(out: Path) -> None:
                                         h - 0.14, boxstyle="round,pad=0.02", fc="none",
                                         ec="black", lw=0.4))
         code, *rest = NODES[k][2].split("\n")
-        ax.text(x, y + 0.22, code, ha="center", va="center", fontsize=7, fontweight="bold")
-        ax.text(x, y - 0.12, "\n".join(rest), ha="center", va="center", fontsize=6.1,
+        ax.text(x, y + 0.22, code, ha="center", va="center", fontsize=8, fontweight="bold")
+        ax.text(x, y - 0.13, "\n".join(rest), ha="center", va="center", fontsize=6.6,
                 linespacing=1.0)
     for a, b, waived in sorted(_reduced_edges(), key=lambda e: (e[0], e[1], str(e[2]))):
         (x1, y1), (x2, y2) = pos[a], pos[b]
@@ -136,18 +136,17 @@ def fig_process(out: Path) -> None:
                     arrowprops=dict(arrowstyle="-|>", lw=0.5, color="0.2", shrinkA=0, shrinkB=0,
                                     mutation_scale=6, linestyle=ls, connectionstyle=style))
     ax.set_xlim(-0.95, 8 * dx + 0.95)
-    ax.set_ylim(-4 * dy - 1.75, 0.62)
+    ax.set_ylim(-4 * dy - 1.6, 0.62)
     ax.axis("off")
-    ax.text(-0.9, -4 * dy - 0.65,
-            "Двойная рамка — событие подтверждается автоматическим источником (при оснащении "
-            "стоянки); штриховая стрелка — зависимость снимается\nпри заправке с пассажирами на "
-            "борту только после подтверждения мер безопасности SAF с отдельного рабочего места "
-            "(пунктир);\nпоказаны непосредственные зависимости, транзитивные опущены.\n"
-            "Double frame — event confirmed by an automatic source (if the stand is equipped); "
-            "dashed arrow — dependency waived for refuelling\nwith passengers on board only after "
-            "safety measures are confirmed (SAF) from a separate workstation (dotted); direct\n"
-            "dependencies shown, transitive ones omitted.",
-            fontsize=6.6, va="top", linespacing=1.15)
+    ax.text(-0.9, -4 * dy - 0.62,
+            "Двойная рамка — событие подтверждается оборудованием (при оснащении стоянки); "
+            "штриховая стрелка — зависимость снимается при заправке\nс пассажирами на борту "
+            "только после подтверждения мер безопасности SAF (пунктир); транзитивные "
+            "зависимости не показаны.\n"
+            "Double frame — event confirmed by equipment (if the stand is equipped); dashed "
+            "arrow — dependency waived for refuelling with passengers\non board only after "
+            "safety measures are confirmed (SAF, dotted); transitive dependencies omitted.",
+            fontsize=7, va="top", linespacing=1.15)
     _save(fig, out, "ris1_process_model")
 
 
