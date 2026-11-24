@@ -1,0 +1,5 @@
+generator,rules,n_rules,fpr,fpr_lo,fpr_hi,recall,top_fp_key,top_fp_share
+variant_cleaning_after_deboarding,variant_cleaning_after_deboarding,27,0.0433,0.0349,0.0538,0.7053,R1:order:DEB.END>CLN.START,0.2564
+variant_cleaning_after_deboarding,main,29,0.2822,0.2619,0.3035,0.7273,R1:order:LOD.END>BRD.START,0.5965
+main,variant_cleaning_after_deboarding,27,0.1561,0.1401,0.1736,0.6813,R1:order:DEB.END>CLN.START,0.7829
+main,main,29,0.0411,0.0329,0.0513,0.7187,R4:time,0.1892

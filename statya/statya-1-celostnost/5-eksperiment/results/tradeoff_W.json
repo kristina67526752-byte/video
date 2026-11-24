@@ -1,0 +1,92 @@
+{
+ "note": "Лучшая выполнимая точка (ложные тревоги <= 5 %) для каждого окна W на калибровочной выборке; широкая сетка: prec_tol 2..12, dur_tol 1..5, cross_tol 5/8/12, stale_max 15/30/45, W до 30, H 20..60",
+ "points": [
+  {
+   "method": "P",
+   "W": 5.0,
+   "feasible": false,
+   "fpr_min": 0.08
+  },
+  {
+   "method": "P",
+   "W": 10.0,
+   "feasible": true,
+   "fpr": 0.05,
+   "recall": 0.652,
+   "lat_median": 13.5185,
+   "lat_p90": 41.9114
+  },
+  {
+   "method": "P",
+   "W": 15.0,
+   "feasible": true,
+   "fpr": 0.0483,
+   "recall": 0.736,
+   "lat_median": 17.107,
+   "lat_p90": 55.9235
+  },
+  {
+   "method": "P",
+   "W": 20.0,
+   "feasible": true,
+   "fpr": 0.0483,
+   "recall": 0.74,
+   "lat_median": 20.6021,
+   "lat_p90": 55.8692
+  },
+  {
+   "method": "P",
+   "W": 30.0,
+   "feasible": true,
+   "fpr": 0.0483,
+   "recall": 0.778,
+   "lat_median": 30.0,
+   "lat_p90": 55.4346
+  },
+  {
+   "method": "B3",
+   "W": 0.0,
+   "feasible": false,
+   "fpr_min": 0.5083
+  },
+  {
+   "method": "B3",
+   "W": 5.0,
+   "feasible": false,
+   "fpr_min": 0.1117
+  },
+  {
+   "method": "B3",
+   "W": 10.0,
+   "feasible": false,
+   "fpr_min": 0.0583
+  },
+  {
+   "method": "B3",
+   "W": 15.0,
+   "feasible": true,
+   "fpr": 0.05,
+   "recall": 0.71,
+   "lat_median": 15.0,
+   "lat_p90": 29.9878
+  },
+  {
+   "method": "B3",
+   "W": 20.0,
+   "feasible": true,
+   "fpr": 0.0483,
+   "recall": 0.736,
+   "lat_median": 20.0,
+   "lat_p90": 35.483
+  },
+  {
+   "method": "B3",
+   "W": 30.0,
+   "feasible": true,
+   "fpr": 0.0483,
+   "recall": 0.778,
+   "lat_median": 30.0,
+   "lat_p90": 43.8302
+  }
+ ]
+}
